@@ -87,7 +87,7 @@ const ProductShowcase: React.FC = () => {
              transition={{ duration: 1.2, ease: "easeOut" }}
            >
             <img 
-              src="/images/product-2.jpg" 
+              src="/images/product-2.png" 
               alt="SKYLVA Patio Cover" 
               className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
             />
