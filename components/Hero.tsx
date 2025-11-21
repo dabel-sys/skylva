@@ -1,17 +1,29 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 const Hero: React.FC = () => {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  });
+
+  // Move the background image down slightly as the user scrolls down
+  // creating a depth effect where the background moves slower than the foreground.
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+
   return (
-    <section className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-skylva-matte">
+    <section ref={ref} className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-skylva-matte">
       {/* Background Image with Overlay - Simulating a high-end architectural render */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="https://picsum.photos/seed/skylva_nordic_wood_structure_v2/1920/1080" 
-          alt="Premium Scandinavian solar canopy with wood accents in a forest setting" 
-          className="w-full h-full object-cover opacity-80 grayscale-[0.1]"
-        />
+        <motion.div style={{ y }} className="absolute inset-0">
+          <img 
+            src="https://picsum.photos/seed/skylva_nordic_wood_structure_v2/1920/1080" 
+            alt="Premium Scandinavian solar canopy with wood accents in a forest setting" 
+            className="w-full h-full object-cover opacity-80 grayscale-[0.1]"
+          />
+        </motion.div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-skylva-matte" />
       </div>
 

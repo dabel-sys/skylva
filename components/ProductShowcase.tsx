@@ -30,13 +30,13 @@ const ProductShowcase: React.FC = () => {
           <div className="aspect-[16/9] overflow-hidden bg-gray-200 relative">
             <img 
               src="https://picsum.photos/seed/skylva_pergola_1/1600/900" 
-              alt="SKYLVA Solar Structure" 
+              alt="SKYLVA Integrated Solar Skylights" 
               className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
           </div>
           <motion.div style={{ y }} className="md:absolute md:-bottom-12 md:right-12 bg-white p-8 md:p-12 shadow-xl max-w-md">
-            <h3 className="text-2xl font-display font-light mb-2">S1 Pergola</h3>
+            <h3 className="text-2xl font-display font-light mb-2">S1 Pergola & Skylights</h3>
             <p className="text-gray-500 font-sans font-light text-sm leading-relaxed mb-6">
               Integrated glass-glass solar modules. Nordic Pine or Aircraft Aluminum finish. 
               Zero visible wiring.
