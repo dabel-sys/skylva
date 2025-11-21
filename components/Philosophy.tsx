@@ -47,7 +47,7 @@ const Philosophy: React.FC = () => {
              transition={{ duration: 1.2, ease: "easeOut" }}
              src="/images/philosophy.png"
              alt="Scandinavian Solar Carport Detail"
-             className="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 transition-opacity duration-700"
+             className="w-full h-full object-cover grayscale opacity-100 hover:opacity-100 transition-opacity duration-700"
            />
            <div className="absolute bottom-8 left-8 right-8 bg-black/50 backdrop-blur-md p-6 border border-white/10">
               <p className="text-white/90 font-display text-xl font-light">"Power, without disturbance."</p>

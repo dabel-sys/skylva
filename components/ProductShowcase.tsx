@@ -8,14 +8,16 @@ const ProductShowcase: React.FC = () => {
     offset: ["start end", "end start"]
   });
 
-  // Parallax effect for text
-  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  // Parallax effect for text elements
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const yHeader = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
   return (
     <section id="product" ref={targetRef} className="py-32 bg-skylva-offwhite text-skylva-charcoal overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 mb-24">
          <div className="flex flex-col md:flex-row justify-between items-end border-b border-gray-300 pb-8">
             <motion.div 
+              style={{ y: yHeader }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
@@ -44,7 +46,7 @@ const ProductShowcase: React.FC = () => {
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-15%" }}
-            transition={{ duration: 1.0, ease: "easeOut" }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
           >
             <img 
               src="https://picsum.photos/seed/skylva_pergola_1/1600/900" 
@@ -82,7 +84,7 @@ const ProductShowcase: React.FC = () => {
              initial={{ opacity: 0, y: 50 }}
              whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true, margin: "-15%" }}
-             transition={{ duration: 1.0, ease: "easeOut" }}
+             transition={{ duration: 1.2, ease: "easeOut" }}
            >
             <img 
               src="https://picsum.photos/seed/skylva_patio/1600/900" 
