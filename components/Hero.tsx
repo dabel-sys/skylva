@@ -19,7 +19,7 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 z-0">
         <motion.div style={{ y }} className="absolute inset-0">
           <img 
-            src="/images/hero.jpg" 
+            src="/images/hero.png" 
             alt="Premium Scandinavian solar canopy with wood accents in a forest setting" 
             className="w-full h-full object-cover opacity-80 grayscale-[0.1]"
           />
