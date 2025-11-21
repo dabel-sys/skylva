@@ -1,12 +1,3 @@
-import React from 'react';
-import { Hero } from './components/Hero';
-import { Philosophy } from './components/Philosophy';
-import { ProductShowcase } from './components/ProductShowcase';
-import { Values } from './components/Values';
-import { AiAssistant } from './components/AiAssistant';
-import { ArrowUpRight, Cpu, CheckCircle2 } from 'lucide-react';
-import { motion } from 'framer-motion';
-
 const App: React.FC = () => {
   return (
     <div className="bg-skylva-white min-h-screen text-skylva-charcoal font-sans selection:bg-skylva-stone selection:text-skylva-charcoal">
