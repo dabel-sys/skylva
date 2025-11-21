@@ -45,7 +45,7 @@ const Philosophy: React.FC = () => {
              whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true, margin: "-10%" }}
              transition={{ duration: 1.2, ease: "easeOut" }}
-             src="https://picsum.photos/seed/skylva_modern_solar_carport_wood/800/1000"
+             src="/images/philosophy.png"
              alt="Scandinavian Solar Carport Detail"
              className="w-full h-full object-cover grayscale opacity-80 hover:opacity-100 transition-opacity duration-700"
            />
