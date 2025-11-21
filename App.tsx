@@ -1,5 +1,4 @@
 import React from 'react';
-import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { Philosophy } from './components/Philosophy';
 import { ProductShowcase } from './components/ProductShowcase';
@@ -11,7 +10,6 @@ import { motion } from 'framer-motion';
 const App: React.FC = () => {
   return (
     <div className="bg-skylva-white min-h-screen text-skylva-charcoal font-sans selection:bg-skylva-stone selection:text-skylva-charcoal">
-      <Navigation />
       
       <main>
         <Hero />
