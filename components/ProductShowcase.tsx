@@ -49,7 +49,7 @@ const ProductShowcase: React.FC = () => {
             transition={{ duration: 1.2, ease: "easeOut" }}
           >
             <img 
-              src="/images/product-1.jpg" 
+              src="/images/product-1.png" 
               alt="SKYLVA Integrated Solar Skylights" 
               className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
             />
