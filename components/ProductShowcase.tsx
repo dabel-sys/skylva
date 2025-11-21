@@ -1,69 +1,80 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
-interface FeatureProps {
-  title: string;
-  desc: string;
-  image: string;
-  delay: number;
-}
+const ProductShowcase: React.FC = () => {
+  const targetRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+  });
 
-const Feature: React.FC<FeatureProps> = ({ title, desc, image, delay }) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.8, delay }}
-    className="group relative h-[500px] md:h-[600px] w-full overflow-hidden cursor-pointer"
-  >
-    <img 
-      src={image} 
-      alt={title} 
-      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale-[20%]" 
-    />
-    <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors duration-500"></div>
-    <div className="absolute bottom-0 left-0 w-full p-8 bg-gradient-to-t from-black/60 to-transparent text-white">
-      <h3 className="text-2xl font-light mb-2">{title}</h3>
-      <p className="text-sm text-white/80 max-w-xs font-light leading-relaxed">{desc}</p>
-    </div>
-  </motion.div>
-);
+  // Parallax effect for text
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
-export const ProductShowcase: React.FC = () => {
   return (
-    <section id="product" className="bg-skylva-stone/30 py-32">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-16 flex flex-col md:flex-row justify-between items-end">
-          <div>
-             <h2 className="text-4xl md:text-5xl font-light mb-4 text-skylva-charcoal">The Collection</h2>
-             <p className="text-skylva-charcoal/60 font-light">Designed for longevity. Engineered for silence.</p>
+    <section id="product" className="py-32 bg-skylva-offwhite text-skylva-charcoal overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-24">
+         <div className="flex flex-col md:flex-row justify-between items-end border-b border-gray-300 pb-8">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-display font-light mb-4">The Collection</h2>
+              <p className="text-gray-500 font-sans tracking-wide">Engineered for silence. Designed for life.</p>
+            </div>
+            <div className="mt-6 md:mt-0">
+              <a href="#" className="text-xs font-bold tracking-[0.2em] uppercase border-b border-black pb-1 hover:text-skylva-green transition-colors">View All Specifications</a>
+            </div>
+         </div>
+      </div>
+
+      <div className="flex flex-col gap-32 px-6 md:px-12 max-w-7xl mx-auto">
+        {/* Product 1 */}
+        <div className="group relative">
+          <div className="aspect-[16/9] overflow-hidden bg-gray-200 relative">
+            <img 
+              src="https://picsum.photos/seed/skylva_pergola_1/1600/900" 
+              alt="SKYLVA Solar Structure" 
+              className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
           </div>
-          <button className="hidden md:block text-xs uppercase tracking-widest border-b border-skylva-charcoal pb-1 hover:text-skylva-concrete hover:border-skylva-concrete transition-colors">
-            View Full Catalogue
-          </button>
+          <motion.div style={{ y }} className="md:absolute md:-bottom-12 md:right-12 bg-white p-8 md:p-12 shadow-xl max-w-md">
+            <h3 className="text-2xl font-display font-light mb-2">S1 Pergola</h3>
+            <p className="text-gray-500 font-sans font-light text-sm leading-relaxed mb-6">
+              Integrated glass-glass solar modules. Nordic Pine or Aircraft Aluminum finish. 
+              Zero visible wiring.
+            </p>
+            <ul className="text-xs font-bold tracking-widest text-gray-400 space-y-2 uppercase">
+              <li>4.2 kWp Capacity</li>
+              <li>Auto-adjusting Louvers</li>
+              <li>Integrated LED</li>
+            </ul>
+          </motion.div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-1">
-          <Feature 
-            title="The Canopy" 
-            desc="A freestanding architectural shelter providing deep shade and 4.2kWp energy generation."
-            image="https://picsum.photos/seed/skylva_canopy/600/800"
-            delay={0}
-          />
-          <Feature 
-            title="The Patio" 
-            desc="Wall-mounted extension extending your living space. Seamless integration with existing architecture."
-            image="https://picsum.photos/seed/skylva_patio/600/800"
-            delay={0.2}
-          />
-          <Feature 
-            title="The Louver" 
-            desc="Automated tilting slats that track the sun. AI-driven for optimal light control."
-            image="https://picsum.photos/seed/skylva_louver/600/800"
-            delay={0.4}
-          />
+        {/* Product 2 */}
+        <div className="group relative">
+           <div className="aspect-[16/9] overflow-hidden bg-gray-200 relative">
+            <img 
+              src="https://picsum.photos/seed/skylva_patio/1600/900" 
+              alt="SKYLVA Patio Cover" 
+              className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
+            />
+             <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
+          </div>
+           <motion.div style={{ y }} className="md:absolute md:-bottom-12 md:left-12 bg-white p-8 md:p-12 shadow-xl max-w-md z-10">
+            <h3 className="text-2xl font-display font-light mb-2">A2 Architectural Skin</h3>
+            <p className="text-gray-500 font-sans font-light text-sm leading-relaxed mb-6">
+              Seamless solar integration for existing structures. 
+              Matte finish for zero glare. High-efficiency output.
+            </p>
+            <ul className="text-xs font-bold tracking-widest text-gray-400 space-y-2 uppercase">
+              <li>Modular Grid System</li>
+              <li>Matte Black Finish</li>
+              <li>Self-cleaning coating</li>
+            </ul>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 };
+
+export default ProductShowcase;

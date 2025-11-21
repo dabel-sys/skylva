@@ -1,8 +1,12 @@
-export enum LoadingState {
-  IDLE = 'IDLE',
-  LOADING = 'LOADING',
-  SUCCESS = 'SUCCESS',
-  ERROR = 'ERROR'
+export interface NavItem {
+  label: string;
+  href: string;
+}
+
+export interface Feature {
+  title: string;
+  description: string;
+  image: string;
 }
 
 export interface ChatMessage {
@@ -10,9 +14,7 @@ export interface ChatMessage {
   text: string;
 }
 
-export interface ProductSpec {
-  title: string;
-  description: string;
-  image: string;
-  align: 'left' | 'right';
+export enum ViewState {
+  LANDING = 'LANDING',
+  CONFIGURATOR = 'CONFIGURATOR'
 }
