@@ -24,7 +24,7 @@ const Technology: React.FC = () => {
             <img 
             src="/images/intelligence.jpg" 
             alt="SKYLVA Artificial Intelligence Core" 
-            className="w-full h-full object-cover grayscale-[0.8] opacity-60 mix-blend-luminosity"
+            className="w-full h-full object-cover opacity-70"
             />
         </motion.div>
         {/* Reduced gradient opacity for a lighter, '30%' feel */}
