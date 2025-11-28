@@ -42,10 +42,11 @@ const ChatWidget: React.FC = () => {
   };
 
   return (
+    // Mobile: Bottom-Left (left-6). Desktop: Bottom-Right (md:right-6 md:left-auto).
     // Added mb-[env(safe-area-inset-bottom)] to ensure the widget clears the home indicator on iOS
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end mb-[env(safe-area-inset-bottom)]">
+    <div className="fixed bottom-6 left-6 md:left-auto md:right-6 z-50 flex flex-col items-start md:items-end mb-[env(safe-area-inset-bottom)]">
       {isOpen && (
-        <div className="mb-4 w-80 md:w-96 bg-skylva-matte/95 backdrop-blur-xl border border-white/10 shadow-2xl text-white flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300 rounded-2xl">
+        <div className="mb-4 w-80 md:w-96 bg-skylva-matte/95 backdrop-blur-xl border border-white/10 shadow-2xl text-white flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300 rounded-2xl origin-bottom-left md:origin-bottom-right">
           {/* Header */}
           <div className="bg-white/5 p-4 flex items-center justify-between border-b border-white/5">
             <div className="flex items-center space-x-2">

@@ -5,12 +5,22 @@ import { useLanguage } from '../contexts/LanguageContext';
 const Navigation: React.FC = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
+      // Header transparency toggle
       setIsScrolled(window.scrollY > 20);
+
+      // Scroll Progress calculation for the button border
+      const scrollTop = document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+      const scrolled = scrollTop / (scrollHeight - clientHeight);
+      setScrollProgress(Math.min(Math.max(scrolled, 0), 1));
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -18,7 +28,7 @@ const Navigation: React.FC = () => {
   // Navigation is absolute on mobile to allow edge-to-edge scrolling under Dynamic Island.
   // On desktop (md:), it becomes fixed (sticky) and animates on scroll.
   const navClasses = `
-    absolute top-0 left-0 right-0 z-50 
+    absolute top-0 left-0 right-0 z-40 
     pt-[calc(env(safe-area-inset-top)+2rem)] pb-8 
     md:fixed 
     transition-all duration-500 ease-in-out
@@ -51,79 +61,119 @@ const Navigation: React.FC = () => {
     }
   };
 
+  // SVG parameters for circle
+  const radius = 22;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - scrollProgress * circumference;
+
   return (
-    <nav className={navClasses}>
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-        <div className="text-2xl font-display font-light tracking-[0.2em] text-white uppercase z-50 transition-all duration-500">
-          Skylva
-        </div>
-
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center space-x-8 lg:space-x-12">
-          {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={(e) => handleNavClick(e, item.href)}
-              className="text-sm font-sans tracking-widest text-white/70 hover:text-white transition-colors uppercase"
-            >
-              {item.label}
-            </a>
-          ))}
-          <button className="bg-white text-black px-6 py-2 text-xs tracking-widest uppercase hover:bg-skylva-sand transition-colors">
-            {t.nav.configure}
-          </button>
-          
-          {/* Language Selector */}
-          <div className="flex space-x-3 text-[10px] font-bold uppercase tracking-widest border-l border-white/20 pl-6 ml-2">
-            {(['en', 'nl', 'de'] as const).map((lang) => (
-               <button 
-                  key={lang}
-                  onClick={() => setLanguage(lang)} 
-                  className={`transition-colors hover:text-white ${language === lang ? 'text-white' : 'text-white/40'}`}
-                >
-                 {lang}
-               </button>
-            ))}
+    <>
+      <nav className={navClasses}>
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+          <div className="text-2xl font-display font-light tracking-[0.2em] text-white uppercase z-50 transition-all duration-500">
+            Skylva
           </div>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center space-x-8 lg:space-x-12">
+            {navItems.map((item) => (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className="text-sm font-sans tracking-widest text-white/70 hover:text-white transition-colors uppercase"
+              >
+                {item.label}
+              </a>
+            ))}
+            <button className="rounded-full bg-white text-black px-6 py-2 text-xs tracking-widest uppercase hover:bg-skylva-sand transition-colors">
+              {t.nav.configure}
+            </button>
+            
+            {/* Language Selector */}
+            <div className="flex space-x-3 text-[10px] font-bold uppercase tracking-widest border-l border-white/20 pl-6 ml-2">
+              {(['en', 'nl', 'de'] as const).map((lang) => (
+                 <button 
+                    key={lang}
+                    onClick={() => setLanguage(lang)} 
+                    className={`transition-colors hover:text-white ${language === lang ? 'text-white' : 'text-white/40'}`}
+                  >
+                   {lang}
+                 </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile Menu is now handled by the fixed button below */}
+        </div>
+      </nav>
+
+      {/* Mobile Floating Action Button with Scroll Progress Border */}
+      <div className="fixed bottom-6 right-6 z-50 md:hidden flex items-center justify-center mb-[env(safe-area-inset-bottom)]">
+        {/* Progress Ring SVG */}
+        <div className="absolute w-[68px] h-[68px]">
+             <svg className="w-full h-full -rotate-90">
+                 {/* Background track */}
+                 <circle
+                   cx="34"
+                   cy="34"
+                   r={radius}
+                   stroke="rgba(255,255,255,0.1)"
+                   strokeWidth="2"
+                   fill="transparent"
+                 />
+                 {/* Progress Indicator */}
+                 <circle
+                   cx="34"
+                   cy="34"
+                   r={radius}
+                   stroke="#fff"
+                   strokeWidth="2"
+                   fill="transparent"
+                   strokeDasharray={circumference}
+                   strokeDashoffset={strokeDashoffset}
+                   strokeLinecap="round"
+                   className="transition-all duration-100 ease-out"
+                 />
+             </svg>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Button */}
         <button 
-          className="md:hidden text-white z-50"
+          className="bg-skylva-matte text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl relative"
           onClick={() => setIsMobileOpen(!isMobileOpen)}
         >
           {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-
-        {/* Mobile Menu */}
-        {isMobileOpen && (
-          <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center space-y-8 pt-[env(safe-area-inset-top)]">
-             {navItems.map((item) => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={(e) => handleNavClick(e, item.href)}
-              className="text-2xl font-display font-light tracking-widest text-white hover:text-gray-400 transition-colors uppercase"
-            >
-              {item.label}
-            </a>
-          ))}
-          <div className="flex space-x-6 pt-8">
-             {(['en', 'nl', 'de'] as const).map((lang) => (
-               <button 
-                  key={lang}
-                  onClick={() => { setLanguage(lang); setIsMobileOpen(false); }} 
-                  className={`text-sm font-bold uppercase tracking-widest ${language === lang ? 'text-white' : 'text-white/40'}`}
-                >
-                 {lang}
-               </button>
-            ))}
-          </div>
-          </div>
-        )}
       </div>
-    </nav>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileOpen && (
+        <div className="fixed inset-0 bg-skylva-matte/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center space-y-8 pt-[env(safe-area-inset-top)] animate-in fade-in duration-300">
+           {navItems.map((item) => (
+          <a
+            key={item.label}
+            href={item.href}
+            onClick={(e) => handleNavClick(e, item.href)}
+            className="text-2xl font-display font-light tracking-widest text-white hover:text-gray-400 transition-colors uppercase"
+          >
+            {item.label}
+          </a>
+        ))}
+        <div className="flex space-x-6 pt-8">
+           {(['en', 'nl', 'de'] as const).map((lang) => (
+             <button 
+                key={lang}
+                onClick={() => { setLanguage(lang); setIsMobileOpen(false); }} 
+                className={`text-sm font-bold uppercase tracking-widest ${language === lang ? 'text-white' : 'text-white/40'}`}
+              >
+               {lang}
+             </button>
+          ))}
+        </div>
+        </div>
+      )}
+    </>
   );
 };
 
