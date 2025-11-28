@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Navigation: React.FC = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { language, setLanguage, t } = useLanguage();
 
-  // Navigation is absolute (not fixed) to allow content to scroll beneath the Dynamic Island naturally.
-  // We add safe-area-inset-top padding so the logo and links don't overlap with the status bar.
-  const navClasses = `absolute top-0 left-0 right-0 z-50 pt-[calc(env(safe-area-inset-top)+2rem)] pb-8`;
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Navigation is absolute on mobile to allow edge-to-edge scrolling under Dynamic Island.
+  // On desktop (md:), it becomes fixed (sticky) and animates on scroll.
+  const navClasses = `
+    absolute top-0 left-0 right-0 z-50 
+    pt-[calc(env(safe-area-inset-top)+2rem)] pb-8 
+    md:fixed 
+    transition-all duration-500 ease-in-out
+    ${isScrolled 
+      ? 'md:py-4 md:bg-black/40 md:backdrop-blur-xl md:border-b md:border-white/10 md:shadow-lg' 
+      : 'md:py-8 md:bg-transparent md:backdrop-blur-none md:border-b md:border-transparent'}
+  `;
 
   const navItems = [
     { label: t.nav.vision, href: '#vision' },
@@ -22,8 +39,6 @@ const Navigation: React.FC = () => {
     const element = document.getElementById(targetId);
 
     if (element) {
-      // Small offset calculation is still nice even if header isn't sticky, 
-      // to give some breathing room at the top of the section.
       const headerOffset = 50; 
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - headerOffset;
@@ -39,7 +54,7 @@ const Navigation: React.FC = () => {
   return (
     <nav className={navClasses}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-        <div className="text-2xl font-display font-light tracking-[0.2em] text-white uppercase z-50">
+        <div className="text-2xl font-display font-light tracking-[0.2em] text-white uppercase z-50 transition-all duration-500">
           Skylva
         </div>
 
