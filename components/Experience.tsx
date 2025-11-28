@@ -36,7 +36,7 @@ const Experience: React.FC = () => {
             className="order-1 lg:order-2 relative aspect-square lg:aspect-[4/5] bg-gray-200 rounded-2xl border-[0.8pt] border-black/5 overflow-hidden"
           >
             <img
-              src="https://picsum.photos/seed/skylva_light_shadow/800/1000"
+              src="atmos-1.jpg"
               alt="Dappled light under pergola"
               className="w-full h-full object-cover"
             />
@@ -55,7 +55,7 @@ const Experience: React.FC = () => {
             className="relative aspect-square lg:aspect-[4/5] bg-gray-200 rounded-2xl border-[0.8pt] border-black/5 overflow-hidden"
           >
             <img
-              src="https://picsum.photos/seed/skylva_glass_walls/800/1000"
+              src="atmos-2.jpg"
               alt="Glass sliding walls"
               className="w-full h-full object-cover"
             />
