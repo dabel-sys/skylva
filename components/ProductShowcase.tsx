@@ -55,7 +55,7 @@ const ProductShowcase: React.FC = () => {
               alt="SKYLVA Integrated Solar Skylights" 
               className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
+            <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700" />
           </motion.div>
           <motion.div style={{ y }} className="md:absolute md:-bottom-12 md:right-12 bg-black/20 backdrop-blur-2xl border border-white/10 shadow-2xl max-w-md rounded-2xl">
             <motion.div
@@ -92,7 +92,7 @@ const ProductShowcase: React.FC = () => {
               alt="SKYLVA Patio Cover" 
               className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105"
             />
-             <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
+             <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700" />
           </motion.div>
            <motion.div style={{ y }} className="md:absolute md:-bottom-12 md:left-12 bg-black/20 backdrop-blur-2xl border border-white/10 shadow-2xl max-w-md z-10 rounded-2xl">
             <motion.div
