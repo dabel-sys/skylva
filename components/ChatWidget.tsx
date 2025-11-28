@@ -42,9 +42,10 @@ const ChatWidget: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-6 z-50 flex flex-col items-end">
+    // Added mb-[env(safe-area-inset-bottom)] to ensure the widget clears the home indicator on iOS
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end mb-[env(safe-area-inset-bottom)]">
       {isOpen && (
-        <div className="mb-4 w-80 md:w-96 bg-skylva-matte/95 backdrop-blur-xl border border-white/10 shadow-2xl text-white flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <div className="mb-4 w-80 md:w-96 bg-skylva-matte/95 backdrop-blur-xl border border-white/10 shadow-2xl text-white flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300 rounded-2xl">
           {/* Header */}
           <div className="bg-white/5 p-4 flex items-center justify-between border-b border-white/5">
             <div className="flex items-center space-x-2">
@@ -60,7 +61,7 @@ const ChatWidget: React.FC = () => {
           <div className="h-80 overflow-y-auto p-4 space-y-4">
             {messages.map((msg, idx) => (
                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[85%] p-3 text-sm font-light leading-relaxed ${
+                    <div className={`max-w-[85%] p-3 text-sm font-light leading-relaxed rounded-xl ${
                         msg.role === 'user' 
                         ? 'bg-white text-black' 
                         : 'bg-white/5 text-white/90 border border-white/5'
@@ -71,7 +72,7 @@ const ChatWidget: React.FC = () => {
             ))}
             {isLoading && (
                 <div className="flex justify-start">
-                    <div className="bg-white/5 p-3 text-xs text-white/50 animate-pulse">
+                    <div className="bg-white/5 p-3 text-xs text-white/50 animate-pulse rounded-xl">
                         {t.chat.thinking}
                     </div>
                 </div>
@@ -88,7 +89,7 @@ const ChatWidget: React.FC = () => {
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                     placeholder={t.chat.placeholder}
-                    className="flex-1 bg-transparent border-none focus:ring-0 text-sm font-light placeholder-white/30 text-white"
+                    className="flex-1 bg-transparent border-none focus:ring-0 text-sm font-light placeholder-white/30 text-white outline-none"
                 />
                 <button 
                     onClick={handleSend}

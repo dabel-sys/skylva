@@ -16,6 +16,7 @@ const Hero: React.FC = () => {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
+    // Changed h-screen to h-[100dvh] to properly fill mobile screens with dynamic toolbars
     <section ref={ref} className="relative h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-skylva-matte">
       {/* Background Image with Overlay - Simulating a high-end architectural render */}
       <div className="absolute inset-0 z-0">
@@ -67,7 +68,7 @@ const Hero: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/50 animate-bounce"
+        className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/50 animate-bounce pb-[env(safe-area-inset-bottom)]"
       >
         <ChevronDown size={32} strokeWidth={0.5} />
       </motion.div>
