@@ -1,8 +1,17 @@
 import React from 'react';
-
-const values = ['Silence', 'Light', 'Nature', 'Intelligence', 'Precision', 'Longevity'];
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Values: React.FC = () => {
+  const { t } = useLanguage();
+  const values = [
+    t.values.silence,
+    t.values.light,
+    t.values.nature,
+    t.values.intelligence,
+    t.values.precision,
+    t.values.longevity
+  ];
+
   return (
     <section className="py-24 bg-skylva-offwhite border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-6 md:px-12">

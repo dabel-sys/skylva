@@ -2,15 +2,22 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Sparkles } from 'lucide-react';
 import { sendMessageToGemini } from '../services/geminiService';
 import { ChatMessage } from '../types';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const ChatWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: 'Welcome to SKYLVA. I am your architectural intelligence. How may I assist you with your design today?' }
-  ]);
+  const { t } = useLanguage();
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Initialize welcome message based on language
+  useEffect(() => {
+    setMessages([
+        { role: 'model', text: t.chat.welcome }
+    ]);
+  }, [t]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -65,7 +72,7 @@ const ChatWidget: React.FC = () => {
             {isLoading && (
                 <div className="flex justify-start">
                     <div className="bg-white/5 p-3 text-xs text-white/50 animate-pulse">
-                        Thinking...
+                        {t.chat.thinking}
                     </div>
                 </div>
             )}
@@ -80,7 +87,7 @@ const ChatWidget: React.FC = () => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                    placeholder="Ask about design, energy, materials..."
+                    placeholder={t.chat.placeholder}
                     className="flex-1 bg-transparent border-none focus:ring-0 text-sm font-light placeholder-white/30 text-white"
                 />
                 <button 

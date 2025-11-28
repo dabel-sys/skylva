@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Hero: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
@@ -8,6 +9,7 @@ const Hero: React.FC = () => {
     target: ref,
     offset: ["start start", "end start"]
   });
+  const { t } = useLanguage();
 
   // Move the background image down slightly as the user scrolls down
   // creating a depth effect where the background moves slower than the foreground.
@@ -34,7 +36,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="text-4xl md:text-6xl lg:text-7xl font-display font-light tracking-wide text-white mb-8 leading-tight"
         >
-          Where architecture meets <br/> <span className="text-skylva-sand">solar intelligence.</span>
+          {t.hero.headline_1} <br/> <span className="text-skylva-sand">{t.hero.headline_2}</span>
         </motion.h1>
 
         <motion.p 
@@ -43,7 +45,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
           className="text-lg md:text-xl font-sans font-light text-white/90 tracking-widest mb-12 max-w-2xl mx-auto drop-shadow-lg"
         >
-          Scandinavian design. Solar innovation. Effortless living.
+          {t.hero.subline}
         </motion.p>
 
         <motion.div 
@@ -53,10 +55,10 @@ const Hero: React.FC = () => {
           className="flex flex-col md:flex-row gap-6 justify-center items-center"
         >
           <button className="bg-white text-skylva-matte px-10 py-4 text-xs font-medium tracking-[0.2em] uppercase hover:bg-skylva-sand transition-all duration-300 w-64 md:w-auto shadow-lg shadow-white/10">
-            Discover SKYLVA
+            {t.hero.button_discover}
           </button>
           <button className="border border-white/30 text-white px-10 py-4 text-xs font-medium tracking-[0.2em] uppercase hover:bg-white/10 backdrop-blur-sm transition-all duration-300 w-64 md:w-auto">
-            Configure System
+            {t.hero.button_configure}
           </button>
         </motion.div>
       </div>

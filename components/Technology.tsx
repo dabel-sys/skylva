@@ -1,7 +1,9 @@
 import React from 'react';
 import { Cpu, Wifi, Sun } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Technology: React.FC = () => {
+  const { t } = useLanguage();
   return (
     <section id="technology" className="py-32 bg-skylva-charcoal text-skylva-offwhite relative overflow-hidden">
       {/* Abstract background element */}
@@ -9,13 +11,12 @@ const Technology: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="max-w-3xl mb-20">
-          <h2 className="text-sm text-skylva-sand tracking-[0.3em] uppercase mb-6 font-semibold">Intelligence</h2>
+          <h2 className="text-sm text-skylva-sand tracking-[0.3em] uppercase mb-6 font-semibold">{t.technology.label}</h2>
           <h3 className="text-4xl md:text-5xl font-display font-light leading-tight mb-8">
-            Designed for those who don’t <br/> need to explain.
+            {t.technology.title}
           </h3>
           <p className="text-white/60 font-sans font-light text-lg leading-relaxed">
-            Our proprietary AI Core doesn't just manage energy; it predicts it. 
-            By analyzing local weather patterns and your usage habits, SKYLVA optimizes storage and consumption in real-time.
+            {t.technology.body}
           </p>
         </div>
 
@@ -23,18 +24,18 @@ const Technology: React.FC = () => {
           {[
             {
               icon: <Cpu size={32} className="text-skylva-sand" />,
-              title: "AI-First Design",
-              desc: "Self-learning algorithms adapt to seasons and shadows."
+              title: t.technology.t1_title,
+              desc: t.technology.t1_desc
             },
             {
               icon: <Sun size={32} className="text-skylva-sand" />,
-              title: "Optimized Generation",
-              desc: "Bifacial glass-glass modules capture reflected light."
+              title: t.technology.t2_title,
+              desc: t.technology.t2_desc
             },
             {
               icon: <Wifi size={32} className="text-skylva-sand" />,
-              title: "Smart Integration",
-              desc: "Seamless connection to home batteries and EV chargers."
+              title: t.technology.t3_title,
+              desc: t.technology.t3_desc
             }
           ].map((item, idx) => (
             <div key={idx} className="border-t border-white/10 pt-8 group hover:border-skylva-sand transition-colors duration-500">

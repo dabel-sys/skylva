@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const ProductShowcase: React.FC = () => {
   const targetRef = useRef<HTMLElement>(null);
@@ -7,6 +8,7 @@ const ProductShowcase: React.FC = () => {
     target: targetRef,
     offset: ["start end", "end start"]
   });
+  const { t } = useLanguage();
 
   // Parallax effect for text elements
   const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
@@ -23,8 +25,8 @@ const ProductShowcase: React.FC = () => {
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <h2 className="text-4xl md:text-5xl font-display font-light mb-4">The Collection</h2>
-              <p className="text-gray-500 font-sans tracking-wide">Engineered for silence. Designed for life.</p>
+              <h2 className="text-4xl md:text-5xl font-display font-light mb-4">{t.product.title}</h2>
+              <p className="text-gray-500 font-sans tracking-wide">{t.product.subtitle}</p>
             </motion.div>
             <motion.div 
               className="mt-6 md:mt-0"
@@ -33,7 +35,7 @@ const ProductShowcase: React.FC = () => {
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
-              <a href="#" className="text-xs font-bold tracking-[0.2em] uppercase border-b border-black pb-1 hover:text-skylva-green transition-colors">View All Specifications</a>
+              <a href="#" className="text-xs font-bold tracking-[0.2em] uppercase border-b border-black pb-1 hover:text-skylva-green transition-colors">{t.product.view_specs}</a>
             </motion.div>
          </div>
       </div>
@@ -63,15 +65,14 @@ const ProductShowcase: React.FC = () => {
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             >
-              <h3 className="text-2xl font-display font-light mb-2">S1 Pergola & Skylights</h3>
+              <h3 className="text-2xl font-display font-light mb-2">{t.product.p1_title}</h3>
               <p className="text-gray-500 font-sans font-light text-sm leading-relaxed mb-6">
-                Integrated glass-glass solar modules. Nordic Pine or Aircraft Aluminum finish. 
-                Zero visible wiring.
+                {t.product.p1_desc}
               </p>
               <ul className="text-xs font-bold tracking-widest text-gray-400 space-y-2 uppercase">
-                <li>4.2 kWp Capacity</li>
-                <li>Auto-adjusting Louvers</li>
-                <li>Integrated LED</li>
+                <li>{t.product.p1_spec1}</li>
+                <li>{t.product.p1_spec2}</li>
+                <li>{t.product.p1_spec3}</li>
               </ul>
             </motion.div>
           </motion.div>
@@ -101,15 +102,14 @@ const ProductShowcase: React.FC = () => {
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             >
-              <h3 className="text-2xl font-display font-light mb-2">A2 Architectural Skin</h3>
+              <h3 className="text-2xl font-display font-light mb-2">{t.product.p2_title}</h3>
               <p className="text-gray-500 font-sans font-light text-sm leading-relaxed mb-6">
-                Seamless solar integration for existing structures. 
-                Matte finish for zero glare. High-efficiency output.
+                {t.product.p2_desc}
               </p>
               <ul className="text-xs font-bold tracking-widest text-gray-400 space-y-2 uppercase">
-                <li>Modular Grid System</li>
-                <li>Matte Black Finish</li>
-                <li>Self-cleaning coating</li>
+                <li>{t.product.p2_spec1}</li>
+                <li>{t.product.p2_spec2}</li>
+                <li>{t.product.p2_spec3}</li>
               </ul>
             </motion.div>
           </motion.div>
