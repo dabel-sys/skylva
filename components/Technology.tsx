@@ -17,18 +17,19 @@ const Technology: React.FC = () => {
   const contentY = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
-    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-black snap-start min-h-screen flex flex-col justify-center">
+    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-[#1a1a1a] snap-start min-h-screen flex flex-col justify-center">
       {/* Background Image Parallax */}
       <div className="absolute inset-0 z-0">
         <motion.div style={{ y, scale: 1.2 }} className="w-full h-full">
             <img 
             src="/images/intelligence.jpg" 
             alt="SKYLVA Artificial Intelligence Core" 
-            className="w-full h-full object-cover grayscale-[0.8] opacity-40 mix-blend-luminosity"
+            className="w-full h-full object-cover grayscale-[0.8] opacity-60 mix-blend-luminosity"
             />
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)]" />
+        {/* Reduced gradient opacity for a lighter, '30%' feel */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-40" />
       </div>
 
       {/* Holographic Scanner Effect */}
