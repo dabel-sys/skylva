@@ -49,7 +49,7 @@ const Philosophy: React.FC = () => {
               className="aspect-[4/5] overflow-hidden bg-white/5"
              >
                 <img 
-                  src="/image/philosophy.jpg" 
+                  src="/images/philosophy.jpg" 
                   alt="SKYLVA Architectural Philosophy" 
                   className="w-full h-full object-cover grayscale-[0.2]"
                 />
