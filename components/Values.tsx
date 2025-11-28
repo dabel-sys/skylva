@@ -13,7 +13,7 @@ const Values: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 bg-skylva-offwhite border-t border-gray-200">
+    <section className="py-24 bg-white border-t border-gray-200">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="flex flex-wrap justify-center md:justify-between gap-8 md:gap-0">
           {values.map((val, idx) => (
