@@ -21,6 +21,29 @@ export const translations = {
       body: 'We are a design-first, AI-first solar architecture company. We strip away the unnecessary to reveal the essential. SKYLVA systems are not just power generators; they are sculptural elements that define your outdoor living space.',
       quote: '"Power, without disturbance."'
     },
+    process: {
+      title: 'The Process',
+      steps: [
+        {
+          title: 'Consultation',
+          subtitle: 'Step 01',
+          description: 'We begin with a detailed analysis of your site and energy needs. Our architects map the solar potential of your location.',
+          action: 'Book Consultation'
+        },
+        {
+          title: 'Design',
+          subtitle: 'Step 02',
+          description: 'Our studio creates a bespoke 3D visualization of your SKYLVA structure, integrated seamlessly into your existing architecture.',
+          action: 'View Design Process'
+        },
+        {
+          title: 'Installation',
+          subtitle: 'Step 03',
+          description: 'Precision installation by certified teams. We handle all permits and grid connections for a turnkey experience.',
+          action: 'Learn More'
+        }
+      ]
+    },
     product: {
       title: 'The Collection',
       subtitle: 'Engineered for silence. Designed for life.',
@@ -56,7 +79,7 @@ export const translations = {
       t2_title: 'Optimized Generation',
       t2_desc: 'Bifacial glass-glass modules capture reflected light.',
       t3_title: 'Smart Integration',
-      t3_desc: 'Seamless connection to home batteries and EV chargers.'
+      t3_desc: 'Seamless connection to home batteries and EV-laders.'
     },
     studio: {
       label: 'The Studio',
@@ -122,6 +145,29 @@ export const translations = {
       headline_2: 'Het is architectuur.',
       body: 'Wij zijn een design-first, AI-first zonne-architectuurbedrijf. We halen het onnodige weg om het essentiële te onthullen. SKYLVA-systemen zijn niet alleen energiegeneratoren; het zijn sculpturale elementen die uw buitenruimte definiëren.',
       quote: '"Kracht, zonder verstoring."'
+    },
+    process: {
+      title: 'Het Proces',
+      steps: [
+        {
+          title: 'Consultatie',
+          subtitle: 'Stap 01',
+          description: 'We beginnen met een gedetailleerde analyse van uw locatie en energiebehoeften. Onze architecten brengen het zonnepotentieel in kaart.',
+          action: 'Boek Consultatie'
+        },
+        {
+          title: 'Ontwerp',
+          subtitle: 'Stap 02',
+          description: 'Onze studio creëert een op maat gemaakte 3D-visualisatie van uw SKYLVA-structuur, naadloos geïntegreerd in uw bestaande architectuur.',
+          action: 'Bekijk Ontwerpproces'
+        },
+        {
+          title: 'Installatie',
+          subtitle: 'Stap 03',
+          description: 'Precisie-installatie door gecertificeerde teams. Wij regelen alle vergunningen en netaansluitingen voor een zorgeloze ervaring.',
+          action: 'Meer Informatie'
+        }
+      ]
     },
     product: {
       title: 'De Collectie',
@@ -224,6 +270,29 @@ export const translations = {
       headline_2: 'Es ist Architektur.',
       body: 'Wir sind ein Design-First, AI-First Solar-Architektur-Unternehmen. Wir entfernen das Unnötige, um das Wesentliche zu enthüllen. SKYLVA-Systeme sind nicht nur Stromerzeuger; sie sind skulpturale Elemente, die Ihren Außenbereich definieren.',
       quote: '"Kraft, ohne Störung."'
+    },
+    process: {
+      title: 'Der Prozess',
+      steps: [
+        {
+          title: 'Beratung',
+          subtitle: 'Schritt 01',
+          description: 'Wir beginnen mit einer detaillierten Analyse Ihres Standorts und Energiebedarfs. Unsere Architekten kartieren das Solarpotenzial.',
+          action: 'Beratung Buchen'
+        },
+        {
+          title: 'Design',
+          subtitle: 'Schritt 02',
+          description: 'Unser Studio erstellt eine maßgeschneiderte 3D-Visualisierung Ihrer SKYLVA-Struktur, nahtlos integriert in Ihre bestehende Architektur.',
+          action: 'Designprozess Ansehen'
+        },
+        {
+          title: 'Installation',
+          subtitle: 'Schritt 03',
+          description: 'Präzisionsinstallation durch zertifizierte Teams. Wir kümmern uns um alle Genehmigungen und Netzanschlüsse für ein schlüsselfertiges Erlebnis.',
+          action: 'Mehr Erfahren'
+        }
+      ]
     },
     product: {
       title: 'Die Kollektion',

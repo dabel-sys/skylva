@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
+import TextReveal from './TextReveal';
 
 const Philosophy: React.FC = () => {
   const { t } = useLanguage();
@@ -13,31 +14,39 @@ const Philosophy: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10%" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-sm text-skylva-green tracking-[0.3em] uppercase mb-6 font-semibold"
+          className="text-sm text-skylva-green tracking-[0.3em] uppercase mb-8 font-semibold"
         >
           {t.philosophy.label}
         </motion.h2>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10%" }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="text-3xl md:text-5xl font-display font-light text-white leading-snug mb-8"
+        <div className="text-3xl md:text-5xl lg:text-6xl font-display font-light text-white leading-[1.2] mb-12">
+           <TextReveal className="block mb-2">{t.philosophy.headline_1}</TextReveal>
+           <span className="text-white/40 block">
+             <TextReveal delay={0.4} className="block">{t.philosophy.headline_2}</TextReveal>
+           </span>
+        </div>
+
+        <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 1, delay: 0.8 }}
+            className="text-lg md:text-xl font-sans font-light text-white/60 leading-relaxed max-w-2xl mx-auto"
         >
-          {t.philosophy.headline_1}<br/>
-          <span className="text-gray-500">{t.philosophy.headline_2}</span>
+          {t.philosophy.body.split('. ').map((sentence, i) => (
+             <span key={i} className="inline-block mr-1">
+                {sentence}.
+             </span>
+          ))}
         </motion.div>
 
-        <motion.p 
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            className="text-lg font-sans font-light text-white/60 leading-relaxed max-w-2xl mx-auto"
-        >
-          {t.philosophy.body}
-        </motion.p>
+        <motion.div
+           initial={{ scaleX: 0 }}
+           whileInView={{ scaleX: 1 }}
+           viewport={{ once: true }}
+           transition={{ duration: 1.5, ease: "easeInOut", delay: 0.2 }}
+           className="w-24 h-[1px] bg-white/20 mt-16"
+        />
 
       </div>
     </section>
