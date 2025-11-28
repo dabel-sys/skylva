@@ -19,7 +19,7 @@ const Technology: React.FC = () => {
       <div className="absolute inset-0 z-0">
         <motion.div style={{ y, scale: 1.2 }} className="w-full h-full">
             <img 
-            src="/images/intelligence.jpeg" 
+            src="/images/intelligence.jpg" 
             alt="SKYLVA Artificial Intelligence Core" 
             className="w-full h-full object-cover grayscale-[0.3]"
             />
