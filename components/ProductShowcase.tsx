@@ -15,7 +15,7 @@ const ProductShowcase: React.FC = () => {
   const yHeader = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
   return (
-    <section id="product" ref={targetRef} className="py-32 bg-skylva-offwhite text-skylva-charcoal overflow-hidden">
+    <section id="structures" ref={targetRef} className="py-32 bg-skylva-offwhite text-skylva-charcoal overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 mb-24">
          <div className="flex flex-col md:flex-row justify-between items-end border-b border-gray-300 pb-8">
             <motion.div 
@@ -57,7 +57,7 @@ const ProductShowcase: React.FC = () => {
             />
             <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
           </motion.div>
-          <motion.div style={{ y }} className="md:absolute md:-bottom-12 md:right-12 bg-white/30 backdrop-blur-2xl border border-white/20 shadow-2xl max-w-md rounded-2xl">
+          <motion.div style={{ y }} className="md:absolute md:-bottom-12 md:right-12 bg-black/20 backdrop-blur-2xl border border-white/10 shadow-2xl max-w-md rounded-2xl">
             <motion.div
               className="p-8 md:p-12"
               initial={{ opacity: 0, y: 20 }}
@@ -65,11 +65,11 @@ const ProductShowcase: React.FC = () => {
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             >
-              <h3 className="text-2xl font-display font-light mb-2">{t.product.p1_title}</h3>
-              <p className="text-gray-800 font-sans font-light text-sm leading-relaxed mb-6">
+              <h3 className="text-2xl font-display font-light mb-2 text-white">{t.product.p1_title}</h3>
+              <p className="text-white/80 font-sans font-light text-sm leading-relaxed mb-6">
                 {t.product.p1_desc}
               </p>
-              <ul className="text-xs font-bold tracking-widest text-gray-600 space-y-2 uppercase">
+              <ul className="text-xs font-bold tracking-widest text-white/60 space-y-2 uppercase">
                 <li>{t.product.p1_spec1}</li>
                 <li>{t.product.p1_spec2}</li>
                 <li>{t.product.p1_spec3}</li>
@@ -94,7 +94,7 @@ const ProductShowcase: React.FC = () => {
             />
              <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700" />
           </motion.div>
-           <motion.div style={{ y }} className="md:absolute md:-bottom-12 md:left-12 bg-white/30 backdrop-blur-2xl border border-white/20 shadow-2xl max-w-md z-10 rounded-2xl">
+           <motion.div style={{ y }} className="md:absolute md:-bottom-12 md:left-12 bg-black/20 backdrop-blur-2xl border border-white/10 shadow-2xl max-w-md z-10 rounded-2xl">
             <motion.div
               className="p-8 md:p-12"
               initial={{ opacity: 0, y: 20 }}
@@ -102,11 +102,11 @@ const ProductShowcase: React.FC = () => {
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             >
-              <h3 className="text-2xl font-display font-light mb-2">{t.product.p2_title}</h3>
-              <p className="text-gray-800 font-sans font-light text-sm leading-relaxed mb-6">
+              <h3 className="text-2xl font-display font-light mb-2 text-white">{t.product.p2_title}</h3>
+              <p className="text-white/80 font-sans font-light text-sm leading-relaxed mb-6">
                 {t.product.p2_desc}
               </p>
-              <ul className="text-xs font-bold tracking-widest text-gray-600 space-y-2 uppercase">
+              <ul className="text-xs font-bold tracking-widest text-white/60 space-y-2 uppercase">
                 <li>{t.product.p2_spec1}</li>
                 <li>{t.product.p2_spec2}</li>
                 <li>{t.product.p2_spec3}</li>
