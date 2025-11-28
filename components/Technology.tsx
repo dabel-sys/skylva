@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Cpu, Wifi, Sun } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Technology: React.FC = () => {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
   const { t } = useLanguage();
+
+  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+
   return (
-    <section id="technology" className="py-32 relative overflow-hidden">
+    <section ref={ref} id="technology" className="py-32 relative overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src="/images/intelligence.png" 
-          alt="SKYLVA Artificial Intelligence Core" 
-          className="w-full h-full object-cover grayscale-[0.3]"
-        />
+        <motion.div style={{ y, scale: 1.2 }} className="w-full h-full">
+            <img 
+            src="/images/intelligence.png" 
+            alt="SKYLVA Artificial Intelligence Core" 
+            className="w-full h-full object-cover grayscale-[0.3]"
+            />
+        </motion.div>
         <div className="absolute inset-0 bg-black/50" />
       </div>
 

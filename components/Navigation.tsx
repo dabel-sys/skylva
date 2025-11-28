@@ -23,7 +23,6 @@ const Navigation: React.FC = () => {
     { label: t.nav.vision, href: '#vision' },
     { label: t.nav.product, href: '#structures' },
     { label: t.nav.technology, href: '#technology' },
-    { label: t.nav.studio, href: '#studio' },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
