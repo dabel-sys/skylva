@@ -1,27 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Navigation: React.FC = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Updated classes to include safe-area-inset-top.
-  // We use padding-top calculation to add the safe area + the design padding.
-  const navClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-    isScrolled 
-      ? 'bg-skylva-matte/80 backdrop-blur-md pt-[calc(env(safe-area-inset-top)+1rem)] pb-4 border-b border-white/5' 
-      : 'bg-transparent pt-[calc(env(safe-area-inset-top)+2rem)] pb-8'
-  }`;
+  // Navigation is absolute (not fixed) to allow content to scroll beneath the Dynamic Island naturally.
+  // We add safe-area-inset-top padding so the logo and links don't overlap with the status bar.
+  const navClasses = `absolute top-0 left-0 right-0 z-50 pt-[calc(env(safe-area-inset-top)+2rem)] pb-8`;
 
   const navItems = [
     { label: t.nav.vision, href: '#vision' },
@@ -35,7 +22,9 @@ const Navigation: React.FC = () => {
     const element = document.getElementById(targetId);
 
     if (element) {
-      const headerOffset = 100;
+      // Small offset calculation is still nice even if header isn't sticky, 
+      // to give some breathing room at the top of the section.
+      const headerOffset = 50; 
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
