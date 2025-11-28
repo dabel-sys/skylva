@@ -67,10 +67,10 @@ const ProductShowcase: React.FC = () => {
   };
 
   return (
-    <section id="structures" ref={targetRef} className="py-32 bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative">
+    <section id="structures" ref={targetRef} className="min-h-screen py-20 md:py-0 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative">
       
       {/* Header Section */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12 relative z-10">
+      <div className="max-w-7xl w-full mx-auto px-6 md:px-12 mb-8 md:mb-12 relative z-10">
          <div className="flex flex-col md:flex-row justify-between items-end border-b border-gray-300 pb-8">
             <motion.div style={{ y: yHeader }} className="relative">
               <h2 className="text-4xl md:text-6xl font-display font-light mb-4">
@@ -114,8 +114,8 @@ const ProductShowcase: React.FC = () => {
       </div>
 
       {/* Carousel Container */}
-      <div className="relative w-full max-w-[1920px] mx-auto px-0 md:px-12 h-[70vh] md:h-[80vh]">
-        <div className="w-full h-full relative rounded-none md:rounded-3xl overflow-hidden shadow-2xl bg-gray-200">
+      <div className="relative w-full max-w-[1920px] mx-auto px-6 md:px-12 h-[65vh] md:h-[80vh]">
+        <div className="w-full h-full relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-200 border-[0.8pt] border-black/5">
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
               <motion.div
                 key={page}
@@ -149,34 +149,34 @@ const ProductShowcase: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
                 
                 {/* Product Info Card (Floating Glass) */}
-                <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 pointer-events-none flex justify-start items-end">
+                <div className="absolute bottom-0 left-0 w-full p-4 md:p-12 pointer-events-none flex justify-start items-end">
                    <motion.div 
                       initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                       transition={{ delay: 0.3, duration: 0.6 }}
-                      className="bg-black/60 backdrop-blur-2xl border border-white/10 p-8 md:p-10 rounded-2xl max-w-lg w-full shadow-2xl pointer-events-auto"
+                      className="bg-black/60 backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-xl md:rounded-2xl max-w-lg w-full shadow-2xl pointer-events-auto"
                    >
-                      <h3 className="text-3xl font-display font-light mb-4 text-white">
+                      <h3 className="text-2xl md:text-3xl font-display font-light mb-2 md:mb-4 text-white">
                         {currentProduct.title}
                       </h3>
-                      <p className="text-white/80 font-sans font-light text-sm leading-relaxed mb-8">
+                      <p className="text-white/80 font-sans font-light text-xs md:text-sm leading-relaxed mb-6 md:mb-8 line-clamp-2 md:line-clamp-none">
                         {currentProduct.desc}
                       </p>
                       
-                      <div className="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+                      <div className="grid grid-cols-3 gap-2 md:gap-4 border-t border-white/10 pt-4 md:pt-6">
                         {currentProduct.specs.map((spec, idx) => (
                            <div key={idx} className="text-center">
-                              <span className="block text-white font-bold text-xs uppercase tracking-widest mb-1">{spec}</span>
+                              <span className="block text-white font-bold text-[10px] md:text-xs uppercase tracking-widest mb-1 truncate">{spec}</span>
                               <span className="block w-1 h-1 bg-skylva-green rounded-full mx-auto mt-2" />
                            </div>
                         ))}
                       </div>
 
-                      <div className="mt-8 flex gap-4">
-                         <button className="flex-1 bg-white text-black py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-skylva-sand transition-colors">
+                      <div className="mt-6 md:mt-8 flex gap-3 md:gap-4">
+                         <button className="flex-1 bg-white text-black py-2 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-skylva-sand transition-colors">
                             Order Now
                          </button>
-                         <button className="flex-1 border border-white/30 text-white py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:border-white transition-colors">
+                         <button className="flex-1 border border-white/30 text-white py-2 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:border-white transition-colors">
                             Details
                          </button>
                       </div>
@@ -186,24 +186,24 @@ const ProductShowcase: React.FC = () => {
             </AnimatePresence>
 
             {/* Mobile Navigation Overlays */}
-            <div className="absolute inset-y-0 left-0 w-16 z-10 md:hidden flex items-center justify-center" onClick={() => paginate(-1)}>
-               <div className="bg-black/20 backdrop-blur-md p-2 rounded-full text-white/80">
-                 <ChevronLeft size={24} />
+            <div className="absolute inset-y-0 left-0 w-12 z-10 md:hidden flex items-center justify-center" onClick={() => paginate(-1)}>
+               <div className="bg-black/20 backdrop-blur-md p-1.5 rounded-full text-white/80 ml-2">
+                 <ChevronLeft size={20} />
                </div>
             </div>
-            <div className="absolute inset-y-0 right-0 w-16 z-10 md:hidden flex items-center justify-center" onClick={() => paginate(1)}>
-               <div className="bg-black/20 backdrop-blur-md p-2 rounded-full text-white/80">
-                 <ChevronRight size={24} />
+            <div className="absolute inset-y-0 right-0 w-12 z-10 md:hidden flex items-center justify-center" onClick={() => paginate(1)}>
+               <div className="bg-black/20 backdrop-blur-md p-1.5 rounded-full text-white/80 mr-2">
+                 <ChevronRight size={20} />
                </div>
             </div>
 
             {/* Pagination Indicators */}
-            <div className="absolute bottom-6 right-6 md:right-12 z-20 flex gap-2">
+            <div className="absolute bottom-4 right-4 md:bottom-6 md:right-12 z-20 flex gap-2">
                 {products.map((_, idx) => (
                   <button
                     key={idx}
                     onClick={() => setPage([idx, idx > imageIndex ? 1 : -1])}
-                    className={`h-1 rounded-full transition-all duration-500 ${idx === imageIndex ? 'w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/80'}`}
+                    className={`h-1 rounded-full transition-all duration-500 ${idx === imageIndex ? 'w-6 md:w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/80'}`}
                   />
                 ))}
             </div>

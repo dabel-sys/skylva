@@ -2,6 +2,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
+import TextReveal from './TextReveal';
 
 const Philosophy: React.FC = () => {
   const containerRef = useRef<HTMLElement>(null);
@@ -46,8 +47,8 @@ const Philosophy: React.FC = () => {
       ref={containerRef} 
       id="vision" 
       onMouseMove={handleMouseMove}
-      // Mobile: Auto height (natural scroll), centered content. Desktop: Taller track for scrollytelling, content starts at top.
-      className={`relative w-full bg-skylva-matte overflow-hidden flex flex-col ${isDesktop ? 'h-[130vh]' : 'min-h-[90dvh] justify-center py-0'}`}
+      // Mobile: 100dvh for exact full screen. Desktop: Taller track for scrollytelling.
+      className={`relative w-full bg-skylva-matte overflow-hidden flex flex-col ${isDesktop ? 'h-[130vh]' : 'min-h-[100dvh] justify-center pb-0'}`}
     >
       {/* Dynamic Aurora Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none h-full w-full fixed-on-mobile">
@@ -117,22 +118,10 @@ const Philosophy: React.FC = () => {
 
         {/* Body Text - Adaptive Animation */}
         <div className="relative w-full max-w-3xl md:ml-auto">
-          <p className="text-xl md:text-3xl font-sans font-light leading-relaxed">
-            {sentences.map((sentence, i) => {
-              // Desktop: Map to scroll progress (0 - 0.9 range covers most of the scroll)
-              const start = (i / sentences.length) * 0.9;
-              
-              return (
-                <Sentence 
-                  key={i} 
-                  text={sentence} 
-                  range={[start, start + 0.15]} 
-                  progress={scrollYProgress} 
-                  isDesktop={isDesktop}
-                  index={i}
-                />
-              );
-            })}
+          <p className="text-xl md:text-3xl font-sans font-light leading-relaxed text-white">
+            <TextReveal mode="words">
+              {t.philosophy.body}
+            </TextReveal>
           </p>
         </div>
 
@@ -149,42 +138,6 @@ const Philosophy: React.FC = () => {
 
       </div>
     </section>
-  );
-};
-
-// Sentence Component with bifurcated logic
-const Sentence = ({ text, range, progress, isDesktop, index }: { text: string, range: [number, number], progress: any, isDesktop: boolean, index: number }) => {
-  // Desktop Transforms
-  const opacity = useTransform(progress, [range[0], range[1]], [0.2, 1]);
-  const blur = useTransform(progress, [range[0], range[1]], [8, 0]);
-  const y = useTransform(progress, [range[0], range[1]], [15, 0]);
-  
-  // HOOK MUST BE CALLED HERE, UNCONDITIONALLY
-  const blurFilter = useMotionTemplate`blur(${blur}px)`;
-
-  if (!isDesktop) {
-    // Mobile: Simple scroll trigger (whileInView)
-    return (
-      <motion.span
-        initial={{ opacity: 0.2, filter: "blur(4px)" }}
-        whileInView={{ opacity: 1, filter: "blur(0px)" }}
-        viewport={{ once: true, margin: "-20% 0px -20% 0px" }} // Trigger when in center of screen
-        transition={{ duration: 0.6, delay: index * 0.05 }}
-        className="inline-block mr-2 text-white"
-      >
-        {text}
-      </motion.span>
-    );
-  }
-
-  // Desktop: Sticky scroll mapped
-  return (
-    <motion.span 
-      style={{ opacity, filter: blurFilter, y }}
-      className="inline-block mr-2 text-white transition-colors duration-500"
-    >
-      {text}
-    </motion.span>
   );
 };
 
