@@ -47,7 +47,7 @@ const Philosophy: React.FC = () => {
       id="vision" 
       onMouseMove={handleMouseMove}
       // Mobile: Auto height (natural scroll), centered content. Desktop: Taller track for scrollytelling, content starts at top.
-      className={`relative w-full bg-skylva-matte overflow-hidden flex flex-col ${isDesktop ? 'h-[175vh]' : 'min-h-[100dvh] justify-center py-0'}`}
+      className={`relative w-full bg-skylva-matte overflow-hidden flex flex-col ${isDesktop ? 'h-[140vh]' : 'min-h-[90dvh] justify-center py-0'}`}
     >
       {/* Dynamic Aurora Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none h-full w-full fixed-on-mobile">
@@ -141,7 +141,7 @@ const Philosophy: React.FC = () => {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
-          className="absolute bottom-12 right-12 text-right hidden md:block"
+          className="absolute bottom-4 right-12 text-right hidden md:block"
         >
           <span className="block text-[10px] font-mono text-white/20 tracking-widest mb-2">CORE PRINCIPLE</span>
           <span className="text-sm font-display text-white/60 tracking-widest uppercase">{t.philosophy.quote}</span>
