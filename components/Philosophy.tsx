@@ -47,7 +47,7 @@ const Philosophy: React.FC = () => {
       id="vision" 
       onMouseMove={handleMouseMove}
       // Mobile: Auto height (natural scroll), centered content. Desktop: Taller track for scrollytelling, content starts at top.
-      className={`relative w-full bg-skylva-matte overflow-hidden flex flex-col ${isDesktop ? 'h-[140vh]' : 'min-h-[90dvh] justify-center py-0'}`}
+      className={`relative w-full bg-skylva-matte overflow-hidden flex flex-col ${isDesktop ? 'h-[130vh]' : 'min-h-[90dvh] justify-center py-0'}`}
     >
       {/* Dynamic Aurora Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none h-full w-full fixed-on-mobile">
