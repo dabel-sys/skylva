@@ -5,8 +5,8 @@ import { useLanguage } from '../contexts/LanguageContext';
 const Philosophy: React.FC = () => {
   const { t } = useLanguage();
   return (
-    <section id="vision" className="py-32 bg-skylva-matte relative overflow-hidden">
-      <div className="max-w-4xl mx-auto px-6 md:px-12 flex flex-col items-center text-center">
+    <section id="vision" className="relative overflow-hidden bg-skylva-matte min-h-[100dvh] flex items-center md:min-h-0 md:block md:py-32">
+      <div className="w-full max-w-4xl mx-auto px-6 md:px-12 flex flex-col items-center text-center py-12 md:py-0">
         
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
