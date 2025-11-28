@@ -15,7 +15,15 @@ const Navigation: React.FC = () => {
       const currentScrollY = window.scrollY;
       setIsScrolled(currentScrollY > 20);
 
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const totalHeight = Math.max(
+        document.body.scrollHeight, 
+        document.documentElement.scrollHeight,
+        document.body.offsetHeight, 
+        document.documentElement.offsetHeight,
+        document.body.clientHeight, 
+        document.documentElement.clientHeight
+      ) - window.innerHeight;
+      
       const progress = totalHeight > 0 ? currentScrollY / totalHeight : 0;
       
       setScrollProgress(Math.min(Math.max(progress, 0), 1));
@@ -61,6 +69,10 @@ const Navigation: React.FC = () => {
     }
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const radius = 32;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - scrollProgress * circumference;
@@ -102,8 +114,24 @@ const Navigation: React.FC = () => {
     <>
       <nav className={navClasses}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-          <div className="text-2xl font-display font-light tracking-[0.2em] text-white uppercase z-50 transition-all duration-500">
-            Skylva
+          {/* Animated Logo */}
+          <div 
+            className="text-2xl font-display font-light tracking-[0.2em] text-white uppercase z-50 cursor-pointer flex items-center select-none"
+            onClick={scrollToTop}
+          >
+            <span>S</span>
+            <motion.div
+              initial={{ width: "auto", opacity: 1, x: 0 }}
+              animate={{ 
+                width: isScrolled ? 0 : "auto", 
+                opacity: isScrolled ? 0 : 1,
+                x: isScrolled ? -5 : 0
+              }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="overflow-hidden flex whitespace-nowrap"
+            >
+              KYLVA
+            </motion.div>
           </div>
 
           {/* Desktop Nav */}

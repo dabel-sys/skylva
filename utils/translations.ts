@@ -113,7 +113,7 @@ export const translations = {
       longevity: 'Longevity'
     },
     footer: {
-      location: 'Oslo, Norway',
+      location: 'Hilversum, Netherlands',
       tagline: 'Sustainable Intelligence.',
       col_explore: 'Explore',
       col_company: 'Company',
@@ -246,7 +246,7 @@ export const translations = {
       longevity: 'Levensduur'
     },
     footer: {
-      location: 'Oslo, Noorwegen',
+      location: 'Hilversum, Nederland',
       tagline: 'Duurzame Intelligentie.',
       col_explore: 'Ontdek',
       col_company: 'Bedrijf',
@@ -379,7 +379,7 @@ export const translations = {
       longevity: 'Langlebigkeit'
     },
     footer: {
-      location: 'Oslo, Norwegen',
+      location: 'Hilversum, Netherlands',
       tagline: 'Nachhaltige Intelligenz.',
       col_explore: 'Entdecken',
       col_company: 'Unternehmen',
