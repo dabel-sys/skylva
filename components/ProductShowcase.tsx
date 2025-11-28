@@ -62,7 +62,7 @@ const ProductShowcase: React.FC = () => {
             transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1] }}
           >
             <img 
-              src="product-1.png" 
+              src="/images/product-1.png" 
               alt="SKYLVA Integrated Solar Skylights" 
               className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105 will-change-transform"
             />
@@ -99,7 +99,7 @@ const ProductShowcase: React.FC = () => {
              transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1] }}
            >
             <img 
-              src="product-2.png" 
+              src="/images/product-2.png" 
               alt="SKYLVA Patio Cover" 
               className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105 will-change-transform"
             />
@@ -136,7 +136,7 @@ const ProductShowcase: React.FC = () => {
              transition={{ duration: 1.4, ease: [0.25, 1, 0.5, 1] }}
            >
             <img 
-              src="product-3.png" 
+              src="/images/product-3.png" 
               alt="SKYLVA Carport" 
               className="w-full h-full object-cover transition-transform duration-[2s] ease-out group-hover:scale-105 will-change-transform"
             />
