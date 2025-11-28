@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
 import { Cpu, Wifi, Sun } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
@@ -12,56 +12,80 @@ const Technology: React.FC = () => {
   });
   const { t } = useLanguage();
   const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+  
+  // Parallax for the main content block
+  const contentY = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
-    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-black">
+    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-black snap-start min-h-screen flex flex-col justify-center">
       {/* Background Image Parallax */}
       <div className="absolute inset-0 z-0">
         <motion.div style={{ y, scale: 1.2 }} className="w-full h-full">
             <img 
             src="/images/intelligence.jpg" 
             alt="SKYLVA Artificial Intelligence Core" 
-            className="w-full h-full object-cover grayscale-[0.5] opacity-60"
+            className="w-full h-full object-cover grayscale-[0.8] opacity-40 mix-blend-luminosity"
             />
         </motion.div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)]" />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
+      {/* Holographic Scanner Effect */}
+      <ScannerLine />
+      
+      {/* Digital Data Stream Background */}
+      <DataStream />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
         
-        {/* Main Text Block */}
-        <div className="max-w-3xl mb-24 bg-black/40 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-3xl p-8 md:p-12 relative overflow-hidden group">
+        {/* Main Text Block with Glassmorphism */}
+        <motion.div 
+          style={{ y: contentY }}
+          className="max-w-3xl mb-24 bg-black/40 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-3xl p-8 md:p-12 relative overflow-hidden group perspective-1000"
+        >
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50" />
+          <div className="absolute bottom-0 right-0 w-full h-[1px] bg-gradient-to-r from-transparent via-skylva-green/20 to-transparent opacity-50" />
           
-          <h2 className="text-sm text-skylva-sand tracking-[0.3em] uppercase mb-6 font-semibold">{t.technology.label}</h2>
+          <div className="flex items-center justify-between mb-8">
+             <h2 className="text-xs text-skylva-green tracking-[0.3em] uppercase font-bold flex items-center gap-2">
+                <span className="w-2 h-2 bg-skylva-green rounded-full animate-pulse" />
+                {t.technology.label}
+             </h2>
+             <span className="text-[10px] font-mono text-white/30 tracking-widest">SYS.V.2.4</span>
+          </div>
+
           <div className="text-4xl md:text-6xl font-display font-light leading-tight mb-8 text-white">
             <TextReveal>{t.technology.title}</TextReveal>
           </div>
-          <p className="text-white/80 font-sans font-light text-lg leading-relaxed">
+          <p className="text-white/80 font-sans font-light text-lg leading-relaxed max-w-2xl">
             {t.technology.body}
           </p>
-        </div>
+        </motion.div>
 
-        {/* Feature Grid with Spotlight */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* 3D Tilt Feature Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 perspective-2000">
           {[
             {
-              icon: <Cpu size={32} className="text-skylva-sand" />,
+              icon: <Cpu size={32} />,
               title: t.technology.t1_title,
-              desc: t.technology.t1_desc
+              desc: t.technology.t1_desc,
+              code: "01 // LEARN"
             },
             {
-              icon: <Sun size={32} className="text-skylva-sand" />,
+              icon: <Sun size={32} />,
               title: t.technology.t2_title,
-              desc: t.technology.t2_desc
+              desc: t.technology.t2_desc,
+               code: "02 // OPTIMIZE"
             },
             {
-              icon: <Wifi size={32} className="text-skylva-sand" />,
+              icon: <Wifi size={32} />,
               title: t.technology.t3_title,
-              desc: t.technology.t3_desc
+              desc: t.technology.t3_desc,
+               code: "03 // CONNECT"
             }
           ].map((item, idx) => (
-             <SpotlightCard key={idx} item={item} index={idx} />
+             <TiltCard key={idx} item={item} index={idx} />
           ))}
         </div>
       </div>
@@ -69,48 +93,103 @@ const Technology: React.FC = () => {
   );
 };
 
-const SpotlightCard = ({ item, index }: { item: any, index: number }) => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  
-  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
-    const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
-  }
-
+const ScannerLine = () => {
   return (
-    <div 
-      className="group relative border border-white/10 bg-black/40 backdrop-blur-xl rounded-2xl p-8 overflow-hidden"
-      onMouseMove={handleMouseMove}
+    <motion.div 
+      className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-skylva-green/50 to-transparent z-0 pointer-events-none"
+      animate={{ top: ["0%", "100%"], opacity: [0, 1, 0] }}
+      transition={{ duration: 8, ease: "linear", repeat: Infinity }}
     >
-      <motion.div
-        className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition duration-300 group-hover:opacity-100"
-        style={{
-          background: useMotionTemplate`
-            radial-gradient(
-              650px circle at ${mouseX}px ${mouseY}px,
-              rgba(255, 255, 255, 0.1),
-              transparent 80%
-            )
-          `,
-        }}
-      />
-      <div className="relative z-10">
-        <motion.div 
-           initial={{ opacity: 0, y: 20 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           transition={{ delay: index * 0.1 }}
-           className="mb-6 opacity-80 group-hover:opacity-100 transition-opacity text-skylva-sand"
-        >
-            {item.icon}
-        </motion.div>
-        <h4 className="text-xl font-display font-normal mb-4 text-white">{item.title}</h4>
-        <p className="text-sm text-white/60 font-sans font-light leading-relaxed group-hover:text-white/80 transition-colors">
-          {item.desc}
-        </p>
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-skylva-green/5 to-transparent -translate-y-full" />
+    </motion.div>
+  )
+}
+
+const DataStream = () => {
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-10">
+      <div className="flex justify-between w-full px-12">
+        {[...Array(5)].map((_, i) => (
+           <motion.div 
+             key={i}
+             className="text-[10px] font-mono text-skylva-green/60 writing-vertical-lr"
+             initial={{ y: -100, opacity: 0 }}
+             animate={{ y: ["0%", "100%"], opacity: [0, 1, 0] }}
+             transition={{ duration: 10 + Math.random() * 10, repeat: Infinity, delay: Math.random() * 5, ease: "linear" }}
+           >
+             {Array.from({length: 20}).map(() => Math.random().toString(16).substr(2, 2).toUpperCase()).join(' ')}
+           </motion.div>
+        ))}
       </div>
     </div>
+  )
+}
+
+const TiltCard = ({ item, index }: { item: any, index: number }) => {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const mouseX = useSpring(x, { stiffness: 150, damping: 15 });
+  const mouseY = useSpring(y, { stiffness: 150, damping: 15 });
+
+  function handleMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent) {
+    const { left, top, width, height } = currentTarget.getBoundingClientRect();
+    const xPct = (clientX - left) / width - 0.5;
+    const yPct = (clientY - top) / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  }
+
+  function handleMouseLeave() {
+    x.set(0);
+    y.set(0);
+  }
+
+  const rotateY = useTransform(mouseX, [-0.5, 0.5], ["-10deg", "10deg"]);
+  const rotateX = useTransform(mouseY, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const shineOpacity = useTransform(mouseY, [-0.5, 0.5], [0, 0.3]);
+
+  return (
+    <motion.div 
+      className="group relative h-full"
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: false }}
+      transition={{ duration: 0.8, delay: index * 0.15 }}
+    >
+      <div className="absolute inset-0 bg-skylva-green/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-40" />
+      
+      <div className="relative h-full bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-8 overflow-hidden shadow-2xl flex flex-col">
+        {/* Dynamic Shine */}
+        <motion.div 
+          style={{ opacity: shineOpacity }}
+          className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none z-10"
+        />
+        
+        {/* Content */}
+        <div className="relative z-20 flex-1 flex flex-col">
+          <div className="flex justify-between items-start mb-6">
+            <motion.div 
+              className="p-3 bg-white/5 rounded-xl text-skylva-sand group-hover:text-white group-hover:bg-skylva-green transition-colors duration-500"
+            >
+              {item.icon}
+            </motion.div>
+            <span className="text-[10px] font-mono text-white/20">{item.code}</span>
+          </div>
+
+          <h4 className="text-xl font-display font-normal mb-4 text-white group-hover:translate-x-1 transition-transform duration-300">{item.title}</h4>
+          <p className="text-sm text-white/60 font-sans font-light leading-relaxed group-hover:text-white/80 transition-colors">
+            {item.desc}
+          </p>
+        </div>
+
+        {/* Decorative Corner */}
+        <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-white/10 rounded-br-2xl group-hover:border-skylva-green/50 transition-colors duration-500" />
+      </div>
+    </motion.div>
   )
 }
 
