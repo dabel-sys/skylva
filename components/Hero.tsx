@@ -16,7 +16,7 @@ const Hero: React.FC = () => {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
-    <section ref={ref} className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-skylva-matte">
+    <section ref={ref} className="relative h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-skylva-matte">
       {/* Background Image with Overlay - Simulating a high-end architectural render */}
       <div className="absolute inset-0 z-0">
         <motion.div style={{ y }} className="absolute inset-0">

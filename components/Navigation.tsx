@@ -15,8 +15,11 @@ const Navigation: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Use calculation for padding-top to respect safe area (Dynamic Island)
   const navClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-    isScrolled ? 'bg-skylva-matte/80 backdrop-blur-md py-4 border-b border-white/5' : 'bg-transparent py-8'
+    isScrolled 
+      ? 'bg-skylva-matte/80 backdrop-blur-md pb-4 pt-[calc(1rem+env(safe-area-inset-top))] border-b border-white/5' 
+      : 'bg-transparent pb-8 pt-[calc(2rem+env(safe-area-inset-top))]'
   }`;
 
   const navItems = [
@@ -45,7 +48,7 @@ const Navigation: React.FC = () => {
 
   return (
     <nav className={navClasses}>
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
         <div className="text-2xl font-display font-light tracking-[0.2em] text-white uppercase z-50">
           Skylva
         </div>
@@ -90,7 +93,7 @@ const Navigation: React.FC = () => {
 
         {/* Mobile Menu */}
         {isMobileOpen && (
-          <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center space-y-8">
+          <div className="fixed inset-0 bg-black z-40 flex flex-col items-center justify-center space-y-8 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
              {navItems.map((item) => (
             <a
               key={item.label}
