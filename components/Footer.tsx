@@ -19,7 +19,6 @@ const Footer: React.FC = () => {
             <h5 className="text-white text-xs font-bold uppercase tracking-widest mb-6">{t.footer.col_explore}</h5>
             <ul className="space-y-4 text-sm font-light">
               <li><a href="#product" className="hover:text-white transition-colors">{t.nav.product}</a></li>
-              <li><a href="#materials" className="hover:text-white transition-colors">{t.materials.label}</a></li>
               <li><a href="#technology" className="hover:text-white transition-colors">{t.nav.technology}</a></li>
               <li><a href="#studio" className="hover:text-white transition-colors">{t.nav.studio}</a></li>
             </ul>

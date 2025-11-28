@@ -4,7 +4,6 @@ import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import Philosophy from './components/Philosophy';
 import ProductShowcase from './components/ProductShowcase';
-import Materials from './components/Materials';
 import Technology from './components/Technology';
 import Studio from './components/Studio';
 import ConfiguratorCTA from './components/ConfiguratorCTA';
@@ -21,7 +20,6 @@ function App() {
           <Hero />
           <Philosophy />
           <ProductShowcase />
-          <Materials />
           <Technology />
           <Studio />
           <ConfiguratorCTA />
