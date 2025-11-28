@@ -45,7 +45,7 @@ const ProductShowcase: React.FC = () => {
         <div className="group relative">
           <motion.div 
             className="aspect-[16/9] overflow-hidden bg-gray-200 relative rounded-2xl border-[0.8pt] border-black/5"
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-15%" }}
             transition={{ duration: 1.2, ease: "easeOut" }}
@@ -97,7 +97,7 @@ const ProductShowcase: React.FC = () => {
            <motion.div style={{ y }} className="md:absolute md:-bottom-12 md:left-12 bg-black/20 backdrop-blur-2xl border border-white/10 shadow-2xl max-w-md z-10 rounded-2xl">
             <motion.div
               className="p-8 md:p-12"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
