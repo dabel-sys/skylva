@@ -17,7 +17,7 @@ const Studio: React.FC = () => {
               <img 
                 src="https://picsum.photos/seed/skylva_architect_studio_minimal/800/1000" 
                 alt="SKYLVA Design Studio" 
-                className="w-full h-auto object-cover shadow-2xl shadow-black/5 grayscale-[0.1]"
+                className="w-full h-auto object-cover shadow-2xl shadow-black/5 grayscale-[0.1] rounded-2xl border-[0.8pt] border-black/5"
               />
             </motion.div>
 

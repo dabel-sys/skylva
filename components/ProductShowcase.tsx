@@ -44,7 +44,7 @@ const ProductShowcase: React.FC = () => {
         {/* Product 1 */}
         <div className="group relative">
           <motion.div 
-            className="aspect-[16/9] overflow-hidden bg-gray-200 relative"
+            className="aspect-[16/9] overflow-hidden bg-gray-200 relative rounded-2xl border-[0.8pt] border-black/5"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-15%" }}
@@ -81,7 +81,7 @@ const ProductShowcase: React.FC = () => {
         {/* Product 2 */}
         <div className="group relative">
            <motion.div 
-             className="aspect-[16/9] overflow-hidden bg-gray-200 relative"
+             className="aspect-[16/9] overflow-hidden bg-gray-200 relative rounded-2xl border-[0.8pt] border-black/5"
              initial={{ opacity: 0, y: 50 }}
              whileInView={{ opacity: 1, y: 0 }}
              viewport={{ once: true, margin: "-15%" }}

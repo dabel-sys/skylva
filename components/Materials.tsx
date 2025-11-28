@@ -50,7 +50,7 @@ const Materials: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: idx * 0.2 }}
             >
-              <div className="aspect-[4/5] bg-gray-200 mb-8 overflow-hidden relative group">
+              <div className="aspect-[4/5] bg-gray-200 mb-8 overflow-hidden relative group rounded-2xl border-[0.8pt] border-black/5">
                 <img 
                   src={mat.image} 
                   alt={mat.name} 

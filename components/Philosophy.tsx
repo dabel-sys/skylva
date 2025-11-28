@@ -46,7 +46,7 @@ const Philosophy: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 1.2, ease: "easeOut" }}
-              className="aspect-[4/5] overflow-hidden bg-white/5"
+              className="aspect-[4/5] overflow-hidden bg-white/5 rounded-2xl border-[0.8pt] border-white/10"
              >
                 <img 
                   src="/images/philosophy.jpg" 

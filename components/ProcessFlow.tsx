@@ -55,7 +55,7 @@ const ProcessFlow: React.FC = () => {
               className="group relative flex flex-col h-full"
             >
               {/* Image Container */}
-              <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-8 w-full">
+              <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-8 w-full rounded-2xl border-[0.8pt] border-black/5">
                  <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700 z-10" />
                  <img 
                    src={step.image} 
