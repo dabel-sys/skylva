@@ -19,7 +19,7 @@ const Values: React.FC = () => {
           {values.map((val, idx) => (
             <span 
               key={idx} 
-              className="text-2xl md:text-3xl font-display font-light text-gray-400 hover:text-skylva-matte cursor-default transition-colors duration-500 select-none"
+              className="inline-block text-2xl md:text-3xl font-display font-light text-gray-400 hover:text-skylva-green hover:scale-110 cursor-default transition-all duration-500 ease-out select-none origin-center"
             >
               {val}
             </span>

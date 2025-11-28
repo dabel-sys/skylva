@@ -21,10 +21,28 @@ const Navigation: React.FC = () => {
 
   const navItems = [
     { label: t.nav.vision, href: '#vision' },
-    { label: t.nav.product, href: '#product' },
+    { label: t.nav.product, href: '#structures' },
     { label: t.nav.technology, href: '#technology' },
     { label: t.nav.studio, href: '#studio' },
   ];
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+
+    if (element) {
+      const headerOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      setIsMobileOpen(false);
+    }
+  };
 
   return (
     <nav className={navClasses}>
@@ -39,6 +57,7 @@ const Navigation: React.FC = () => {
             <a
               key={item.label}
               href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
               className="text-sm font-sans tracking-widest text-white/70 hover:text-white transition-colors uppercase"
             >
               {item.label}
@@ -77,7 +96,7 @@ const Navigation: React.FC = () => {
             <a
               key={item.label}
               href={item.href}
-              onClick={() => setIsMobileOpen(false)}
+              onClick={(e) => handleNavClick(e, item.href)}
               className="text-2xl font-display font-light tracking-widest text-white hover:text-gray-400 transition-colors uppercase"
             >
               {item.label}
