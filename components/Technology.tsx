@@ -29,7 +29,7 @@ const Technology: React.FC = () => {
             />
         </motion.div>
         {/* Base dark overlay */}
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/5" />
         {/* Cinematic Vignette: Darkens edges to focus on center */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_90%)]" />
       </div>
