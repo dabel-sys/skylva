@@ -33,19 +33,23 @@ const ProductShowcase: React.FC = () => {
   });
 
   // Cinematic Darkening Logic - "Snap & Hold" Effect
-  // We use a 4-point range to create a plateau in the middle.
-  // Fade In: 0.35 -> 0.45
-  // Stay Dark: 0.45 -> 0.55 (Stable Zone)
-  // Fade Out: 0.55 -> 0.65
-  const bgOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.55, 0.65], [0, 1, 1, 0]);
+  // Extended Plateau: Keeps it dark longer while scrolling down (0.45 -> 0.75)
+  // Quick Fade Out: 0.75 -> 0.8 as the next section enters clearly
+  const bgOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [0, 1, 1, 0]);
   const bgColor = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
   
   // Text color synchronization with the background
-  const textColorValue = useTransform(scrollYProgress, [0.35, 0.45, 0.55, 0.65], [0, 1, 1, 0]);
+  const textColorValue = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [0, 1, 1, 0]);
   const headerColor = useMotionTemplate`rgba(255, 255, 255, ${textColorValue})`;
   
   // Fade out dark text quickly as background goes black
-  const darkTextOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.55, 0.65], [1, 0, 0, 1]);
+  const darkTextOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [1, 0, 0, 1]);
+
+  // Glow / Pop effect for the carousel container
+  const glowOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [0, 0.3, 0.3, 0]);
+  const blackShadowOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [0.3, 0, 0, 0.3]);
+  const boxShadow = useMotionTemplate`0 25px 50px -12px rgba(0, 0, 0, ${blackShadowOpacity}), 0 0 60px rgba(255, 255, 255, ${glowOpacity})`;
+  const scale = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [1, 1.02, 1.02, 1]);
 
   const [[page, direction], setPage] = useState([0, 0]);
 
@@ -147,7 +151,10 @@ const ProductShowcase: React.FC = () => {
 
       {/* Carousel Container */}
       <div className="relative w-full max-w-[1920px] mx-auto px-6 md:px-12 h-[65vh] md:h-[80vh] z-10">
-        <div className="w-full h-full relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-200 border-[0.8pt] border-black/5 md:border-white/10">
+        <motion.div 
+            style={{ boxShadow, scale }}
+            className="w-full h-full relative rounded-2xl md:rounded-3xl overflow-hidden bg-gray-200 border-[0.8pt] border-black/5 md:border-white/10"
+        >
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
               <motion.div
                 key={page}
@@ -239,7 +246,7 @@ const ProductShowcase: React.FC = () => {
                   />
                 ))}
             </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
