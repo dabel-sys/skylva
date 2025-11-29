@@ -1,3 +1,4 @@
+
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
 import { Cpu, Wifi, Sun } from 'lucide-react';
@@ -126,7 +127,17 @@ const DataStream = () => {
   )
 }
 
-const TiltCard = ({ item, index }: { item: any, index: number }) => {
+interface TiltCardProps {
+  item: {
+    icon: React.ReactNode;
+    title: string;
+    desc: string;
+    code: string;
+  };
+  index: number;
+}
+
+const TiltCard: React.FC<TiltCardProps> = ({ item, index }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
