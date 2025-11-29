@@ -39,10 +39,10 @@ const ProcessFlow: React.FC = () => {
   ];
 
   return (
-    <section ref={containerRef} className="bg-black text-white min-h-[100dvh] py-20 md:py-32 flex flex-col justify-center relative overflow-hidden">
+    <section ref={containerRef} className="bg-white text-skylva-charcoal min-h-[100dvh] py-20 md:py-32 flex flex-col justify-center relative overflow-hidden">
       
-      {/* Cinematic Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black pointer-events-none" />
+      {/* Light Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50 to-white pointer-events-none" />
       
       <div className="max-w-[1920px] mx-auto px-6 md:px-12 w-full relative z-10">
         
@@ -50,8 +50,8 @@ const ProcessFlow: React.FC = () => {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24">
             <div className="max-w-2xl">
                 <div className="flex items-center gap-3 mb-6">
-                    <span className="w-1.5 h-1.5 bg-white rounded-full" />
-                    <span className="text-xs font-bold tracking-[0.2em] uppercase text-gray-400">The Journey</span>
+                    <span className="w-1.5 h-1.5 bg-skylva-charcoal rounded-full" />
+                    <span className="text-xs font-bold tracking-[0.2em] uppercase text-gray-500">The Journey</span>
                 </div>
                 <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-light leading-tight">
                     <TextReveal mode="chars" stagger={0.03}>{t.process.title}</TextReveal>
@@ -65,8 +65,8 @@ const ProcessFlow: React.FC = () => {
                 transition={{ delay: 0.5 }}
                 className="hidden md:flex items-center gap-3 group mt-8 md:mt-0"
             >
-                <span className="text-sm font-bold uppercase tracking-widest text-white group-hover:text-gray-300 transition-colors">Start Configuration</span>
-                <div className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300">
+                <span className="text-sm font-bold uppercase tracking-widest text-skylva-charcoal group-hover:text-black transition-colors">Start Configuration</span>
+                <div className="w-10 h-10 rounded-full border border-black/20 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
                     <ArrowRight size={16} />
                 </div>
             </m.button>
@@ -81,24 +81,24 @@ const ProcessFlow: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-10%" }}
                     transition={{ duration: 0.8, delay: index * 0.2 }}
-                    className="group relative h-[60vh] md:h-[70vh] w-full overflow-hidden rounded-xl bg-gray-900 cursor-pointer"
+                    className="group relative h-[60vh] md:h-[70vh] w-full overflow-hidden rounded-xl bg-gray-100 cursor-pointer border-[0.8pt] border-black/5"
                 >
                     {/* Image Layer with Zoom Effect */}
                     <div className="absolute inset-0 overflow-hidden">
                         <img 
                             src={step.image} 
                             alt={step.title}
-                            className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 opacity-60 group-hover:opacity-80"
+                            className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 opacity-90 group-hover:opacity-100"
                         />
-                        {/* Dark Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
+                        {/* Gradient Overlay for text readability inside the card */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
                     </div>
 
-                    {/* Content Layer (Overlay) */}
-                    <div className="absolute inset-0 p-8 flex flex-col justify-end items-start">
+                    {/* Content Layer (Overlay) - Text remains white as it sits on image */}
+                    <div className="absolute inset-0 p-8 flex flex-col justify-end items-start text-white">
                         
                         {/* Step Number Tag */}
-                        <div className="absolute top-8 left-8 bg-white/10 backdrop-blur-md border border-white/10 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-white mb-auto">
+                        <div className="absolute top-8 left-8 bg-white/20 backdrop-blur-md border border-white/20 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-white mb-auto">
                             {step.subtitle}
                         </div>
 
@@ -108,7 +108,7 @@ const ProcessFlow: React.FC = () => {
                                 {step.title}
                             </h3>
                             
-                            <p className="text-gray-400 font-sans font-light text-sm leading-relaxed max-w-sm mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 h-0 group-hover:h-auto overflow-hidden">
+                            <p className="text-gray-300 font-sans font-light text-sm leading-relaxed max-w-sm mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 h-0 group-hover:h-auto overflow-hidden">
                                 {step.description}
                             </p>
 
@@ -127,7 +127,7 @@ const ProcessFlow: React.FC = () => {
 
         {/* Mobile-only bottom button */}
         <div className="mt-12 md:hidden">
-            <button className="w-full bg-white text-black py-4 rounded-full text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+            <button className="w-full bg-skylva-charcoal text-white py-4 rounded-full text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2">
                 Start Configuration <ArrowRight size={14} />
             </button>
         </div>
