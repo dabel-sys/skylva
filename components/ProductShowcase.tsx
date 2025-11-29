@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useMotionTemplate } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
@@ -24,12 +24,28 @@ const variants = {
 
 const ProductShowcase: React.FC = () => {
   const targetRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
+  
+  // Track scroll progress of this section
   const { scrollYProgress } = useScroll({
     target: targetRef,
     offset: ["start end", "end start"]
   });
-  const { t } = useLanguage();
+
+  // Cinematic Darkening Logic
+  // 0.3 = entering view, 0.5 = center, 0.7 = leaving view
+  // Background opacity: Light -> Dark (at center) -> Light
+  const bgOpacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 1, 0]);
+  const bgColor = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
   
+  // Text color: Dark (start) -> White (center) -> Dark (end)
+  // We overlay a white text color with opacity
+  const textColorValue = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [0, 1, 0]);
+  const headerColor = useMotionTemplate`rgba(255, 255, 255, ${textColorValue})`;
+  
+  // Inverse for the default dark text to fade it out
+  const darkTextOpacity = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [1, 0, 1]);
+
   const [[page, direction], setPage] = useState([0, 0]);
 
   // Parallax for header
@@ -67,21 +83,33 @@ const ProductShowcase: React.FC = () => {
   };
 
   return (
-    <section id="structures" ref={targetRef} className="min-h-screen py-20 md:py-0 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative">
+    <section id="structures" ref={targetRef} className="min-h-screen py-20 md:py-0 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
       
+      {/* Dynamic Background Overlay */}
+      <motion.div 
+        style={{ backgroundColor: bgColor }}
+        className="absolute inset-0 z-0 pointer-events-none"
+      />
+
       {/* Header Section */}
       <div className="max-w-7xl w-full mx-auto px-6 md:px-12 mb-8 md:mb-12 relative z-10">
-         <div className="flex flex-col md:flex-row justify-between items-end border-b border-gray-300 pb-8">
+         <div className="flex flex-col md:flex-row justify-between items-end border-b border-gray-300/20 pb-8 transition-colors duration-500">
             <motion.div style={{ y: yHeader }} className="relative">
-              <h2 className="text-4xl md:text-6xl font-display font-light mb-4">
-                  <TextReveal>{t.product.title}</TextReveal>
-              </h2>
+              {/* Dual-layer text for smooth color transition */}
+              <div className="relative">
+                 {/* Base Dark Layer */}
+                 <motion.h2 style={{ opacity: darkTextOpacity }} className="text-4xl md:text-6xl font-display font-light mb-4 absolute top-0 left-0 w-full text-skylva-charcoal">
+                    <TextReveal>{t.product.title}</TextReveal>
+                 </motion.h2>
+                 {/* Overlay White Layer */}
+                 <motion.h2 style={{ color: headerColor }} className="text-4xl md:text-6xl font-display font-light mb-4 relative z-10">
+                    <TextReveal>{t.product.title}</TextReveal>
+                 </motion.h2>
+              </div>
+
               <motion.p 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: false }}
-                transition={{ delay: 0.5, duration: 1 }}
-                className="text-gray-500 font-sans tracking-wide"
+                style={{ color: headerColor }}
+                className="text-gray-500 font-sans tracking-wide mix-blend-screen"
               >
                   {t.product.subtitle}
               </motion.p>
@@ -98,15 +126,18 @@ const ProductShowcase: React.FC = () => {
                <div className="hidden md:flex gap-2">
                  <button 
                    onClick={() => paginate(-1)}
-                   className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-skylva-matte hover:text-white transition-all duration-300"
+                   className="w-12 h-12 rounded-full border border-white/10 md:border-black/10 flex items-center justify-center hover:bg-skylva-matte hover:text-white transition-all duration-300 relative overflow-hidden group"
                  >
-                   <ChevronLeft size={20} />
+                    {/* Invert colors based on background darkness */}
+                    <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                   <ChevronLeft size={20} className="relative z-10 group-hover:text-black transition-colors" />
                  </button>
                  <button 
                    onClick={() => paginate(1)}
-                   className="w-12 h-12 rounded-full border border-black/10 flex items-center justify-center hover:bg-skylva-matte hover:text-white transition-all duration-300"
+                   className="w-12 h-12 rounded-full border border-white/10 md:border-black/10 flex items-center justify-center hover:bg-skylva-matte hover:text-white transition-all duration-300 relative overflow-hidden group"
                  >
-                   <ChevronRight size={20} />
+                    <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                   <ChevronRight size={20} className="relative z-10 group-hover:text-black transition-colors" />
                  </button>
                </div>
             </motion.div>
@@ -114,8 +145,8 @@ const ProductShowcase: React.FC = () => {
       </div>
 
       {/* Carousel Container */}
-      <div className="relative w-full max-w-[1920px] mx-auto px-6 md:px-12 h-[65vh] md:h-[80vh]">
-        <div className="w-full h-full relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-200 border-[0.8pt] border-black/5">
+      <div className="relative w-full max-w-[1920px] mx-auto px-6 md:px-12 h-[65vh] md:h-[80vh] z-10">
+        <div className="w-full h-full relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl bg-gray-200 border-[0.8pt] border-black/5 md:border-white/10">
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
               <motion.div
                 key={page}
