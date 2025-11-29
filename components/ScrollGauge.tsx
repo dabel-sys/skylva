@@ -1,61 +1,29 @@
-import React, { useEffect, useState } from 'react';
+
+import React from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 
 const ScrollGauge: React.FC = () => {
   const { scrollYProgress } = useScroll();
-  const scaleY = useSpring(scrollYProgress, {
+  const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001
   });
 
-  const [percentage, setPercentage] = useState(0);
-
-  useEffect(() => {
-    return scrollYProgress.on("change", (latest) => {
-      setPercentage(Math.round(latest * 100));
-    });
-  }, [scrollYProgress]);
+  // Map the 0-1 progress to the available travel distance in pixels
+  // Track height (h-24 = 96px) - Thumb height (h-8 = 32px) = 64px travel
+  const y = useTransform(smoothProgress, [0, 1], [0, 64]);
 
   return (
-    <div className="hidden md:flex fixed left-8 top-1/2 -translate-y-1/2 z-40 flex-col items-center h-[50vh] w-12 pointer-events-none mix-blend-difference text-white">
-      {/* Top Label */}
-      <span className="text-[10px] font-sans tracking-widest text-white/50 mb-4 writing-vertical-lr rotate-180">
-        ELEV. MAX
-      </span>
-
-      {/* Track */}
-      <div className="relative flex-1 w-[1px] bg-white/20">
-        {/* Progress Fill */}
+    <div className="hidden md:flex fixed left-8 top-1/2 -translate-y-1/2 z-40 flex-col items-center mix-blend-difference pointer-events-none">
+      {/* The Track */}
+      <div className="relative w-[1px] h-24 bg-white/20 rounded-full overflow-hidden">
+        {/* The Thumb */}
         <motion.div 
-          style={{ scaleY, originY: 0 }}
-          className="absolute top-0 left-0 w-full bg-white origin-top"
+          style={{ y }}
+          className="absolute top-0 left-0 w-full h-8 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"
         />
-
-        {/* Moving Marker & Counter */}
-        <motion.div 
-          className="absolute left-1/2 -translate-x-1/2 w-max"
-          style={{ top: useTransform(scrollYProgress, value => `${value * 100}%`) }}
-        >
-          <div className="flex items-center absolute top-0 right-2 -translate-y-1/2">
-             <span className="text-[10px] font-mono tabular-nums tracking-widest text-white opacity-80 mr-2">
-               {percentage.toString().padStart(3, '0')}
-             </span>
-             <div className="w-2 h-[1px] bg-white" />
-          </div>
-          
-          {/* Crosshair Marker */}
-          <div className="relative -ml-[0.5px]">
-            <div className="w-3 h-[1px] bg-white absolute top-0 left-1/2 -translate-x-1/2" />
-            <div className="h-3 w-[1px] bg-white absolute top-1/2 left-0 -translate-y-1/2" />
-          </div>
-        </motion.div>
       </div>
-
-      {/* Bottom Label */}
-      <span className="text-[10px] font-sans tracking-widest text-white/50 mt-4 writing-vertical-lr rotate-180">
-        GRND. LVL
-      </span>
     </div>
   );
 };

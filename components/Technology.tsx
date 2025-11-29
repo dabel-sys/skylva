@@ -18,14 +18,14 @@ const Technology: React.FC = () => {
   const contentY = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
-    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-[#1a1a1a] snap-start min-h-screen flex flex-col justify-center">
+    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-[#1a1a1a] min-h-screen flex flex-col justify-center">
       {/* Background Image Parallax */}
       <div className="absolute inset-0 z-0">
         <motion.div style={{ y, scale: 1.2 }} className="w-full h-full">
             <img 
             src="/images/intelligence.png" 
             alt="SKYLVA Artificial Intelligence Core" 
-            className="w-full h-full object-cover opacity-70"
+            className="w-full h-full object-cover opacity-60"
             />
         </motion.div>
         {/* Reduced gradient opacity for a lighter, '30%' feel */}
@@ -33,8 +33,8 @@ const Technology: React.FC = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-40" />
       </div>
 
-      {/* Holographic Scanner Effect */}
-      <ScannerLine />
+      {/* Nature/Light Scanner Effect */}
+      <NatureScan />
       
       {/* Digital Data Stream Background */}
       <DataStream />
@@ -47,11 +47,11 @@ const Technology: React.FC = () => {
           className="max-w-3xl mb-24 bg-black/40 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-3xl p-8 md:p-12 relative overflow-hidden group perspective-1000"
         >
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50" />
-          <div className="absolute bottom-0 right-0 w-full h-[1px] bg-gradient-to-r from-transparent via-skylva-green/20 to-transparent opacity-50" />
+          <div className="absolute bottom-0 right-0 w-full h-[1px] bg-gradient-to-r from-transparent via-skylva-sand/20 to-transparent opacity-50" />
           
           <div className="flex items-center justify-between mb-8">
-             <h2 className="text-xs text-skylva-green tracking-[0.3em] uppercase font-bold flex items-center gap-2">
-                <span className="w-2 h-2 bg-skylva-green rounded-full animate-pulse" />
+             <h2 className="text-xs text-skylva-sand tracking-[0.3em] uppercase font-bold flex items-center gap-2">
+                <span className="w-2 h-2 bg-skylva-sand rounded-full animate-pulse" />
                 {t.technology.label}
              </h2>
              <span className="text-[10px] font-mono text-white/30 tracking-widest">SYS.V.2.4</span>
@@ -95,29 +95,32 @@ const Technology: React.FC = () => {
   );
 };
 
-const ScannerLine = () => {
+const NatureScan = () => {
   return (
     <motion.div 
-      className="absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-skylva-green/50 to-transparent z-0 pointer-events-none"
-      animate={{ top: ["0%", "100%"], opacity: [0, 1, 0] }}
-      transition={{ duration: 8, ease: "linear", repeat: Infinity }}
+      className="absolute -left-[20%] -right-[20%] h-[60vh] -rotate-12 z-0 pointer-events-none mix-blend-screen"
+      initial={{ top: "-100%", opacity: 0 }}
+      animate={{ top: ["-50%", "150%"], opacity: [0, 1, 0] }}
+      transition={{ duration: 8, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.5 }}
     >
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-skylva-green/5 to-transparent -translate-y-full" />
+      {/* Stronger opacity for visibility */}
+      <div className="w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent blur-[60px]" />
+      <div className="absolute top-1/2 left-0 right-0 h-32 bg-gradient-to-b from-white/20 to-transparent blur-[30px] translate-y-12" />
     </motion.div>
   )
 }
 
 const DataStream = () => {
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-10">
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-40">
       <div className="flex justify-between w-full px-12">
         {[...Array(5)].map((_, i) => (
            <motion.div 
              key={i}
-             className="text-[10px] font-mono text-skylva-green/60 writing-vertical-lr"
+             className="text-[10px] font-mono text-skylva-sand/20 writing-vertical-lr"
              initial={{ y: -100, opacity: 0 }}
              animate={{ y: ["0%", "100%"], opacity: [0, 1, 0] }}
-             transition={{ duration: 10 + Math.random() * 10, repeat: Infinity, delay: Math.random() * 5, ease: "linear" }}
+             transition={{ duration: 15 + Math.random() * 10, repeat: Infinity, delay: Math.random() * 5, ease: "linear" }}
            >
              {Array.from({length: 20}).map(() => Math.random().toString(16).substr(2, 2).toUpperCase()).join(' ')}
            </motion.div>
@@ -172,7 +175,7 @@ const TiltCard: React.FC<TiltCardProps> = ({ item, index }) => {
       viewport={{ once: false }}
       transition={{ duration: 0.8, delay: index * 0.15 }}
     >
-      <div className="absolute inset-0 bg-skylva-green/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-40" />
+      <div className="absolute inset-0 bg-skylva-sand/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-30" />
       
       <div className="relative h-full bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-8 overflow-hidden shadow-2xl flex flex-col">
         {/* Dynamic Shine */}
@@ -185,7 +188,7 @@ const TiltCard: React.FC<TiltCardProps> = ({ item, index }) => {
         <div className="relative z-20 flex-1 flex flex-col">
           <div className="flex justify-between items-start mb-6">
             <motion.div 
-              className="p-3 bg-white/5 rounded-xl text-skylva-sand group-hover:text-white group-hover:bg-skylva-green transition-colors duration-500"
+              className="p-3 bg-white/5 rounded-xl text-skylva-sand group-hover:text-skylva-matte group-hover:bg-skylva-sand transition-colors duration-500"
             >
               {item.icon}
             </motion.div>
@@ -199,7 +202,7 @@ const TiltCard: React.FC<TiltCardProps> = ({ item, index }) => {
         </div>
 
         {/* Decorative Corner */}
-        <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-white/10 rounded-br-2xl group-hover:border-skylva-green/50 transition-colors duration-500" />
+        <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-white/10 rounded-br-2xl group-hover:border-skylva-sand/50 transition-colors duration-500" />
       </div>
     </motion.div>
   )
