@@ -125,7 +125,7 @@ const ProductShowcase: React.FC = () => {
   }, [isInView]);
 
   return (
-    <section id="structures" ref={targetRef} className="min-h-[100dvh] py-12 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
+    <section id="structures" ref={targetRef} className="min-h-[100dvh] pt-12 pb-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
       
       {/* Dynamic Background Overlay */}
       <m.div 
