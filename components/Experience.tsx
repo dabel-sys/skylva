@@ -8,7 +8,7 @@ const Experience: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="bg-skylva-offwhite min-h-screen py-20 md:py-0 flex flex-col justify-center overflow-hidden">
+    <section className="bg-skylva-offwhite min-h-[100dvh] py-20 md:py-0 flex flex-col justify-center overflow-hidden">
       {/* Light & Atmosphere Section */}
       <div className="max-w-7xl mx-auto px-6 md:px-12 mb-32 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">

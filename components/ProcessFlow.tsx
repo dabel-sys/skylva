@@ -35,7 +35,7 @@ const ProcessFlow: React.FC = () => {
   ];
 
   return (
-    <section ref={containerRef} className="bg-white min-h-screen py-20 md:py-0 flex flex-col justify-center border-b border-gray-100 relative z-20 overflow-hidden">
+    <section ref={containerRef} className="bg-white min-h-[100dvh] py-20 md:py-0 flex flex-col justify-center border-b border-gray-100 relative z-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative w-full">
         
         {/* Vertical Draw Line (Desktop) */}

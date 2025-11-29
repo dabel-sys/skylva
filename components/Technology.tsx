@@ -18,7 +18,7 @@ const Technology: React.FC = () => {
   const contentY = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
-    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-black min-h-screen flex flex-col justify-center">
+    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-black min-h-[100dvh] flex flex-col justify-center">
       {/* Background Image Parallax with Cinematic Darkening */}
       <div className="absolute inset-0 z-0">
         <motion.div style={{ y, scale: 1.2 }} className="w-full h-full">

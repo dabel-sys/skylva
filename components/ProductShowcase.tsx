@@ -88,7 +88,7 @@ const ProductShowcase: React.FC = () => {
   };
 
   return (
-    <section id="structures" ref={targetRef} className="min-h-screen py-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
+    <section id="structures" ref={targetRef} className="min-h-[100dvh] py-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
       
       {/* Dynamic Background Overlay */}
       <motion.div 

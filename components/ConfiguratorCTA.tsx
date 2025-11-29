@@ -31,7 +31,7 @@ const ConfiguratorCTA: React.FC = () => {
     <section 
       ref={ref} 
       onMouseMove={handleMouseMove}
-      className="min-h-screen bg-white relative overflow-hidden flex flex-col items-center justify-center perspective-1000"
+      className="min-h-[100dvh] bg-white relative overflow-hidden flex flex-col items-center justify-center perspective-1000"
     >
       {/* Floating Configurator UI Elements (Background) */}
       <FloatingUI springX={springX} springY={springY} />
