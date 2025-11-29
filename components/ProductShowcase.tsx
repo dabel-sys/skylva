@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { m, useScroll, useTransform, AnimatePresence, useMotionTemplate, useInView } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Plus, Minus } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus, ChevronRight as ChevronRightIcon } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
 
@@ -212,21 +212,22 @@ const ProductShowcase: React.FC = () => {
                 dragElastic={1}
                 onDragEnd={(e, { offset, velocity }) => {
                   const swipe = swipePower(offset.x, velocity.x);
-                  // Lowered thresholds for better mobile responsiveness
-                  if (swipe < -5000 || offset.x < -75) {
+                  // Thresholds adjusted for better response: 50px drag or high velocity
+                  if (swipe < -5000 || offset.x < -50) {
                     paginate(1);
-                  } else if (swipe > 5000 || offset.x > 75) {
+                  } else if (swipe > 5000 || offset.x > 50) {
                     paginate(-1);
                   }
                 }}
-                className="absolute inset-0 w-full h-full touch-pan-y"
+                className="absolute inset-0 w-full h-full touch-pan-y cursor-grab active:cursor-grabbing"
               >
                 <img 
                   src={currentProduct.image} 
                   alt={currentProduct.title}
-                  className="w-full h-full object-cover"
+                  draggable={false}
+                  className="w-full h-full object-cover select-none"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <div draggable={false} className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent select-none" />
                 
                 {/* Product Info Card (Collapsible Glass Drawer) */}
                 <div className="absolute bottom-0 left-0 w-full p-2 md:p-12 pointer-events-none flex justify-start items-end z-30">
@@ -306,7 +307,7 @@ const ProductShowcase: React.FC = () => {
                              animate={{ x: [0, 8, 0], opacity: [0.4, 1, 0.4] }}
                              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                          >
-                            <ChevronRight size={32} strokeWidth={1.5} className="text-white drop-shadow-md" />
+                            <ChevronRightIcon size={32} strokeWidth={1.5} className="text-white drop-shadow-md" />
                          </m.div>
                     </m.div>
                 )}
