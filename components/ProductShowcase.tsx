@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { m, useScroll, useTransform, AnimatePresence, useMotionTemplate, useInView } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus, Minus } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
 
@@ -28,6 +28,15 @@ const ProductShowcase: React.FC = () => {
   const isInView = useInView(targetRef, { margin: "-20%" });
   const [isPaused, setIsPaused] = useState(false);
   const [showSwipeHint, setShowSwipeHint] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false); // Mobile card state
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth >= 768);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
   
   // Track scroll progress of this section
   const { scrollYProgress } = useScroll({
@@ -91,17 +100,18 @@ const ProductShowcase: React.FC = () => {
 
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
+    setIsExpanded(false); // Reset mobile expansion on slide change
   };
 
   // Auto-play Logic
   useEffect(() => {
-    if (isInView && !isPaused) {
+    if (isInView && !isPaused && !isExpanded) { // Don't auto-play if user is reading expanded details
       const interval = setInterval(() => {
         paginate(1);
       }, 5000);
       return () => clearInterval(interval);
     }
-  }, [isInView, isPaused, page]);
+  }, [isInView, isPaused, page, isExpanded]);
 
   // Swipe Hint Timer
   useEffect(() => {
@@ -215,40 +225,66 @@ const ProductShowcase: React.FC = () => {
                   alt={currentProduct.title}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 
-                {/* Product Info Card (Floating Glass) */}
-                <div className="absolute bottom-0 left-0 w-full p-4 md:p-12 pointer-events-none flex justify-start items-end">
+                {/* Product Info Card (Collapsible Glass Drawer) */}
+                <div className="absolute bottom-0 left-0 w-full p-2 md:p-12 pointer-events-none flex justify-start items-end z-30">
                    <m.div 
-                      initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
-                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      transition={{ delay: 0.3, duration: 0.6 }}
-                      className="bg-black/60 backdrop-blur-2xl border border-white/10 p-6 md:p-10 rounded-xl md:rounded-2xl max-w-lg w-full shadow-2xl pointer-events-auto"
+                      layout
+                      onClick={() => !isDesktop && setIsExpanded(!isExpanded)}
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ layout: { duration: 0.4, type: "spring", stiffness: 300, damping: 30 } }}
+                      className={`
+                        bg-black/60 backdrop-blur-2xl border border-white/10 shadow-2xl pointer-events-auto
+                        ${isDesktop ? 'p-10 rounded-2xl max-w-lg w-full' : 'p-4 rounded-xl w-full cursor-pointer active:scale-95 transition-transform'}
+                      `}
                    >
-                      <h3 className="text-2xl md:text-3xl font-display font-light mb-2 md:mb-4 text-white">
-                        {currentProduct.title}
-                      </h3>
-                      <p className="text-white/80 font-sans font-light text-xs md:text-sm leading-relaxed mb-6 md:mb-8 line-clamp-2 md:line-clamp-none">
-                        {currentProduct.desc}
-                      </p>
-                      
-                      <div className="grid grid-cols-3 gap-2 md:gap-4 border-t border-white/10 pt-4 md:pt-6">
-                        {currentProduct.specs.map((spec, idx) => (
-                           <div key={idx} className="text-center">
-                              <span className="block text-white font-bold text-[10px] md:text-xs uppercase tracking-widest mb-1 truncate">{spec}</span>
-                              <span className="block w-1 h-1 bg-skylva-green rounded-full mx-auto mt-2" />
-                           </div>
-                        ))}
+                      <div className="flex justify-between items-center">
+                          <m.h3 layout className="text-xl md:text-3xl font-display font-light text-white">
+                            {currentProduct.title}
+                          </m.h3>
+                          
+                          {/* Mobile Toggle Button */}
+                          {!isDesktop && (
+                             <div className="bg-white/10 rounded-full p-2 text-white">
+                                {isExpanded ? <Minus size={16} /> : <Plus size={16} />}
+                             </div>
+                          )}
                       </div>
 
-                      <div className="mt-6 md:mt-8 flex gap-3 md:gap-4">
-                         <button className="flex-1 bg-white text-black py-2 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-skylva-sand transition-colors">
-                            Order Now
-                         </button>
-                         <button className="flex-1 border border-white/30 text-white py-2 md:py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:border-white transition-colors">
-                            Details
-                         </button>
-                      </div>
+                      <AnimatePresence>
+                        {(isExpanded || isDesktop) && (
+                          <m.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: "auto" }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                              <m.p className="text-white/80 font-sans font-light text-xs md:text-sm leading-relaxed mb-6 md:mb-8 mt-4">
+                                {currentProduct.desc}
+                              </m.p>
+                              
+                              <div className="grid grid-cols-3 gap-2 md:gap-4 border-t border-white/10 pt-4 md:pt-6">
+                                {currentProduct.specs.map((spec, idx) => (
+                                  <div key={idx} className="text-center">
+                                      <span className="block text-white font-bold text-[10px] md:text-xs uppercase tracking-widest mb-1 truncate">{spec}</span>
+                                      <span className="block w-1 h-1 bg-skylva-green rounded-full mx-auto mt-2" />
+                                  </div>
+                                ))}
+                              </div>
+
+                              <div className="mt-6 md:mt-8 flex gap-3 md:gap-4">
+                                <button className="flex-1 bg-white text-black py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:bg-skylva-sand transition-colors">
+                                    Order Now
+                                </button>
+                                <button className="flex-1 border border-white/30 text-white py-3 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest hover:border-white transition-colors">
+                                    Details
+                                </button>
+                              </div>
+                          </m.div>
+                        )}
+                      </AnimatePresence>
                    </m.div>
                 </div>
               </m.div>
@@ -276,7 +312,7 @@ const ProductShowcase: React.FC = () => {
             </AnimatePresence>
 
             {/* Pagination Indicators */}
-            <div className="absolute bottom-4 right-4 md:bottom-6 md:right-12 z-20 flex gap-2">
+            <div className="absolute top-4 right-4 md:bottom-6 md:right-12 z-20 flex gap-2">
                 {products.map((_, idx) => (
                   <button
                     key={idx}
