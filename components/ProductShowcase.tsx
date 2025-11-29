@@ -35,25 +35,26 @@ const ProductShowcase: React.FC = () => {
   });
 
   // Cinematic Darkening Logic - "Snap & Hold" Effect
-  const bgOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [0, 1, 1, 0]);
+  // Adjusted end range to [0.65, 0.7] to fade out sooner as user scrolls to next section
+  const bgOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [0, 1, 1, 0]);
   const bgColor = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
   
   // Text color synchronization with the background
-  const textColorValue = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [0, 1, 1, 0]);
+  const textColorValue = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [0, 1, 1, 0]);
   const headerColor = useMotionTemplate`rgba(255, 255, 255, ${textColorValue})`;
   
   // Dynamic Button Colors
-  const buttonColor = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], ["#2A2A2A", "#FFFFFF", "#FFFFFF", "#2A2A2A"]);
-  const buttonBorderColor = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], ["rgba(0,0,0,0.1)", "rgba(255,255,255,0.2)", "rgba(255,255,255,0.2)", "rgba(0,0,0,0.1)"]);
+  const buttonColor = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], ["#2A2A2A", "#FFFFFF", "#FFFFFF", "#2A2A2A"]);
+  const buttonBorderColor = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], ["rgba(0,0,0,0.1)", "rgba(255,255,255,0.2)", "rgba(255,255,255,0.2)", "rgba(0,0,0,0.1)"]);
   
   // Fade out dark text quickly as background goes black
-  const darkTextOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [1, 0, 0, 1]);
+  const darkTextOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [1, 0, 0, 1]);
 
   // Glow / Pop effect for the carousel container
-  const glowOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [0, 0.3, 0.3, 0]);
-  const blackShadowOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [0.3, 0, 0, 0.3]);
+  const glowOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [0, 0.3, 0.3, 0]);
+  const blackShadowOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [0.3, 0, 0, 0.3]);
   const boxShadow = useMotionTemplate`0 25px 50px -12px rgba(0, 0, 0, ${blackShadowOpacity}), 0 0 60px rgba(255, 255, 255, ${glowOpacity})`;
-  const scale = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [1, 1.02, 1.02, 1]);
+  const scale = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [1, 1.02, 1.02, 1]);
 
   const [[page, direction], setPage] = useState([0, 0]);
 
