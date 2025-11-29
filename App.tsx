@@ -1,4 +1,5 @@
 import React from 'react';
+import { LazyMotion, domAnimation } from 'framer-motion';
 import { LanguageProvider } from './contexts/LanguageContext';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
@@ -16,22 +17,24 @@ import ScrollGauge from './components/ScrollGauge';
 function App() {
   return (
     <LanguageProvider>
-      <div className="bg-skylva-offwhite text-skylva-charcoal font-sans selection:bg-skylva-green selection:text-white relative">
-        <ScrollGauge />
-        <Navigation />
-        <main>
-          <Hero />
-          <Philosophy />
-          <ProductShowcase />
-          <ProcessFlow />
-          <Experience />
-          <Technology />
-          <ConfiguratorCTA />
-          <Values />
-        </main>
-        <Footer />
-        <ChatWidget />
-      </div>
+      <LazyMotion features={domAnimation}>
+        <div className="bg-skylva-offwhite text-skylva-charcoal font-sans selection:bg-skylva-green selection:text-white relative">
+          <ScrollGauge />
+          <Navigation />
+          <main>
+            <Hero />
+            <Philosophy />
+            <ProductShowcase />
+            <ProcessFlow />
+            <Experience />
+            <Technology />
+            <ConfiguratorCTA />
+            <Values />
+          </main>
+          <Footer />
+          <ChatWidget />
+        </div>
+      </LazyMotion>
     </LanguageProvider>
   );
 }

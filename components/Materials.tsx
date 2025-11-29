@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Materials: React.FC = () => {
@@ -25,7 +26,7 @@ const Materials: React.FC = () => {
   return (
     <section id="materials" className="py-32 bg-skylva-offwhite">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <motion.div
+        <m.div
            initial={{ opacity: 0, y: 20 }}
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
@@ -39,11 +40,11 @@ const Materials: React.FC = () => {
           <p className="text-gray-500 font-sans font-light text-lg leading-relaxed">
             {t.materials.body}
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-16">
           {materials.map((mat, idx) => (
-            <motion.div
+            <m.div
               key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -61,7 +62,7 @@ const Materials: React.FC = () => {
               <p className="text-gray-500 font-sans font-light text-sm leading-relaxed border-t border-gray-200 pt-4">
                 {mat.desc}
               </p>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

@@ -1,6 +1,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, useMotionTemplate, useMotionValue } from 'framer-motion';
+import { m, useScroll, useTransform, useSpring, useMotionTemplate, useMotionValue } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
 
@@ -55,7 +55,7 @@ const Philosophy: React.FC = () => {
          <div className="absolute inset-0 bg-gradient-to-b from-black via-skylva-matte to-black z-0" />
          
          {/* Moving Orbs */}
-         <motion.div 
+         <m.div 
             style={{ 
               x: springX, 
               y: springY,
@@ -64,7 +64,7 @@ const Philosophy: React.FC = () => {
             }}
             className="absolute w-[600px] h-[600px] rounded-full bg-skylva-green/10 blur-[120px] mix-blend-screen z-0 hidden md:block" 
          />
-         <motion.div 
+         <m.div 
             animate={{ 
               x: [0, 100, -100, 0],
               y: [0, -100, 100, 0],
@@ -73,7 +73,7 @@ const Philosophy: React.FC = () => {
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             className="absolute top-1/4 left-1/4 w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full bg-skylva-green/5 blur-[80px] md:blur-[100px] mix-blend-screen z-0"
          />
-         <motion.div 
+         <m.div 
             animate={{ 
               x: [0, -150, 150, 0],
               y: [0, 150, -150, 0],
@@ -92,28 +92,28 @@ const Philosophy: React.FC = () => {
       <div className={`${isDesktop ? 'sticky top-0 h-screen py-0' : 'relative h-auto'} w-full flex flex-col justify-center items-center px-6 md:px-12 max-w-5xl mx-auto z-10`}>
         
         {/* Label */}
-        <motion.div 
+        <m.div 
           style={{ opacity: isDesktop ? labelOpacity : 1 }}
           className="md:absolute md:top-32 md:left-12 flex items-center gap-3 mb-12 md:mb-0 self-start md:self-auto"
         >
           <span className="w-2 h-2 bg-skylva-green rounded-full animate-pulse" />
           <span className="text-xs font-mono text-skylva-green tracking-widest uppercase">{t.philosophy.label}</span>
-        </motion.div>
+        </m.div>
 
         {/* Headlines */}
         <div className="relative w-full text-center md:text-left mb-16 md:mb-24 perspective-1000">
-          <motion.h2 
+          <m.h2 
             style={{ y: isDesktop ? headlineY : 0 }}
             className="text-4xl md:text-7xl lg:text-8xl font-display font-light text-white leading-[0.9] tracking-tight mb-4 mix-blend-difference"
           >
             {t.philosophy.headline_1}
-          </motion.h2>
-          <motion.h2 
+          </m.h2>
+          <m.h2 
             style={{ y: isDesktop ? sublineY : 0 }}
             className="text-4xl md:text-7xl lg:text-8xl font-display font-light text-white/30 leading-[0.9] tracking-tight mix-blend-overlay"
           >
             {t.philosophy.headline_2}
-          </motion.h2>
+          </m.h2>
         </div>
 
         {/* Body Text - Adaptive Animation */}
@@ -126,7 +126,7 @@ const Philosophy: React.FC = () => {
         </div>
 
         {/* Decorative Quote - Desktop Only */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
@@ -134,7 +134,7 @@ const Philosophy: React.FC = () => {
         >
           <span className="block text-[10px] font-mono text-white/20 tracking-widest mb-2">CORE PRINCIPLE</span>
           <span className="text-sm font-display text-white/60 tracking-widest uppercase">{t.philosophy.quote}</span>
-        </motion.div>
+        </m.div>
 
       </div>
     </section>

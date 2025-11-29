@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Navigation: React.FC = () => {
@@ -146,7 +146,7 @@ const Navigation: React.FC = () => {
             onClick={scrollToTop}
           >
             <span>S</span>
-            <motion.div
+            <m.div
               initial={{ width: "auto", opacity: 1, x: 0 }}
               animate={{ 
                 width: isScrolled ? 0 : "auto", 
@@ -157,7 +157,7 @@ const Navigation: React.FC = () => {
               className="overflow-hidden flex whitespace-nowrap"
             >
               KYLVA
-            </motion.div>
+            </m.div>
           </div>
 
           {/* Desktop Nav */}
@@ -173,7 +173,7 @@ const Navigation: React.FC = () => {
               >
                 {item.label}
                 {hoveredIndex === idx && (
-                  <motion.div
+                  <m.div
                     layoutId="desktop-nav-underline"
                     className="absolute bottom-0 left-0 right-0 h-[1px] bg-white"
                     initial={{ opacity: 0 }}
@@ -204,7 +204,7 @@ const Navigation: React.FC = () => {
       </nav>
 
       {/* Mobile Floating Action Button */}
-      <motion.div 
+      <m.div 
         animate={{
             y: isButtonVisible ? 0 : 150, // Slide down off-screen
             opacity: isButtonVisible ? 1 : 0
@@ -236,20 +236,20 @@ const Navigation: React.FC = () => {
           className="bg-skylva-matte text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl relative z-10 border border-white/10 overflow-hidden"
           onClick={() => setIsMobileOpen(!isMobileOpen)}
         >
-          <motion.div
+          <m.div
             initial={false}
             animate={{ rotate: isMobileOpen ? 180 : 0 }}
             transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] as const }}
           >
              {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.div>
+          </m.div>
         </button>
-      </motion.div>
+      </m.div>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileOpen && (
-          <motion.div
+          <m.div
             variants={menuVariants}
             initial="initial"
             animate="animate"
@@ -257,7 +257,7 @@ const Navigation: React.FC = () => {
             className="fixed inset-0 bg-skylva-matte z-40 flex flex-col justify-between pt-[calc(env(safe-area-inset-top)+6rem)] pb-[calc(env(safe-area-inset-bottom)+2rem)] px-6 overflow-hidden"
           >
              {/* Navigation Links */}
-             <motion.div 
+             <m.div 
                variants={containerVariants}
                initial="initial"
                animate="animate"
@@ -266,20 +266,20 @@ const Navigation: React.FC = () => {
              >
                 {navItems.map((item, idx) => (
                   <div key={item.label} className="overflow-hidden">
-                    <motion.a
+                    <m.a
                       href={item.href}
                       onClick={(e) => handleNavClick(e, item.href)}
                       variants={itemVariants}
                       className="block text-5xl font-display font-light tracking-tight text-white hover:text-skylva-green transition-colors uppercase leading-[1.1]"
                     >
                       {item.label}
-                    </motion.a>
+                    </m.a>
                   </div>
                 ))}
-             </motion.div>
+             </m.div>
 
              {/* Footer Info inside Menu */}
-             <motion.div 
+             <m.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1, transition: { delay: 0.6, duration: 0.8 } }}
                 exit={{ opacity: 0 }}
@@ -303,8 +303,8 @@ const Navigation: React.FC = () => {
                      <p>Est. 2024</p>
                   </div>
                 </div>
-             </motion.div>
-          </motion.div>
+             </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

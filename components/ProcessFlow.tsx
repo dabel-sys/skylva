@@ -1,6 +1,6 @@
 
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { m, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
@@ -40,13 +40,13 @@ const ProcessFlow: React.FC = () => {
         
         {/* Vertical Draw Line (Desktop) */}
         <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gray-100 hidden md:block -translate-x-1/2">
-            <motion.div 
+            <m.div 
                 style={{ scaleY: scrollYProgress }}
                 className="w-full bg-skylva-green origin-top h-full"
             />
         </div>
 
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -57,11 +57,11 @@ const ProcessFlow: React.FC = () => {
           <h2 className="text-3xl md:text-5xl font-display font-light text-skylva-matte">
               <TextReveal>{t.process.title}</TextReveal>
           </h2>
-        </motion.div>
+        </m.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {steps.map((step, index) => (
-            <motion.div
+            <m.div
               key={step.id}
               initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -80,14 +80,14 @@ const ProcessFlow: React.FC = () => {
                  
                  {/* Number Overlay */}
                  <div className="absolute top-6 left-6 z-20 overflow-hidden">
-                    <motion.span 
+                    <m.span 
                       initial={{ y: "100%" }}
                       whileInView={{ y: 0 }}
                       transition={{ delay: 0.5 + (index * 0.2), duration: 0.8, ease: "easeOut" }}
                       className="block text-6xl font-display font-thin text-white/90 drop-shadow-md"
                     >
                       {step.id}
-                    </motion.span>
+                    </m.span>
                  </div>
               </div>
 
@@ -113,7 +113,7 @@ const ProcessFlow: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

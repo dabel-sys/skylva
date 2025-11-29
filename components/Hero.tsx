@@ -1,6 +1,6 @@
 
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
+import { m, useScroll, useTransform, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
@@ -67,7 +67,7 @@ const Hero: React.FC = () => {
     >
       {/* Background Layer with Cinematic Entry & 3D Parallax */}
       <div className="absolute inset-0 z-0 will-change-transform overflow-hidden">
-        <motion.div 
+        <m.div 
           style={{ 
             scale: scaleScroll,
             x: imageX,
@@ -90,7 +90,7 @@ const Hero: React.FC = () => {
             alt="Premium Scandinavian solar canopy" 
             className="w-full h-full object-cover"
           />
-        </motion.div>
+        </m.div>
         
         {/* Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/10 to-skylva-matte/80 pointer-events-none" />
@@ -98,7 +98,7 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Main Content Layer */}
-      <motion.div 
+      <m.div 
         style={{ 
           y: finalContentY, 
           x: contentX,
@@ -151,7 +151,7 @@ const Hero: React.FC = () => {
             </div>
 
             {/* Buttons - Magnetic Drift Entry */}
-            <motion.div 
+            <m.div 
             initial={{ opacity: 0, y: 60 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
@@ -167,12 +167,12 @@ const Hero: React.FC = () => {
                 <span className="relative z-10 group-hover:text-skylva-matte transition-colors duration-500">{t.hero.button_configure}</span>
                 <div className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-[0.22,1,0.36,1]" />
             </button>
-            </motion.div>
+            </m.div>
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Scroll Indicator */}
-      <motion.div 
+      <m.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5, duration: 1 }}
@@ -180,14 +180,14 @@ const Hero: React.FC = () => {
       >
         <div className="flex flex-col items-center gap-2">
            <span className="text-[9px] font-mono tracking-widest uppercase writing-vertical-lr">Scroll</span>
-           <motion.div 
+           <m.div 
              animate={{ y: [0, 8, 0] }}
              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
            >
               <ChevronDown size={20} strokeWidth={1} />
-           </motion.div>
+           </m.div>
         </div>
-      </motion.div>
+      </m.div>
     </section>
   );
 };

@@ -1,6 +1,6 @@
 
 import React, { useRef, useState } from 'react';
-import { motion, useSpring, useTransform, useMotionValue, useMotionTemplate } from 'framer-motion';
+import { m, useSpring, useTransform, useMotionValue, useMotionTemplate } from 'framer-motion';
 import { ArrowRight, Move, Layers, Maximize, Settings } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
@@ -37,7 +37,7 @@ const ConfiguratorCTA: React.FC = () => {
       <FloatingUI springX={springX} springY={springY} />
 
       {/* Main Content Layer */}
-      <motion.div 
+      <m.div 
         style={{ 
           rotateX, 
           rotateY,
@@ -46,7 +46,7 @@ const ConfiguratorCTA: React.FC = () => {
         className="relative z-20 flex flex-col items-center text-center px-6 max-w-5xl"
       >
         {/* Label */}
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false }}
@@ -54,7 +54,7 @@ const ConfiguratorCTA: React.FC = () => {
         >
           <span className="w-2 h-2 bg-skylva-green rounded-full animate-pulse" />
           <span className="text-xs font-mono text-skylva-green tracking-widest uppercase">Interactive Studio</span>
-        </motion.div>
+        </m.div>
 
         {/* Title */}
         <h2 className="text-5xl md:text-7xl lg:text-9xl font-display font-light text-skylva-charcoal mb-8 tracking-tight leading-[0.85]">
@@ -62,7 +62,7 @@ const ConfiguratorCTA: React.FC = () => {
         </h2>
 
         {/* Body */}
-        <motion.p 
+        <m.p 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false }}
@@ -70,12 +70,12 @@ const ConfiguratorCTA: React.FC = () => {
           className="text-gray-500 font-sans font-light text-lg md:text-2xl mb-16 max-w-xl leading-relaxed"
         >
           {t.cta.body}
-        </motion.p>
+        </m.p>
 
         {/* Magnetic Button */}
         <MagneticButton text={t.cta.button} />
         
-      </motion.div>
+      </m.div>
     </section>
   );
 };
@@ -93,7 +93,7 @@ const FloatingUI = ({ springX, springY }: { springX: any, springY: any }) => {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {/* Floating Card 1: Dimensions */}
-      <motion.div 
+      <m.div 
         style={{ x: uiX1, y: uiY1 }}
         className="absolute top-[20%] left-[10%] bg-white/40 backdrop-blur-md border border-black/5 p-4 rounded-xl shadow-xl hidden md:block"
       >
@@ -102,17 +102,17 @@ const FloatingUI = ({ springX, springY }: { springX: any, springY: any }) => {
           <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Dimensions</span>
         </div>
         <div className="h-1 w-24 bg-gray-200 rounded-full overflow-hidden">
-           <motion.div 
+           <m.div 
              animate={{ width: ["0%", "70%", "70%", "100%"] }}
              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
              className="h-full bg-skylva-green"
            />
         </div>
         <div className="mt-2 text-xs font-mono text-gray-800">4.5m x 3.2m</div>
-      </motion.div>
+      </m.div>
 
       {/* Floating Card 2: Material */}
-      <motion.div 
+      <m.div 
         style={{ x: uiX2, y: uiY2 }}
         className="absolute bottom-[25%] right-[15%] bg-white/40 backdrop-blur-md border border-black/5 p-4 rounded-xl shadow-xl hidden md:block"
       >
@@ -125,7 +125,7 @@ const FloatingUI = ({ springX, springY }: { springX: any, springY: any }) => {
            <div className="w-6 h-6 rounded-full bg-[#2A2A2A] border border-white shadow-sm scale-110 ring-1 ring-offset-1 ring-skylva-green" />
            <div className="w-6 h-6 rounded-full bg-[#8B5E3C] border border-white shadow-sm" />
         </div>
-      </motion.div>
+      </m.div>
     </div>
   );
 };
@@ -152,7 +152,7 @@ const MagneticButton = ({ text }: { text: string }) => {
   };
 
   return (
-    <motion.button 
+    <m.button 
       ref={ref}
       style={{ x, y }}
       onMouseMove={handleMouseMove}
@@ -167,7 +167,7 @@ const MagneticButton = ({ text }: { text: string }) => {
       
       {/* Fill Effect */}
       <div className="absolute inset-0 bg-skylva-green transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-bottom ease-[0.22,1,0.36,1]" />
-    </motion.button>
+    </m.button>
   );
 };
 

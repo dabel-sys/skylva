@@ -1,6 +1,6 @@
 
 import React, { useState, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence, useMotionTemplate } from 'framer-motion';
+import { m, useScroll, useTransform, AnimatePresence, useMotionTemplate } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
@@ -91,7 +91,7 @@ const ProductShowcase: React.FC = () => {
     <section id="structures" ref={targetRef} className="min-h-[100dvh] py-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
       
       {/* Dynamic Background Overlay */}
-      <motion.div 
+      <m.div 
         style={{ backgroundColor: bgColor }}
         className="absolute inset-0 z-0 pointer-events-none"
       />
@@ -99,28 +99,28 @@ const ProductShowcase: React.FC = () => {
       {/* Header Section */}
       <div className="max-w-7xl w-full mx-auto px-6 md:px-12 mb-8 md:mb-12 relative z-10">
          <div className="flex flex-col md:flex-row justify-between items-end border-b border-gray-300/20 pb-8 transition-colors duration-500">
-            <motion.div style={{ y: yHeader }} className="relative">
+            <m.div style={{ y: yHeader }} className="relative">
               {/* Dual-layer text for smooth color transition */}
               <div className="relative">
                  {/* Base Dark Layer */}
-                 <motion.h2 style={{ opacity: darkTextOpacity }} className="text-4xl md:text-6xl font-display font-light mb-4 absolute top-0 left-0 w-full text-skylva-charcoal">
+                 <m.h2 style={{ opacity: darkTextOpacity }} className="text-4xl md:text-6xl font-display font-light mb-4 absolute top-0 left-0 w-full text-skylva-charcoal">
                     <TextReveal>{t.product.title}</TextReveal>
-                 </motion.h2>
+                 </m.h2>
                  {/* Overlay White Layer */}
-                 <motion.h2 style={{ color: headerColor }} className="text-4xl md:text-6xl font-display font-light mb-4 relative z-10">
+                 <m.h2 style={{ color: headerColor }} className="text-4xl md:text-6xl font-display font-light mb-4 relative z-10">
                     <TextReveal>{t.product.title}</TextReveal>
-                 </motion.h2>
+                 </m.h2>
               </div>
 
-              <motion.p 
+              <m.p 
                 style={{ color: headerColor }}
                 className="text-gray-500 font-sans tracking-wide mix-blend-screen"
               >
                   {t.product.subtitle}
-              </motion.p>
-            </motion.div>
+              </m.p>
+            </m.div>
             
-            <motion.div 
+            <m.div 
               className="mt-6 md:mt-0 flex gap-4"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -145,18 +145,18 @@ const ProductShowcase: React.FC = () => {
                    <ChevronRight size={20} className="relative z-10 group-hover:text-black transition-colors" />
                  </button>
                </div>
-            </motion.div>
+            </m.div>
          </div>
       </div>
 
       {/* Carousel Container */}
       <div className="relative w-full max-w-[1920px] mx-auto px-6 md:px-12 h-[65vh] md:h-[80vh] z-10">
-        <motion.div 
+        <m.div 
             style={{ boxShadow, scale }}
             className="w-full h-full relative rounded-2xl md:rounded-3xl overflow-hidden bg-gray-200 border-[0.8pt] border-black/5 md:border-white/10"
         >
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
-              <motion.div
+              <m.div
                 key={page}
                 custom={direction}
                 variants={variants}
@@ -189,7 +189,7 @@ const ProductShowcase: React.FC = () => {
                 
                 {/* Product Info Card (Floating Glass) */}
                 <div className="absolute bottom-0 left-0 w-full p-4 md:p-12 pointer-events-none flex justify-start items-end">
-                   <motion.div 
+                   <m.div 
                       initial={{ opacity: 0, y: 50, filter: "blur(10px)" }}
                       animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                       transition={{ delay: 0.3, duration: 0.6 }}
@@ -219,9 +219,9 @@ const ProductShowcase: React.FC = () => {
                             Details
                          </button>
                       </div>
-                   </motion.div>
+                   </m.div>
                 </div>
-              </motion.div>
+              </m.div>
             </AnimatePresence>
 
             {/* Mobile Navigation Overlays */}
@@ -246,7 +246,7 @@ const ProductShowcase: React.FC = () => {
                   />
                 ))}
             </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

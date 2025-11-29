@@ -1,5 +1,6 @@
+
 import React, { useRef } from 'react';
-import { motion, useInView, Variants } from 'framer-motion';
+import { m, useInView, Variants } from 'framer-motion';
 
 interface TextRevealProps {
   children: string;
@@ -59,7 +60,7 @@ const TextReveal: React.FC<TextRevealProps> = ({
                   charIndex++;
                   return (
                     <span key={i} className="inline-block overflow-hidden -mb-[0.1em] pb-[0.1em] align-bottom">
-                      <motion.span
+                      <m.span
                         className="inline-block"
                         custom={currentDelayIndex}
                         initial="hidden"
@@ -67,7 +68,7 @@ const TextReveal: React.FC<TextRevealProps> = ({
                         variants={variants}
                       >
                         {char}
-                      </motion.span>
+                      </m.span>
                     </span>
                   );
                 })}
@@ -86,7 +87,7 @@ const TextReveal: React.FC<TextRevealProps> = ({
       <span aria-hidden="true">
         {words.map((word, i) => (
           <span key={i} className="inline-block overflow-hidden mr-[0.2em] -mb-[0.1em] pb-[0.1em] align-bottom">
-            <motion.span
+            <m.span
               className="inline-block"
               custom={i}
               initial="hidden"
@@ -94,7 +95,7 @@ const TextReveal: React.FC<TextRevealProps> = ({
               variants={variants}
             >
               {word}
-            </motion.span>
+            </m.span>
           </span>
         ))}
       </span>

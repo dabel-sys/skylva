@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Studio: React.FC = () => {
@@ -8,7 +9,7 @@ const Studio: React.FC = () => {
     <section id="studio" className="py-32 bg-skylva-stone border-t border-white/50">
        <div className="max-w-7xl mx-auto px-6 md:px-12">
          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <motion.div
+            <m.div
                initial={{ opacity: 0, x: -30 }}
                whileInView={{ opacity: 1, x: 0 }}
                viewport={{ once: true }}
@@ -19,9 +20,9 @@ const Studio: React.FC = () => {
                 alt="SKYLVA Design Studio" 
                 className="w-full h-auto object-cover shadow-2xl shadow-black/5 grayscale-[0.1] rounded-2xl border-[0.8pt] border-black/5"
               />
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
                initial={{ opacity: 0, x: 30 }}
                whileInView={{ opacity: 1, x: 0 }}
                viewport={{ once: true }}
@@ -47,7 +48,7 @@ const Studio: React.FC = () => {
                   </a>
                 </div>
               </div>
-            </motion.div>
+            </m.div>
          </div>
        </div>
     </section>

@@ -1,6 +1,6 @@
 
 import React, { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
+import { m, useScroll, useTransform, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
 import { Cpu, Wifi, Sun } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
@@ -21,13 +21,13 @@ const Technology: React.FC = () => {
     <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-black min-h-[100dvh] flex flex-col justify-center">
       {/* Background Image Parallax with Cinematic Darkening */}
       <div className="absolute inset-0 z-0">
-        <motion.div style={{ y, scale: 1.2 }} className="w-full h-full">
+        <m.div style={{ y, scale: 1.2 }} className="w-full h-full">
             <img 
             src="/images/intelligence.png" 
             alt="SKYLVA Artificial Intelligence Core" 
             className="w-full h-full object-cover opacity-40"
             />
-        </motion.div>
+        </m.div>
         {/* Base dark overlay */}
         <div className="absolute inset-0 bg-black/5" />
         {/* Cinematic Vignette: Darkens edges to focus on center */}
@@ -40,7 +40,7 @@ const Technology: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
         
         {/* Main Text Block with Glassmorphism */}
-        <motion.div 
+        <m.div 
           style={{ y: contentY }}
           className="max-w-3xl mb-24 bg-black/40 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-3xl p-8 md:p-12 relative overflow-hidden group perspective-1000"
         >
@@ -61,7 +61,7 @@ const Technology: React.FC = () => {
           <p className="text-white/80 font-sans font-light text-lg leading-relaxed max-w-2xl">
             {t.technology.body}
           </p>
-        </motion.div>
+        </m.div>
 
         {/* 3D Tilt Feature Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 perspective-2000">
@@ -98,7 +98,7 @@ const DataStream = () => {
     <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
       <div className="flex justify-between w-full px-12">
         {[...Array(5)].map((_, i) => (
-           <motion.div 
+           <m.div 
              key={i}
              className="text-[10px] font-mono text-skylva-sand/20 writing-vertical-lr"
              initial={{ y: -100, opacity: 0 }}
@@ -106,7 +106,7 @@ const DataStream = () => {
              transition={{ duration: 15 + Math.random() * 10, repeat: Infinity, delay: Math.random() * 5, ease: "linear" }}
            >
              {Array.from({length: 20}).map(() => Math.random().toString(16).substr(2, 2).toUpperCase()).join(' ')}
-           </motion.div>
+           </m.div>
         ))}
       </div>
     </div>
@@ -148,7 +148,7 @@ const TiltCard: React.FC<TiltCardProps> = ({ item, index }) => {
   const shineOpacity = useTransform(mouseY, [-0.5, 0.5], [0, 0.3]);
 
   return (
-    <motion.div 
+    <m.div 
       className="group relative h-full"
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       onMouseMove={handleMouseMove}
@@ -162,7 +162,7 @@ const TiltCard: React.FC<TiltCardProps> = ({ item, index }) => {
       
       <div className="relative h-full bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-8 overflow-hidden shadow-2xl flex flex-col">
         {/* Dynamic Shine */}
-        <motion.div 
+        <m.div 
           style={{ opacity: shineOpacity }}
           className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none z-10"
         />
@@ -170,11 +170,11 @@ const TiltCard: React.FC<TiltCardProps> = ({ item, index }) => {
         {/* Content */}
         <div className="relative z-20 flex-1 flex flex-col">
           <div className="flex justify-between items-start mb-6">
-            <motion.div 
+            <m.div 
               className="p-3 bg-white/5 rounded-xl text-skylva-sand group-hover:text-skylva-matte group-hover:bg-skylva-sand transition-colors duration-500"
             >
               {item.icon}
-            </motion.div>
+            </m.div>
             <span className="text-[10px] font-mono text-white/20">{item.code}</span>
           </div>
 
@@ -187,7 +187,7 @@ const TiltCard: React.FC<TiltCardProps> = ({ item, index }) => {
         {/* Decorative Corner */}
         <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-white/10 rounded-br-2xl group-hover:border-skylva-sand/50 transition-colors duration-500" />
       </div>
-    </motion.div>
+    </m.div>
   )
 }
 

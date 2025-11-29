@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { m, useScroll, useSpring, useTransform } from 'framer-motion';
 
 const ScrollGauge: React.FC = () => {
   const { scrollYProgress } = useScroll();
@@ -19,7 +19,7 @@ const ScrollGauge: React.FC = () => {
       {/* The Track */}
       <div className="relative w-[1px] h-24 bg-white/20 rounded-full overflow-hidden">
         {/* The Thumb */}
-        <motion.div 
+        <m.div 
           style={{ y }}
           className="absolute top-0 left-0 w-full h-8 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.5)]"
         />

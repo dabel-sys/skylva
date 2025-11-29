@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { sendMessageToGemini } from '../services/geminiService';
 import { ChatMessage } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -72,7 +72,7 @@ const ChatWidget: React.FC = () => {
   return (
     // Mobile: Bottom-Left (left-6). Desktop: Bottom-Right (md:right-6 md:left-auto).
     // Added mb-[env(safe-area-inset-bottom)] to ensure the widget clears the home indicator on iOS
-    <motion.div 
+    <m.div 
       className="fixed bottom-6 left-6 md:left-auto md:right-6 z-50 flex flex-col items-start md:items-end mb-[env(safe-area-inset-bottom)]"
       animate={{
         y: isButtonVisible ? 0 : 150, // Slide down off-screen
@@ -82,7 +82,7 @@ const ChatWidget: React.FC = () => {
     >
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -143,7 +143,7 @@ const ChatWidget: React.FC = () => {
                   </button>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
@@ -153,7 +153,7 @@ const ChatWidget: React.FC = () => {
       >
         {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
       </button>
-    </motion.div>
+    </m.div>
   );
 };
 
