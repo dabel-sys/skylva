@@ -32,18 +32,20 @@ const ProductShowcase: React.FC = () => {
     offset: ["start end", "end start"]
   });
 
-  // Cinematic Darkening Logic - "Snap" Effect
-  // Instead of a slow fade, we use a tight range around the center (0.5).
-  // The effect kicks in at 0.4, peaks at 0.5, and is gone by 0.6.
-  const bgOpacity = useTransform(scrollYProgress, [0.4, 0.5, 0.6], [0, 1, 0]);
+  // Cinematic Darkening Logic - "Snap & Hold" Effect
+  // We use a 4-point range to create a plateau in the middle.
+  // Fade In: 0.35 -> 0.45
+  // Stay Dark: 0.45 -> 0.55 (Stable Zone)
+  // Fade Out: 0.55 -> 0.65
+  const bgOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.55, 0.65], [0, 1, 1, 0]);
   const bgColor = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
   
   // Text color synchronization with the background
-  const textColorValue = useTransform(scrollYProgress, [0.42, 0.5, 0.58], [0, 1, 0]);
+  const textColorValue = useTransform(scrollYProgress, [0.35, 0.45, 0.55, 0.65], [0, 1, 1, 0]);
   const headerColor = useMotionTemplate`rgba(255, 255, 255, ${textColorValue})`;
   
   // Fade out dark text quickly as background goes black
-  const darkTextOpacity = useTransform(scrollYProgress, [0.42, 0.5, 0.58], [1, 0, 1]);
+  const darkTextOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.55, 0.65], [1, 0, 0, 1]);
 
   const [[page, direction], setPage] = useState([0, 0]);
 
