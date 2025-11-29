@@ -113,17 +113,6 @@ const ProductShowcase: React.FC = () => {
     }
   }, [isInView, isPaused, page, isExpanded]);
 
-  // Swipe Hint Timer
-  useEffect(() => {
-    if (isInView) {
-      setShowSwipeHint(true);
-      const timer = setTimeout(() => {
-        setShowSwipeHint(false);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [isInView]);
-
   return (
     <section id="structures" ref={targetRef} className="min-h-[100dvh] pt-12 pb-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
       
@@ -208,26 +197,39 @@ const ProductShowcase: React.FC = () => {
                   opacity: { duration: 0.2 }
                 }}
                 drag="x"
+                dragMomentum={false}
                 dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={1}
+                dragElastic={0.2}
                 onDragEnd={(e, { offset, velocity }) => {
                   const swipe = swipePower(offset.x, velocity.x);
-                  // Thresholds adjusted for better response: 50px drag or high velocity
-                  if (swipe < -5000 || offset.x < -50) {
+                  if (swipe < -5000 || offset.x < -10) {
                     paginate(1);
-                  } else if (swipe > 5000 || offset.x > 50) {
+                  } else if (swipe > 5000 || offset.x > 10) {
                     paginate(-1);
                   }
                 }}
-                className="absolute inset-0 w-full h-full touch-pan-y cursor-grab active:cursor-grabbing"
+                style={{ 
+                   touchAction: 'pan-y',
+                   WebkitTouchCallout: 'none',
+                   WebkitUserSelect: 'none',
+                   userSelect: 'none'
+                }}
+                className="absolute inset-0 w-full h-full touch-pan-y cursor-grab active:cursor-grabbing bg-transparent"
               >
+                {/* 
+                  Extra Touch Layer: Ensures touches are captured even if image ignores them.
+                  z-20 places it above the background but below the UI.
+                */}
+                <div className="absolute inset-0 z-20 bg-transparent" />
+
                 <img 
                   src={currentProduct.image} 
                   alt={currentProduct.title}
                   draggable={false}
-                  className="w-full h-full object-cover select-none"
+                  onDragStart={(e) => e.preventDefault()}
+                  className="w-full h-full object-cover select-none pointer-events-none"
                 />
-                <div draggable={false} className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent select-none" />
+                <div draggable={false} className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent select-none pointer-events-none" />
                 
                 {/* Product Info Card (Collapsible Glass Drawer) */}
                 <div className="absolute bottom-0 left-0 w-full p-2 md:p-12 pointer-events-none flex justify-start items-end z-30">
@@ -292,26 +294,23 @@ const ProductShowcase: React.FC = () => {
               </m.div>
             </AnimatePresence>
 
-            {/* Mobile Swipe Hint (Minimalistic Pulsing Arrows) */}
-            <AnimatePresence>
-                {showSwipeHint && (
-                    <m.div 
-                        key="swipe-hint"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="absolute inset-y-0 right-4 z-20 md:hidden flex items-center justify-center pointer-events-none"
-                    >
-                         <m.div 
-                             animate={{ x: [0, 8, 0], opacity: [0.4, 1, 0.4] }}
-                             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                         >
-                            <ChevronRightIcon size={32} strokeWidth={1.5} className="text-white drop-shadow-md" />
-                         </m.div>
-                    </m.div>
-                )}
-            </AnimatePresence>
+            {/* Mobile Navigation Buttons (Minimalist) */}
+            <div className="absolute inset-y-0 left-4 z-20 md:hidden flex items-center justify-center pointer-events-auto">
+               <button 
+                  onClick={(e) => { e.stopPropagation(); paginate(-1); }}
+                  className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white border border-white/20 active:bg-white/30 transition-all"
+               >
+                 <ChevronLeft size={16} />
+               </button>
+            </div>
+            <div className="absolute inset-y-0 right-4 z-20 md:hidden flex items-center justify-center pointer-events-auto">
+               <button 
+                  onClick={(e) => { e.stopPropagation(); paginate(1); }}
+                  className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white border border-white/20 active:bg-white/30 transition-all"
+               >
+                 <ChevronRight size={16} />
+               </button>
+            </div>
 
             {/* Pagination Indicators */}
             <div className="absolute top-4 right-4 md:bottom-6 md:right-12 z-20 flex gap-2">
