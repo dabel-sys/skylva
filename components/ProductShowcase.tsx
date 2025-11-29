@@ -1,6 +1,6 @@
 
-import React, { useState, useRef } from 'react';
-import { m, useScroll, useTransform, AnimatePresence, useMotionTemplate } from 'framer-motion';
+import React, { useState, useRef, useEffect } from 'react';
+import { m, useScroll, useTransform, AnimatePresence, useMotionTemplate, useInView } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
@@ -25,6 +25,8 @@ const variants = {
 const ProductShowcase: React.FC = () => {
   const targetRef = useRef<HTMLElement>(null);
   const { t } = useLanguage();
+  const isInView = useInView(targetRef, { margin: "-20%" });
+  const [isPaused, setIsPaused] = useState(false);
   
   // Track scroll progress of this section
   const { scrollYProgress } = useScroll({
@@ -33,14 +35,16 @@ const ProductShowcase: React.FC = () => {
   });
 
   // Cinematic Darkening Logic - "Snap & Hold" Effect
-  // Extended Plateau: Keeps it dark longer while scrolling down (0.45 -> 0.75)
-  // Quick Fade Out: 0.75 -> 0.8 as the next section enters clearly
   const bgOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [0, 1, 1, 0]);
   const bgColor = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
   
   // Text color synchronization with the background
   const textColorValue = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [0, 1, 1, 0]);
   const headerColor = useMotionTemplate`rgba(255, 255, 255, ${textColorValue})`;
+  
+  // Dynamic Button Colors
+  const buttonColor = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], ["#2A2A2A", "#FFFFFF", "#FFFFFF", "#2A2A2A"]);
+  const buttonBorderColor = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], ["rgba(0,0,0,0.1)", "rgba(255,255,255,0.2)", "rgba(255,255,255,0.2)", "rgba(0,0,0,0.1)"]);
   
   // Fade out dark text quickly as background goes black
   const darkTextOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.75, 0.8], [1, 0, 0, 1]);
@@ -87,6 +91,16 @@ const ProductShowcase: React.FC = () => {
     setPage([page + newDirection, newDirection]);
   };
 
+  // Auto-play Logic
+  useEffect(() => {
+    if (isInView && !isPaused) {
+      const interval = setInterval(() => {
+        paginate(1);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [isInView, isPaused, page]);
+
   return (
     <section id="structures" ref={targetRef} className="min-h-[100dvh] py-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
       
@@ -129,28 +143,31 @@ const ProductShowcase: React.FC = () => {
             >
                {/* Desktop Navigation Buttons */}
                <div className="hidden md:flex gap-2">
-                 <button 
+                 <m.button 
                    onClick={() => paginate(-1)}
-                   className="w-12 h-12 rounded-full border border-white/10 md:border-black/10 flex items-center justify-center hover:bg-skylva-matte hover:text-white transition-all duration-300 relative overflow-hidden group"
+                   style={{ borderColor: buttonBorderColor, color: buttonColor }}
+                   className="w-12 h-12 rounded-full border flex items-center justify-center hover:bg-white/10 transition-all duration-300 relative overflow-hidden group"
                  >
-                    {/* Invert colors based on background darkness */}
-                    <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                   <ChevronLeft size={20} className="relative z-10 group-hover:text-black transition-colors" />
-                 </button>
-                 <button 
+                   <ChevronLeft size={20} className="relative z-10" />
+                 </m.button>
+                 <m.button 
                    onClick={() => paginate(1)}
-                   className="w-12 h-12 rounded-full border border-white/10 md:border-black/10 flex items-center justify-center hover:bg-skylva-matte hover:text-white transition-all duration-300 relative overflow-hidden group"
+                   style={{ borderColor: buttonBorderColor, color: buttonColor }}
+                   className="w-12 h-12 rounded-full border flex items-center justify-center hover:bg-white/10 transition-all duration-300 relative overflow-hidden group"
                  >
-                    <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                   <ChevronRight size={20} className="relative z-10 group-hover:text-black transition-colors" />
-                 </button>
+                   <ChevronRight size={20} className="relative z-10" />
+                 </m.button>
                </div>
             </m.div>
          </div>
       </div>
 
       {/* Carousel Container */}
-      <div className="relative w-full max-w-[1920px] mx-auto px-6 md:px-12 h-[65vh] md:h-[80vh] z-10">
+      <div 
+        className="relative w-full max-w-[1920px] mx-auto px-6 md:px-12 h-[65vh] md:h-[80vh] z-10"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+      >
         <m.div 
             style={{ boxShadow, scale }}
             className="w-full h-full relative rounded-2xl md:rounded-3xl overflow-hidden bg-gray-200 border-[0.8pt] border-black/5 md:border-white/10"
