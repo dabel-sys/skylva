@@ -132,7 +132,8 @@ export const translations = {
       thinking: 'Processing...'
     }
   },
- nl: {
+
+  nl: {
     nav: {
       vision: 'Visie',
       product: 'Structuren',
@@ -264,8 +265,9 @@ export const translations = {
       placeholder: 'Vraag over structuren, energie of ontwerp...',
       thinking: 'Verwerken...'
     }
-  }
-de: {
+  },
+
+  de: {
     nav: {
       vision: 'Vision',
       product: 'Strukturen',
@@ -397,4 +399,5 @@ de: {
       placeholder: 'Fragen zu Strukturen, Energie oder Design...',
       thinking: 'Verarbeiten...'
     }
-}
+  }
+};
