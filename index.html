@@ -7,7 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&family=Outfit:wght@100;200;300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600&family=Outfit:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+    <!-- Removed Syncopate import -->
     <script>
       tailwind.config = {
         theme: {
@@ -15,6 +16,8 @@
             fontFamily: {
               sans: ['Manrope', 'sans-serif'],
               display: ['Outfit', 'sans-serif'],
+              // Remapped 'qurova' to use Outfit for a clean, premium look instead of neon style
+              qurova: ['Outfit', 'sans-serif'],
             },
             colors: {
               skylva: {
@@ -44,6 +47,29 @@
         scrollbar-width: none;  /* Firefox */
         background-color: #121212;
         color: #F5F5F2;
+        cursor: none; /* Hide default cursor for custom cursor */
+      }
+      
+      /* Ensure links/buttons show pointer cursor if custom cursor fails or for accessibility */
+      a, button {
+        cursor: none;
+      }
+      
+      /* Smooth scrolling setup for Lenis */
+      html.lenis {
+        height: auto;
+      }
+      .lenis.lenis-smooth {
+        scroll-behavior: auto;
+      }
+      .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+      }
+      .lenis.lenis-stopped {
+        overflow: hidden;
+      }
+      .lenis.lenis-scrolling iframe {
+        pointer-events: none;
       }
     </style>
   <script type="importmap">
@@ -58,6 +84,8 @@
   }
 }
 </script>
+<!-- Lenis Smooth Scroll -->
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.29/dist/lenis.min.js"></script>
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
