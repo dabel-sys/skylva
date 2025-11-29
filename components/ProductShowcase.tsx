@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { m, useScroll, useTransform, AnimatePresence, useMotionTemplate, useInView } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { m, useScroll, useTransform, AnimatePresence, useMotionTemplate, useInView, useSpring } from 'framer-motion';
+import { ChevronLeft, ChevronRight, Pause, Play, Plus, Minus, ChevronRight as ChevronRightIcon } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
 
@@ -30,6 +30,8 @@ const ProductShowcase: React.FC = () => {
   const { t } = useLanguage();
   const isInView = useInView(targetRef, { margin: "-20%" });
   const [isPaused, setIsPaused] = useState(false);
+  const [showSwipeHint, setShowSwipeHint] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false); // Mobile card state
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
@@ -45,21 +47,30 @@ const ProductShowcase: React.FC = () => {
     offset: ["start end", "end start"]
   });
 
-  // Cinematic Darkening Logic
-  const bgOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [0, 1, 1, 0]);
-  const bgColor = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
+  // Cinematic Darkening Logic - SMOOTHED
+  // 1. Define the raw target opacity based on scroll position
+  // Widen transitions slightly for softness: 0.3->0.45 (Fade In), 0.6->0.75 (Fade Out)
+  const targetOpacity = useTransform(scrollYProgress, [0.3, 0.45, 0.6, 0.75], [0, 1, 1, 0]);
+  
+  // 2. Apply spring physics to creating a fluid, non-linear transition (Shock absorber)
+  const smoothOpacity = useSpring(targetOpacity, { stiffness: 50, damping: 20, restDelta: 0.001 });
+
+  // 3. Drive all visual changes from this single smooth value
+  const bgColor = useMotionTemplate`rgba(0, 0, 0, ${smoothOpacity})`;
   
   // Text color synchronization
-  const textColorValue = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [0, 1, 1, 0]);
-  const headerColor = useMotionTemplate`rgba(255, 255, 255, ${textColorValue})`;
-  
-  const darkTextOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [1, 0, 0, 1]);
+  const headerColor = useMotionTemplate`rgba(255, 255, 255, ${smoothOpacity})`;
+  const darkTextOpacity = useTransform(smoothOpacity, [0, 1], [1, 0]);
 
+  // Dynamic Button Colors - Interpolate based on the smooth opacity
+  const buttonColor = useTransform(smoothOpacity, [0, 0.5, 1], ["#2A2A2A", "#FFFFFF", "#FFFFFF"]);
+  const buttonBorderColor = useTransform(smoothOpacity, [0, 0.5, 1], ["rgba(0,0,0,0.1)", "rgba(255,255,255,0.2)", "rgba(255,255,255,0.2)"]);
+  
   // Glow / Pop effect
-  const glowOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [0, 0.3, 0.3, 0]);
-  const blackShadowOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [0.3, 0, 0, 0.3]);
+  const glowOpacity = useTransform(smoothOpacity, [0, 1], [0, 0.3]);
+  const blackShadowOpacity = useTransform(smoothOpacity, [0, 1], [0.3, 0]);
   const boxShadow = useMotionTemplate`0 25px 50px -12px rgba(0, 0, 0, ${blackShadowOpacity}), 0 0 60px rgba(255, 255, 255, ${glowOpacity})`;
-  const scale = useTransform(scrollYProgress, [0.35, 0.45, 0.65, 0.7], [1, 1.02, 1.02, 1]);
+  const scale = useTransform(smoothOpacity, [0, 1], [1, 1.02]);
 
   const [[page, direction], setPage] = useState([0, 0]);
 
@@ -98,17 +109,29 @@ const ProductShowcase: React.FC = () => {
 
   const paginate = (newDirection: number) => {
     setPage([page + newDirection, newDirection]);
+    setIsExpanded(false); // Reset mobile expansion on slide change
   };
 
   // Auto-play Logic
   useEffect(() => {
-    if (isInView && !isPaused) {
+    if (isInView && !isPaused && !isExpanded) { // Don't auto-play if user is reading expanded details
       const interval = setInterval(() => {
         paginate(1);
       }, 5000);
       return () => clearInterval(interval);
     }
-  }, [isInView, isPaused, page]);
+  }, [isInView, isPaused, page, isExpanded]);
+
+  // Swipe Hint Timer
+  useEffect(() => {
+    if (isInView) {
+      setShowSwipeHint(true);
+      const timer = setTimeout(() => {
+        setShowSwipeHint(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isInView]);
 
   return (
     <section id="structures" ref={targetRef} className="min-h-[100dvh] pt-12 pb-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
@@ -137,11 +160,6 @@ const ProductShowcase: React.FC = () => {
 
       {/* 
         CAROUSEL CONTAINER 
-        Matches Porsche Style:
-        - Card based
-        - Overlay text
-        - Stacked buttons
-        - Controls below
       */}
       <div 
         className="relative w-full max-w-[1920px] mx-auto px-6 md:px-12 h-[65vh] md:h-[75vh] z-10 flex flex-col items-center"
@@ -169,7 +187,7 @@ const ProductShowcase: React.FC = () => {
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={0.2}
                 onDragEnd={(e, { offset, velocity }) => {
-                  const swipe = swipePower(offset.x, velocity.x);
+                  const swipe = Math.abs(offset.x) * velocity.x;
                   if (swipe < -5000 || offset.x < -10) {
                     paginate(1);
                   } else if (swipe > 5000 || offset.x > 10) {
@@ -200,46 +218,64 @@ const ProductShowcase: React.FC = () => {
                 />
 
                 {/* Content Overlay (Bottom) */}
-                <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 z-20 pointer-events-none">
-                    <div className="pointer-events-auto max-w-lg">
-                        {/* Tag (Like the 'Gasoline' tag) */}
-                        <div className="inline-block bg-white/20 backdrop-blur-md text-white text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1 rounded mb-4">
-                            {currentProduct.tag}
+                <div className="absolute bottom-0 left-0 w-full p-2 md:p-12 z-20 pointer-events-none flex justify-start items-end">
+                    {/* Glass Drawer Container */}
+                    <m.div 
+                      layout
+                      onClick={() => !isDesktop && setIsExpanded(!isExpanded)}
+                      className={`
+                        bg-transparent md:bg-transparent pointer-events-auto
+                        ${isDesktop ? 'max-w-lg w-full' : 'w-full cursor-pointer'}
+                      `}
+                    >
+                        {/* Mobile: Minimal View (Just Title + Toggle) */}
+                        <div className={`
+                            ${!isDesktop ? 'bg-black/60 backdrop-blur-xl border border-white/10 p-4 rounded-xl shadow-2xl transition-all duration-300' : ''}
+                        `}>
+                            <div className="flex justify-between items-center mb-2 md:mb-4">
+                                <div>
+                                    <div className="inline-block bg-white/20 backdrop-blur-md text-white text-[10px] md:text-xs font-bold uppercase tracking-widest px-3 py-1 rounded mb-2 md:mb-4">
+                                        {currentProduct.tag}
+                                    </div>
+                                    <m.h3 layout className="text-xl md:text-4xl font-display font-light text-white leading-tight">
+                                        {currentProduct.title}
+                                    </m.h3>
+                                </div>
+                                
+                                {/* Mobile Toggle Icon */}
+                                {!isDesktop && (
+                                    <div className="bg-white/10 rounded-full p-2 text-white ml-4 flex-shrink-0">
+                                        {isExpanded ? <Minus size={16} /> : <Plus size={16} />}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Expandable Content */}
+                            <AnimatePresence>
+                                {(isExpanded || isDesktop) && (
+                                    <m.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <m.p className="text-white/80 font-sans font-light text-sm md:text-base leading-relaxed mb-6 line-clamp-2 md:line-clamp-none">
+                                            {currentProduct.desc}
+                                        </m.p>
+
+                                        <div className="flex flex-col gap-3 w-full md:w-auto">
+                                            <button className="bg-white text-black w-full md:w-auto px-8 py-3.5 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">
+                                                Explore {currentProduct.title}
+                                            </button>
+                                            <button className="bg-transparent border border-white text-white w-full md:w-auto px-8 py-3.5 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">
+                                                Build your own
+                                            </button>
+                                        </div>
+                                    </m.div>
+                                )}
+                            </AnimatePresence>
                         </div>
-
-                        {/* Title & Description */}
-                        <m.h3 
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            className="text-2xl md:text-4xl font-display font-light text-white mb-2"
-                        >
-                            {currentProduct.title}
-                        </m.h3>
-                        
-                        <m.p 
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.1 }}
-                            className="text-white/80 font-sans font-light text-sm md:text-base leading-relaxed mb-8 line-clamp-2 md:line-clamp-none"
-                        >
-                            {currentProduct.desc}
-                        </m.p>
-
-                        {/* Stacked Buttons (Porsche Style) */}
-                        <m.div 
-                            initial={{ y: 20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            transition={{ delay: 0.2 }}
-                            className="flex flex-col gap-3 w-full md:w-auto"
-                        >
-                            <button className="bg-white text-black w-full md:w-auto px-8 py-3.5 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">
-                                Explore {currentProduct.title}
-                            </button>
-                            <button className="bg-transparent border border-white text-white w-full md:w-auto px-8 py-3.5 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">
-                                Build your own
-                            </button>
-                        </m.div>
-                    </div>
+                    </m.div>
                 </div>
               </m.div>
             </AnimatePresence>
@@ -261,11 +297,28 @@ const ProductShowcase: React.FC = () => {
                  <ChevronRight size={20} />
                </button>
             </div>
+            
+            {/* Mobile Navigation Buttons (Minimalistic) */}
+            <div className="md:hidden absolute inset-y-0 left-4 z-30 flex items-center justify-center pointer-events-none">
+               <button 
+                  onClick={(e) => { e.stopPropagation(); paginate(-1); }}
+                  className="w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white pointer-events-auto active:bg-black/40 transition-colors"
+               >
+                 <ChevronLeft size={16} />
+               </button>
+            </div>
+            <div className="md:hidden absolute inset-y-0 right-4 z-30 flex items-center justify-center pointer-events-none">
+               <button 
+                  onClick={(e) => { e.stopPropagation(); paginate(1); }}
+                  className="w-8 h-8 rounded-full bg-black/20 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white pointer-events-auto active:bg-black/40 transition-colors"
+               >
+                 <ChevronRight size={16} />
+               </button>
+            </div>
         </m.div>
 
         {/* 
           External Controls (Below Card) 
-          Matches the reference image's control bar style 
         */}
         <div className="flex items-center gap-4 mt-6 z-20">
              {/* Pagination Dots */}
@@ -290,10 +343,6 @@ const ProductShowcase: React.FC = () => {
       </div>
     </section>
   );
-};
-
-const swipePower = (offset: number, velocity: number) => {
-  return Math.abs(offset) * velocity;
 };
 
 export default ProductShowcase;
