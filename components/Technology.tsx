@@ -18,19 +18,18 @@ const Technology: React.FC = () => {
   const contentY = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
-    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-[#1a1a1a] min-h-screen flex flex-col justify-center">
+    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-black min-h-screen flex flex-col justify-center">
       {/* Background Image Parallax */}
       <div className="absolute inset-0 z-0">
         <motion.div style={{ y, scale: 1.2 }} className="w-full h-full">
             <img 
             src="/images/intelligence.png" 
             alt="SKYLVA Artificial Intelligence Core" 
-            className="w-full h-full object-cover opacity-60"
+            className="w-full h-full object-cover"
             />
         </motion.div>
-        {/* Reduced gradient opacity for a lighter, '30%' feel */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_100%)] opacity-40" />
+        {/* Subtle dark shade to darken image slightly (30%) */}
+        <div className="absolute inset-0 bg-black/30" />
       </div>
 
       {/* Nature/Light Scanner Effect */}
