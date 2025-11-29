@@ -47,13 +47,10 @@
         scrollbar-width: none;  /* Firefox */
         background-color: #121212;
         color: #F5F5F2;
-        cursor: none; /* Hide default cursor for custom cursor */
+        /* cursor: none; REMOVED to show default cursor */
       }
       
-      /* Ensure links/buttons show pointer cursor if custom cursor fails or for accessibility */
-      a, button {
-        cursor: none;
-      }
+      /* REMOVED a, button cursor: none rule */
       
       /* Smooth scrolling setup for Lenis */
       html.lenis {

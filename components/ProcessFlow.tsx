@@ -29,9 +29,9 @@ const ProcessFlow: React.FC = () => {
   });
 
   const steps = [
-      { ...stepsData[0], ...t.process.steps[0], image: '/images/process-1.png' },
-      { ...stepsData[1], ...t.process.steps[1], image: '/images/process-2.png' },
-      { ...stepsData[2], ...t.process.steps[2], image: '/images/process-3.png' }
+      { ...stepsData[0], ...t.process.steps[0], image: '/images/process-1.jpg' },
+      { ...stepsData[1], ...t.process.steps[1], image: '/images/process-2.jpeg' },
+      { ...stepsData[2], ...t.process.steps[2], image: '/images/process-3.jpg' }
   ];
 
   return (
