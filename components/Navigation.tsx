@@ -19,18 +19,16 @@ const Navigation: React.FC = () => {
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
+      // Using window.innerHeight for mobile consistency
+      const windowHeight = window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      
       setIsScrolled(currentScrollY > 20);
 
-      const totalHeight = Math.max(
-        document.body.scrollHeight, 
-        document.documentElement.scrollHeight,
-        document.body.offsetHeight, 
-        document.documentElement.offsetHeight,
-        document.body.clientHeight, 
-        document.documentElement.clientHeight
-      ) - window.innerHeight;
+      // Calculate progress based on scrollable area
+      const totalScrollable = docHeight - windowHeight;
+      const progress = totalScrollable > 0 ? currentScrollY / totalScrollable : 0;
       
-      const progress = totalHeight > 0 ? currentScrollY / totalHeight : 0;
       setScrollProgress(Math.min(Math.max(progress, 0), 1));
 
       // Hide button while scrolling (only if menu is closed)
@@ -83,20 +81,36 @@ const Navigation: React.FC = () => {
     const element = document.getElementById(targetId);
 
     if (element) {
-      const headerOffset = 50; 
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
       setIsMobileOpen(false);
+      
+      const headerOffset = 50; 
+      
+      // Use Lenis for premium smooth scroll if available
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(element, { 
+          offset: -headerOffset,
+          duration: 1.5,
+          easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) // exponential ease out
+        });
+      } else {
+        // Fallback to native smooth scroll
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if ((window as any).lenis) {
+       (window as any).lenis.scrollTo(0, { duration: 1.5 });
+    } else {
+       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const radius = 32;
@@ -254,7 +268,8 @@ const Navigation: React.FC = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="fixed inset-0 bg-skylva-matte z-40 flex flex-col justify-between pt-[calc(env(safe-area-inset-top)+6rem)] pb-[calc(env(safe-area-inset-bottom)+2rem)] px-6 overflow-hidden"
+            // Increased bottom padding to 8rem to clear the FAB and Chat button
+            className="fixed inset-0 bg-skylva-matte z-40 flex flex-col justify-between pt-[calc(env(safe-area-inset-top)+6rem)] pb-[calc(env(safe-area-inset-bottom)+8rem)] px-6 overflow-hidden"
           >
              {/* Navigation Links */}
              <m.div 
