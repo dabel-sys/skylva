@@ -63,10 +63,10 @@ const Hero: React.FC = () => {
     <section 
       ref={ref} 
       onMouseMove={handleMouseMove}
-      className="relative h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-skylva-matte perspective-1000"
+      className="relative h-[100dvh] w-full overflow-hidden flex items-center justify-center bg-skylva-matte perspective-1000 gpu-accelerated"
     >
       {/* Background Layer with Cinematic Entry & 3D Parallax */}
-      <div className="absolute inset-0 z-0 will-change-transform overflow-hidden">
+      <div className="absolute inset-0 z-0 will-change-transform overflow-hidden backface-hidden">
         <m.div 
           style={{ 
             scale: scaleScroll,
@@ -83,12 +83,15 @@ const Hero: React.FC = () => {
             duration: 1.5, 
             ease: [0.25, 1, 0.5, 1] 
           }}
-          className="absolute inset-0 w-[110%] h-[110%] -left-[5%] -top-[5%]"
+          className="absolute inset-0 w-[110%] h-[110%] -left-[5%] -top-[5%] will-change-transform backface-hidden"
         >
           <img 
             src="/images/hero.jpg" 
             alt="Premium Scandinavian solar canopy" 
             className="w-full h-full object-cover"
+            // High priority loading for LCP
+            fetchPriority="high"
+            decoding="async"
           />
         </m.div>
         

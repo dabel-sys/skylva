@@ -19,7 +19,7 @@ const Experience: React.FC = () => {
   const y2 = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
-    <section ref={containerRef} className="bg-skylva-offwhite min-h-[100dvh] py-20 md:py-32 flex flex-col justify-center overflow-hidden">
+    <section ref={containerRef} className="bg-skylva-offwhite min-h-[100dvh] py-20 md:py-32 flex flex-col justify-center overflow-hidden gpu-accelerated">
       
       <div className="max-w-[1920px] mx-auto px-6 md:px-12 w-full">
         
@@ -46,13 +46,15 @@ const Experience: React.FC = () => {
           {/* Image Side - 60% Width */}
           <m.div 
             style={{ y: y1 }}
-            className="w-full lg:w-3/5"
+            className="w-full lg:w-3/5 will-change-transform"
           >
-            <div className="relative aspect-[4/3] lg:aspect-[16/10] overflow-hidden rounded-3xl cursor-pointer group shadow-xl shadow-black/5">
+            <div className="relative aspect-[4/3] lg:aspect-[16/10] overflow-hidden rounded-3xl cursor-pointer group shadow-xl shadow-black/5 transform-gpu">
                 <img
                   src="/images/atmos-1.png"
                   alt="Dappled light under pergola"
                   className="w-full h-full object-cover transition-transform duration-[1.2s] ease-[0.22,1,0.36,1] group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
                 />
                 {/* Subtle sheen overlay */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
@@ -90,13 +92,15 @@ const Experience: React.FC = () => {
           {/* Image Side - 60% Width */}
           <m.div 
             style={{ y: y2 }}
-            className="w-full lg:w-3/5"
+            className="w-full lg:w-3/5 will-change-transform"
           >
-            <div className="relative aspect-[4/3] lg:aspect-[16/10] overflow-hidden rounded-3xl cursor-pointer group shadow-xl shadow-black/5">
+            <div className="relative aspect-[4/3] lg:aspect-[16/10] overflow-hidden rounded-3xl cursor-pointer group shadow-xl shadow-black/5 transform-gpu">
                 <img
                   src="/images/atmos-2.png"
                   alt="Glass sliding walls"
                   className="w-full h-full object-cover transition-transform duration-[1.2s] ease-[0.22,1,0.36,1] group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tl from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
             </div>

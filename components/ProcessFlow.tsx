@@ -39,7 +39,7 @@ const ProcessFlow: React.FC = () => {
   ];
 
   return (
-    <section ref={containerRef} className="bg-white text-skylva-charcoal min-h-[100dvh] py-20 md:py-32 flex flex-col justify-center relative overflow-hidden">
+    <section ref={containerRef} className="bg-white text-skylva-charcoal min-h-[100dvh] py-20 md:py-32 flex flex-col justify-center relative overflow-hidden gpu-accelerated">
       
       {/* Light Background Gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50 to-white pointer-events-none" />
@@ -81,7 +81,7 @@ const ProcessFlow: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-10%" }}
                     transition={{ duration: 0.8, delay: index * 0.2 }}
-                    className="group relative h-[60vh] md:h-[70vh] w-full overflow-hidden rounded-xl bg-gray-100 cursor-pointer border-[0.8pt] border-black/5"
+                    className="group relative h-[60vh] md:h-[70vh] w-full overflow-hidden rounded-xl bg-gray-100 cursor-pointer border-[0.8pt] border-black/5 will-change-transform transform-gpu"
                 >
                     {/* Image Layer with Zoom Effect */}
                     <div className="absolute inset-0 overflow-hidden">
@@ -89,6 +89,8 @@ const ProcessFlow: React.FC = () => {
                             src={step.image} 
                             alt={step.title}
                             className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 opacity-90 group-hover:opacity-100"
+                            loading="lazy"
+                            decoding="async"
                         />
                         {/* Gradient Overlay for text readability inside the card */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />

@@ -134,23 +134,23 @@ const ProductShowcase: React.FC = () => {
   }, [isInView]);
 
   return (
-    <section id="structures" ref={targetRef} className="min-h-[100dvh] pt-12 pb-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
+    <section id="structures" ref={targetRef} className="min-h-[100dvh] pt-12 pb-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0 transform-gpu">
       
       {/* Dynamic Background Overlay */}
       <m.div 
         style={{ backgroundColor: bgColor }}
-        className="absolute inset-0 z-0 pointer-events-none"
+        className="absolute inset-0 z-0 pointer-events-none will-change-transform"
       />
 
       {/* Header Section */}
       <div className="max-w-7xl w-full mx-auto px-6 md:px-12 mb-8 md:mb-12 relative z-10">
          <div className="flex flex-col md:flex-row justify-between items-end pb-4 transition-colors duration-500">
-            <m.div style={{ y: yHeader }} className="relative">
+            <m.div style={{ y: yHeader }} className="relative will-change-transform">
               <div className="relative">
-                 <m.h2 style={{ opacity: darkTextOpacity }} className="text-4xl md:text-6xl font-display font-light mb-4 absolute top-0 left-0 w-full text-skylva-charcoal">
+                 <m.h2 style={{ opacity: darkTextOpacity }} className="text-4xl md:text-6xl font-display font-light mb-4 absolute top-0 left-0 w-full text-skylva-charcoal will-change-transform">
                     <TextReveal>{t.product.title}</TextReveal>
                  </m.h2>
-                 <m.h2 style={{ color: headerColor }} className="text-4xl md:text-6xl font-display font-light mb-4 relative z-10">
+                 <m.h2 style={{ color: headerColor }} className="text-4xl md:text-6xl font-display font-light mb-4 relative z-10 will-change-transform">
                     <TextReveal>{t.product.title}</TextReveal>
                  </m.h2>
               </div>
@@ -168,7 +168,7 @@ const ProductShowcase: React.FC = () => {
       >
         <m.div 
             style={{ boxShadow, scale }}
-            className="w-full h-full relative rounded-2xl md:rounded-3xl overflow-hidden bg-gray-900 border-[0.8pt] border-white/10"
+            className="w-full h-full relative rounded-2xl md:rounded-3xl overflow-hidden bg-gray-900 border-[0.8pt] border-white/10 will-change-transform transform-gpu"
         >
             <AnimatePresence initial={false} custom={direction} mode="popLayout">
               <m.div
@@ -200,7 +200,7 @@ const ProductShowcase: React.FC = () => {
                    WebkitUserSelect: 'none',
                    userSelect: 'none'
                 }}
-                className="absolute inset-0 w-full h-full touch-pan-y cursor-grab active:cursor-grabbing bg-transparent"
+                className="absolute inset-0 w-full h-full touch-pan-y cursor-grab active:cursor-grabbing bg-transparent will-change-transform"
               >
                 {/* Image Layer */}
                 <img 
@@ -209,6 +209,7 @@ const ProductShowcase: React.FC = () => {
                   draggable={false}
                   onDragStart={(e) => e.preventDefault()}
                   className="w-full h-full object-cover select-none pointer-events-none"
+                  decoding="async"
                 />
                 
                 {/* Gradient Overlay for Text Readability */}

@@ -18,14 +18,16 @@ const Technology: React.FC = () => {
   const contentY = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
   return (
-    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-black min-h-[100dvh] flex flex-col justify-center">
+    <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-black min-h-[100dvh] flex flex-col justify-center gpu-accelerated">
       {/* Background Image Parallax with Cinematic Darkening */}
-      <div className="absolute inset-0 z-0">
+      <div className="absolute inset-0 z-0 will-change-transform transform-gpu">
         <m.div style={{ y, scale: 1.2 }} className="w-full h-full">
             <img 
             src="/images/intelligence.png" 
             alt="SKYLVA Artificial Intelligence Core" 
             className="w-full h-full object-cover opacity-40"
+            loading="lazy"
+            decoding="async"
             />
         </m.div>
         {/* Base dark overlay */}
@@ -42,7 +44,7 @@ const Technology: React.FC = () => {
         {/* Main Text Block with Glassmorphism */}
         <m.div 
           style={{ y: contentY }}
-          className="max-w-3xl mb-24 bg-black/40 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-3xl p-8 md:p-12 relative overflow-hidden group perspective-1000"
+          className="max-w-3xl mb-24 bg-black/40 backdrop-blur-2xl border border-white/10 shadow-2xl rounded-3xl p-8 md:p-12 relative overflow-hidden group perspective-1000 will-change-transform"
         >
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50" />
           <div className="absolute bottom-0 right-0 w-full h-[1px] bg-gradient-to-r from-transparent via-skylva-sand/20 to-transparent opacity-50" />
@@ -158,9 +160,9 @@ const TiltCard: React.FC<TiltCardProps> = ({ item, index }) => {
       viewport={{ once: false }}
       transition={{ duration: 0.8, delay: index * 0.15 }}
     >
-      <div className="absolute inset-0 bg-skylva-sand/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-30" />
+      <div className="absolute inset-0 bg-skylva-sand/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-500 opacity-0 group-hover:opacity-30 will-change-transform" />
       
-      <div className="relative h-full bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-8 overflow-hidden shadow-2xl flex flex-col">
+      <div className="relative h-full bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl p-8 overflow-hidden shadow-2xl flex flex-col transform-gpu">
         {/* Dynamic Shine */}
         <m.div 
           style={{ opacity: shineOpacity }}

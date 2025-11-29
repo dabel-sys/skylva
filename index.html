@@ -48,6 +48,20 @@
         background-color: #121212;
         color: #F5F5F2;
         /* cursor: none; REMOVED to show default cursor */
+        
+        /* iOS Optimization: Prevents rubber-banding which fights with smooth scroll */
+        overscroll-behavior-y: none;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      /* Hardware acceleration class for smoother animations on iOS */
+      .gpu-accelerated {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        perspective: 1000px;
+        -webkit-perspective: 1000px;
       }
       
       /* REMOVED a, button cursor: none rule */

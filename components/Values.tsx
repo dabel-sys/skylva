@@ -59,7 +59,7 @@ const Values: React.FC = () => {
   ];
 
   return (
-    <section className="min-h-[100dvh] bg-skylva-matte text-white py-24 md:py-32 flex flex-col justify-center relative overflow-hidden">
+    <section className="min-h-[100dvh] bg-skylva-matte text-white py-24 md:py-32 flex flex-col justify-center relative overflow-hidden transform-gpu">
       
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative z-10">
         
@@ -90,7 +90,7 @@ const Values: React.FC = () => {
               transition={{ duration: 0.8, delay: idx * 0.1 }}
               className={`
                 group relative h-[400px] md:h-[500px] bg-white/5 rounded-3xl overflow-hidden border border-white/10
-                ${val.span}
+                ${val.span} will-change-transform transform-gpu
               `}
             >
               {/* Image Layer */}
@@ -99,6 +99,8 @@ const Values: React.FC = () => {
                    src={val.image} 
                    alt={val.label}
                    className="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-[1.5s] ease-out"
+                   loading="lazy"
+                   decoding="async"
                  />
                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
               </div>

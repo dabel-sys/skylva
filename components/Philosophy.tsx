@@ -48,10 +48,10 @@ const Philosophy: React.FC = () => {
       id="vision" 
       onMouseMove={handleMouseMove}
       // Mobile: 100dvh for exact full screen. Desktop: Taller track for scrollytelling.
-      className={`relative w-full bg-skylva-matte overflow-hidden flex flex-col ${isDesktop ? 'h-[130vh]' : 'min-h-[100dvh] justify-center pb-0'}`}
+      className={`relative w-full bg-skylva-matte overflow-hidden flex flex-col ${isDesktop ? 'h-[130vh]' : 'min-h-[100dvh] justify-center pb-0'} gpu-accelerated`}
     >
       {/* Dynamic Aurora Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none h-full w-full fixed-on-mobile">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none h-full w-full fixed-on-mobile will-change-transform">
          <div className="absolute inset-0 bg-gradient-to-b from-black via-skylva-matte to-black z-0" />
          
          {/* Moving Orbs */}
@@ -62,7 +62,7 @@ const Philosophy: React.FC = () => {
               translateX: "-50%",
               translateY: "-50%"
             }}
-            className="absolute w-[600px] h-[600px] rounded-full bg-skylva-green/10 blur-[120px] mix-blend-screen z-0 hidden md:block" 
+            className="absolute w-[600px] h-[600px] rounded-full bg-skylva-green/10 blur-[120px] mix-blend-screen z-0 hidden md:block will-change-transform transform-gpu" 
          />
          <m.div 
             animate={{ 
@@ -71,7 +71,7 @@ const Philosophy: React.FC = () => {
               scale: [1, 1.2, 0.8, 1]
             }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute top-1/4 left-1/4 w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full bg-skylva-green/5 blur-[80px] md:blur-[100px] mix-blend-screen z-0"
+            className="absolute top-1/4 left-1/4 w-[300px] h-[300px] md:w-[400px] md:h-[400px] rounded-full bg-skylva-green/5 blur-[80px] md:blur-[100px] mix-blend-screen z-0 will-change-transform transform-gpu"
          />
          <m.div 
             animate={{ 
@@ -80,7 +80,7 @@ const Philosophy: React.FC = () => {
               scale: [1, 1.5, 0.9, 1]
             }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full bg-[#4A5D53]/10 blur-[80px] md:blur-[100px] mix-blend-screen z-0"
+            className="absolute bottom-1/4 right-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full bg-[#4A5D53]/10 blur-[80px] md:blur-[100px] mix-blend-screen z-0 will-change-transform transform-gpu"
          />
          
          {/* Noise Overlay */}
@@ -104,13 +104,13 @@ const Philosophy: React.FC = () => {
         <div className="relative w-full text-center md:text-left mb-16 md:mb-24 perspective-1000">
           <m.h2 
             style={{ y: isDesktop ? headlineY : 0 }}
-            className="text-4xl md:text-7xl lg:text-8xl font-display font-light text-white leading-[0.9] tracking-tight mb-4 mix-blend-difference"
+            className="text-4xl md:text-7xl lg:text-8xl font-display font-light text-white leading-[0.9] tracking-tight mb-4 mix-blend-difference will-change-transform"
           >
             {t.philosophy.headline_1}
           </m.h2>
           <m.h2 
             style={{ y: isDesktop ? sublineY : 0 }}
-            className="text-4xl md:text-7xl lg:text-8xl font-display font-light text-white/30 leading-[0.9] tracking-tight mix-blend-overlay"
+            className="text-4xl md:text-7xl lg:text-8xl font-display font-light text-white/30 leading-[0.9] tracking-tight mix-blend-overlay will-change-transform"
           >
             {t.philosophy.headline_2}
           </m.h2>
