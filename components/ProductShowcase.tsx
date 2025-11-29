@@ -125,7 +125,7 @@ const ProductShowcase: React.FC = () => {
   }, [isInView]);
 
   return (
-    <section id="structures" ref={targetRef} className="min-h-[100dvh] py-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
+    <section id="structures" ref={targetRef} className="min-h-[100dvh] py-12 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
       
       {/* Dynamic Background Overlay */}
       <m.div 
@@ -212,13 +212,14 @@ const ProductShowcase: React.FC = () => {
                 dragElastic={1}
                 onDragEnd={(e, { offset, velocity }) => {
                   const swipe = swipePower(offset.x, velocity.x);
-                  if (swipe < -10000) {
+                  // Lowered thresholds for better mobile responsiveness
+                  if (swipe < -5000 || offset.x < -75) {
                     paginate(1);
-                  } else if (swipe > 10000) {
+                  } else if (swipe > 5000 || offset.x > 75) {
                     paginate(-1);
                   }
                 }}
-                className="absolute inset-0 w-full h-full"
+                className="absolute inset-0 w-full h-full touch-pan-y"
               >
                 <img 
                   src={currentProduct.image} 
