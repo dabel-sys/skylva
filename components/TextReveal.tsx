@@ -54,12 +54,12 @@ const TextReveal: React.FC<TextRevealProps> = ({
           {words.map((word, wordIndex) => {
             const chars = word.split("");
             return (
-              <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.25em]">
+              <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.25em] leading-none">
                 {chars.map((char, i) => {
                   const currentDelayIndex = charIndex;
                   charIndex++;
                   return (
-                    <span key={i} className="inline-block overflow-hidden -mb-[0.1em] pb-[0.1em] align-bottom">
+                    <span key={i} className="inline-block overflow-hidden align-top">
                       <m.span
                         className="inline-block"
                         custom={currentDelayIndex}
@@ -86,7 +86,7 @@ const TextReveal: React.FC<TextRevealProps> = ({
       <span className="sr-only">{text}</span>
       <span aria-hidden="true">
         {words.map((word, i) => (
-          <span key={i} className="inline-block overflow-hidden mr-[0.2em] -mb-[0.1em] pb-[0.1em] align-bottom">
+          <span key={i} className="inline-block overflow-hidden mr-[0.2em] align-top">
             <m.span
               className="inline-block"
               custom={i}

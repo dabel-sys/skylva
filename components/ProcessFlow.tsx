@@ -1,7 +1,7 @@
 
 import React, { useRef } from 'react';
 import { m, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
 
@@ -23,10 +23,14 @@ const stepsData = [
 const ProcessFlow: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
+  
+  // Horizontal Scroll Logic for Desktop
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start center", "end center"]
+    offset: ["start end", "end start"]
   });
+
+  const x = useTransform(scrollYProgress, [0.1, 0.9], ["0%", "-50%"]);
 
   const steps = [
       { ...stepsData[0], ...t.process.steps[0], image: '/images/process-1.png' },
@@ -35,87 +39,99 @@ const ProcessFlow: React.FC = () => {
   ];
 
   return (
-    <section ref={containerRef} className="bg-white min-h-[100dvh] py-20 md:py-0 flex flex-col justify-center border-b border-gray-100 relative z-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative w-full">
+    <section ref={containerRef} className="bg-black text-white min-h-[100dvh] py-20 md:py-32 flex flex-col justify-center relative overflow-hidden">
+      
+      {/* Cinematic Background Gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black pointer-events-none" />
+      
+      <div className="max-w-[1920px] mx-auto px-6 md:px-12 w-full relative z-10">
         
-        {/* Vertical Draw Line (Desktop) */}
-        <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gray-100 hidden md:block -translate-x-1/2">
-            <m.div 
-                style={{ scaleY: scrollYProgress }}
-                className="w-full bg-skylva-green origin-top h-full"
-            />
-        </div>
-
-        <m.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mb-24 text-center relative z-10 bg-white p-8 inline-block left-1/2 -translate-x-1/2"
-        >
-          <span className="text-skylva-green text-xs font-bold tracking-[0.2em] uppercase block mb-4">The Process</span>
-          <h2 className="text-3xl md:text-5xl font-display font-light text-skylva-matte">
-              <TextReveal>{t.process.title}</TextReveal>
-          </h2>
-        </m.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {steps.map((step, index) => (
-            <m.div
-              key={step.id}
-              initial={{ opacity: 0, y: 100 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 1, delay: index * 0.2, ease: [0.25, 1, 0.5, 1] }}
-              className="group relative flex flex-col h-full bg-white z-10 pt-8"
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 md:mb-24">
+            <div className="max-w-2xl">
+                <div className="flex items-center gap-3 mb-6">
+                    <span className="w-1.5 h-1.5 bg-white rounded-full" />
+                    <span className="text-xs font-bold tracking-[0.2em] uppercase text-gray-400">The Journey</span>
+                </div>
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-light leading-tight">
+                    <TextReveal mode="chars" stagger={0.03}>{t.process.title}</TextReveal>
+                </h2>
+            </div>
+            
+            <m.button 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+                className="hidden md:flex items-center gap-3 group mt-8 md:mt-0"
             >
-              {/* Image Container */}
-              <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-8 w-full rounded-2xl border-[0.8pt] border-black/5 transform transition-transform duration-700 group-hover:-translate-y-2 shadow-sm group-hover:shadow-2xl">
-                 <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-700 z-10" />
-                 <img 
-                   src={step.image} 
-                   alt={step.title}
-                   className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 opacity-90 group-hover:opacity-100" 
-                 />
-                 
-                 {/* Number Overlay */}
-                 <div className="absolute top-6 left-6 z-20 overflow-hidden">
-                    <m.span 
-                      initial={{ y: "100%" }}
-                      whileInView={{ y: 0 }}
-                      transition={{ delay: 0.5 + (index * 0.2), duration: 0.8, ease: "easeOut" }}
-                      className="block text-6xl font-display font-thin text-white/90 drop-shadow-md"
-                    >
-                      {step.id}
-                    </m.span>
-                 </div>
-              </div>
-
-              {/* Text Content */}
-              <div className="flex-1 flex flex-col px-2">
-                <div className="flex items-baseline space-x-4 mb-4">
-                   <h3 className="text-2xl font-display font-light text-skylva-matte group-hover:text-skylva-green transition-colors duration-300">
-                     {step.title}
-                   </h3>
-                   <span className="text-xs font-sans text-gray-400 uppercase tracking-widest">{step.subtitle}</span>
+                <span className="text-sm font-bold uppercase tracking-widest text-white group-hover:text-gray-300 transition-colors">Start Configuration</span>
+                <div className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300">
+                    <ArrowRight size={16} />
                 </div>
-                
-                <p className="text-gray-600 font-sans font-light text-sm leading-relaxed mb-8 border-l border-gray-200 pl-4 group-hover:border-skylva-green/50 transition-colors duration-500">
-                  {step.description}
-                </p>
-
-                <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center group-hover:border-gray-200 transition-colors duration-500">
-                  <span className="text-xs font-bold tracking-[0.2em] uppercase text-gray-400 group-hover:text-skylva-matte transition-colors duration-300">
-                    {step.action}
-                  </span>
-                  <div className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 group-hover:bg-skylva-matte group-hover:text-white transition-all duration-300 transform group-hover:rotate-45">
-                    <ArrowRight size={12} />
-                  </div>
-                </div>
-              </div>
-            </m.div>
-          ))}
+            </m.button>
         </div>
+
+        {/* Desktop: Horizontal Parallax Cards / Mobile: Vertical Stack */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {steps.map((step, index) => (
+                <m.div
+                    key={step.id}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 0.8, delay: index * 0.2 }}
+                    className="group relative h-[60vh] md:h-[70vh] w-full overflow-hidden rounded-xl bg-gray-900 cursor-pointer"
+                >
+                    {/* Image Layer with Zoom Effect */}
+                    <div className="absolute inset-0 overflow-hidden">
+                        <img 
+                            src={step.image} 
+                            alt={step.title}
+                            className="w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-110 opacity-60 group-hover:opacity-80"
+                        />
+                        {/* Dark Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
+                    </div>
+
+                    {/* Content Layer (Overlay) */}
+                    <div className="absolute inset-0 p-8 flex flex-col justify-end items-start">
+                        
+                        {/* Step Number Tag */}
+                        <div className="absolute top-8 left-8 bg-white/10 backdrop-blur-md border border-white/10 px-3 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-white mb-auto">
+                            {step.subtitle}
+                        </div>
+
+                        {/* Text Content */}
+                        <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
+                            <h3 className="text-3xl md:text-4xl font-display font-light mb-4 text-white">
+                                {step.title}
+                            </h3>
+                            
+                            <p className="text-gray-400 font-sans font-light text-sm leading-relaxed max-w-sm mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 h-0 group-hover:h-auto overflow-hidden">
+                                {step.description}
+                            </p>
+
+                            <div className="flex items-center gap-2 text-white border-b border-white pb-1 w-fit group-hover:border-transparent transition-colors">
+                                <span className="text-xs font-bold uppercase tracking-widest">{step.action}</span>
+                                <ChevronRight size={14} />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {/* Hover Glow Border */}
+                    <div className="absolute inset-0 border border-white/0 group-hover:border-white/20 rounded-xl transition-colors duration-500 pointer-events-none" />
+                </m.div>
+            ))}
+        </div>
+
+        {/* Mobile-only bottom button */}
+        <div className="mt-12 md:hidden">
+            <button className="w-full bg-white text-black py-4 rounded-full text-xs font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+                Start Configuration <ArrowRight size={14} />
+            </button>
+        </div>
+
       </div>
     </section>
   );

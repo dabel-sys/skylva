@@ -109,7 +109,7 @@ const Hero: React.FC = () => {
       >
         <div className="pointer-events-auto">
             {/* Headlines - Staggered Char Reveal */}
-            <h1 className="text-5xl md:text-7xl lg:text-9xl font-display font-light tracking-tight text-white mb-8 leading-[0.9] mix-blend-screen perspective-500">
+            <h1 className="text-5xl md:text-7xl lg:text-9xl font-display font-light tracking-tight text-white mb-8 leading-none md:leading-[0.9]">
             <div className="block overflow-hidden pb-2" key={`h1-${t.hero.headline_1}`}>
                 <TextReveal 
                     mode="chars" 
@@ -158,12 +158,12 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col md:flex-row gap-6 justify-center items-center"
             >
-            <button className="group relative bg-white text-skylva-matte px-10 py-5 text-xs font-bold tracking-[0.25em] uppercase overflow-hidden transition-all duration-500 w-72 md:w-auto shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_-10px_rgba(255,255,255,0.5)] rounded-full hover:scale-105">
+            <button className="group relative bg-white text-black px-10 py-5 text-xs font-bold tracking-[0.25em] uppercase overflow-hidden transition-all duration-500 w-72 md:w-auto shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_-10px_rgba(255,255,255,0.5)] rounded-full hover:scale-105 z-20">
                 <span className="relative z-10 group-hover:text-white transition-colors duration-500">{t.hero.button_discover}</span>
                 <div className="absolute inset-0 bg-skylva-matte transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-[0.22,1,0.36,1]" />
             </button>
             
-            <button className="group relative border border-white/20 text-white px-10 py-5 text-xs font-bold tracking-[0.25em] uppercase overflow-hidden transition-all duration-500 w-72 md:w-auto hover:border-white/60 rounded-full backdrop-blur-sm hover:scale-105">
+            <button className="group relative border border-white/40 text-white px-10 py-5 text-xs font-bold tracking-[0.25em] uppercase overflow-hidden transition-all duration-500 w-72 md:w-auto hover:border-white/80 rounded-full backdrop-blur-md hover:scale-105 z-20">
                 <span className="relative z-10 group-hover:text-skylva-matte transition-colors duration-500">{t.hero.button_configure}</span>
                 <div className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-[0.22,1,0.36,1]" />
             </button>
