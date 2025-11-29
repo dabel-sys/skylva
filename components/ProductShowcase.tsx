@@ -32,19 +32,18 @@ const ProductShowcase: React.FC = () => {
     offset: ["start end", "end start"]
   });
 
-  // Cinematic Darkening Logic
-  // 0.3 = entering view, 0.5 = center, 0.7 = leaving view
-  // Background opacity: Light -> Dark (at center) -> Light
-  const bgOpacity = useTransform(scrollYProgress, [0.2, 0.5, 0.8], [0, 1, 0]);
+  // Cinematic Darkening Logic - "Snap" Effect
+  // Instead of a slow fade, we use a tight range around the center (0.5).
+  // The effect kicks in at 0.4, peaks at 0.5, and is gone by 0.6.
+  const bgOpacity = useTransform(scrollYProgress, [0.4, 0.5, 0.6], [0, 1, 0]);
   const bgColor = useMotionTemplate`rgba(0, 0, 0, ${bgOpacity})`;
   
-  // Text color: Dark (start) -> White (center) -> Dark (end)
-  // We overlay a white text color with opacity
-  const textColorValue = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [0, 1, 0]);
+  // Text color synchronization with the background
+  const textColorValue = useTransform(scrollYProgress, [0.42, 0.5, 0.58], [0, 1, 0]);
   const headerColor = useMotionTemplate`rgba(255, 255, 255, ${textColorValue})`;
   
-  // Inverse for the default dark text to fade it out
-  const darkTextOpacity = useTransform(scrollYProgress, [0.3, 0.5, 0.7], [1, 0, 1]);
+  // Fade out dark text quickly as background goes black
+  const darkTextOpacity = useTransform(scrollYProgress, [0.42, 0.5, 0.58], [1, 0, 1]);
 
   const [[page, direction], setPage] = useState([0, 0]);
 
@@ -83,7 +82,7 @@ const ProductShowcase: React.FC = () => {
   };
 
   return (
-    <section id="structures" ref={targetRef} className="min-h-screen py-20 md:py-0 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
+    <section id="structures" ref={targetRef} className="min-h-screen py-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
       
       {/* Dynamic Background Overlay */}
       <motion.div 
