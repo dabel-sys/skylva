@@ -1,5 +1,7 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { sendMessageToGemini } from '../services/geminiService';
 import { ChatMessage } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -11,6 +13,9 @@ const ChatWidget: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  // State for hiding button on scroll
+  const [isButtonVisible, setIsButtonVisible] = useState(true);
 
   // Initialize welcome message based on language
   useEffect(() => {
@@ -26,6 +31,29 @@ const ChatWidget: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Handle scroll visibility
+  useEffect(() => {
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+
+    const handleScroll = () => {
+      // Don't hide if the chat window is actually open
+      if (!isOpen) {
+        setIsButtonVisible(false);
+        clearTimeout(scrollTimeout);
+        
+        scrollTimeout = setTimeout(() => {
+          setIsButtonVisible(true);
+        }, 250); // 250ms debounce
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, [isOpen]);
 
   const handleSend = async () => {
     if (!inputValue.trim()) return;
@@ -44,65 +72,80 @@ const ChatWidget: React.FC = () => {
   return (
     // Mobile: Bottom-Left (left-6). Desktop: Bottom-Right (md:right-6 md:left-auto).
     // Added mb-[env(safe-area-inset-bottom)] to ensure the widget clears the home indicator on iOS
-    <div className="fixed bottom-6 left-6 md:left-auto md:right-6 z-50 flex flex-col items-start md:items-end mb-[env(safe-area-inset-bottom)]">
-      {isOpen && (
-        <div className="mb-4 w-80 md:w-96 bg-skylva-matte/95 backdrop-blur-xl border border-white/10 shadow-2xl text-white flex flex-col overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-300 rounded-2xl origin-bottom-left md:origin-bottom-right">
-          {/* Header */}
-          <div className="bg-white/5 p-4 flex items-center justify-between border-b border-white/5">
-            <div className="flex items-center space-x-2">
-                <Sparkles size={14} className="text-skylva-sand" />
-                <span className="text-xs font-bold tracking-widest uppercase">Skylva AI</span>
+    <motion.div 
+      className="fixed bottom-6 left-6 md:left-auto md:right-6 z-50 flex flex-col items-start md:items-end mb-[env(safe-area-inset-bottom)]"
+      animate={{
+        y: isButtonVisible ? 0 : 150, // Slide down off-screen
+        opacity: isButtonVisible ? 1 : 0
+      }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ duration: 0.3 }}
+            className="mb-4 w-80 md:w-96 bg-skylva-matte/95 backdrop-blur-xl border border-white/10 shadow-2xl text-white flex flex-col overflow-hidden rounded-2xl origin-bottom-left md:origin-bottom-right"
+          >
+            {/* Header */}
+            <div className="bg-white/5 p-4 flex items-center justify-between border-b border-white/5">
+              <div className="flex items-center space-x-2">
+                  <Sparkles size={14} className="text-skylva-sand" />
+                  <span className="text-xs font-bold tracking-widest uppercase">Skylva AI</span>
+              </div>
+              <button onClick={() => setIsOpen(false)} className="text-white/50 hover:text-white">
+                  <X size={18} />
+              </button>
             </div>
-            <button onClick={() => setIsOpen(false)} className="text-white/50 hover:text-white">
-                <X size={18} />
-            </button>
-          </div>
 
-          {/* Chat Area */}
-          <div className="h-80 overflow-y-auto p-4 space-y-4">
-            {messages.map((msg, idx) => (
-                <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                    <div className={`max-w-[85%] p-3 text-sm font-light leading-relaxed rounded-xl ${
-                        msg.role === 'user' 
-                        ? 'bg-white text-black' 
-                        : 'bg-white/5 text-white/90 border border-white/5'
-                    }`}>
-                        {msg.text}
-                    </div>
-                </div>
-            ))}
-            {isLoading && (
-                <div className="flex justify-start">
-                    <div className="bg-white/5 p-3 text-xs text-white/50 animate-pulse rounded-xl">
-                        {t.chat.thinking}
-                    </div>
-                </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Input */}
-          <div className="p-4 border-t border-white/5 bg-black/20">
-            <div className="flex items-center space-x-2">
-                <input 
-                    type="text" 
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                    placeholder={t.chat.placeholder}
-                    className="flex-1 bg-transparent border-none focus:ring-0 text-sm font-light placeholder-white/30 text-white outline-none"
-                />
-                <button 
-                    onClick={handleSend}
-                    disabled={isLoading}
-                    className="text-skylva-sand hover:text-white transition-colors disabled:opacity-50"
-                >
-                    <Send size={18} />
-                </button>
+            {/* Chat Area */}
+            <div className="h-80 overflow-y-auto p-4 space-y-4">
+              {messages.map((msg, idx) => (
+                  <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[85%] p-3 text-sm font-light leading-relaxed rounded-xl ${
+                          msg.role === 'user' 
+                          ? 'bg-white text-black' 
+                          : 'bg-white/5 text-white/90 border border-white/5'
+                      }`}>
+                          {msg.text}
+                      </div>
+                  </div>
+              ))}
+              {isLoading && (
+                  <div className="flex justify-start">
+                      <div className="bg-white/5 p-3 text-xs text-white/50 animate-pulse rounded-xl">
+                          {t.chat.thinking}
+                      </div>
+                  </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
-          </div>
-        </div>
-      )}
+
+            {/* Input */}
+            <div className="p-4 border-t border-white/5 bg-black/20">
+              <div className="flex items-center space-x-2">
+                  <input 
+                      type="text" 
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                      placeholder={t.chat.placeholder}
+                      className="flex-1 bg-transparent border-none focus:ring-0 text-sm font-light placeholder-white/30 text-white outline-none"
+                  />
+                  <button 
+                      onClick={handleSend}
+                      disabled={isLoading}
+                      className="text-skylva-sand hover:text-white transition-colors disabled:opacity-50"
+                  >
+                      <Send size={18} />
+                  </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <button 
         onClick={() => setIsOpen(!isOpen)}
@@ -110,7 +153,7 @@ const ChatWidget: React.FC = () => {
       >
         {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
       </button>
-    </div>
+    </motion.div>
   );
 };
 

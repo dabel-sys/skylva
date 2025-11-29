@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -9,8 +10,13 @@ const Navigation: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const { language, setLanguage, t } = useLanguage();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  
+  // State for hiding button on scroll
+  const [isButtonVisible, setIsButtonVisible] = useState(true);
 
   useEffect(() => {
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setIsScrolled(currentScrollY > 20);
@@ -25,15 +31,35 @@ const Navigation: React.FC = () => {
       ) - window.innerHeight;
       
       const progress = totalHeight > 0 ? currentScrollY / totalHeight : 0;
-      
       setScrollProgress(Math.min(Math.max(progress, 0), 1));
+
+      // Hide button while scrolling (only if menu is closed)
+      if (!isMobileOpen) {
+        setIsButtonVisible(false);
+        clearTimeout(scrollTimeout);
+        
+        // Show button after scrolling stops
+        scrollTimeout = setTimeout(() => {
+          setIsButtonVisible(true);
+        }, 250); // 250ms debounce
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
     handleScroll();
     
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
+    };
+  }, [isMobileOpen]);
+
+  // Ensure button is visible when menu opens
+  useEffect(() => {
+    if (isMobileOpen) {
+        setIsButtonVisible(true);
+    }
+  }, [isMobileOpen]);
 
   const navClasses = `
     absolute top-0 left-0 right-0 z-40 
@@ -116,7 +142,7 @@ const Navigation: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Animated Logo */}
           <div 
-            className="text-2xl font-display font-light tracking-[0.2em] text-white uppercase z-50 cursor-pointer flex items-center select-none"
+            className="text-2xl font-qurova font-light tracking-[0.2em] text-white uppercase z-50 cursor-pointer flex items-center select-none"
             onClick={scrollToTop}
           >
             <span>S</span>
@@ -178,7 +204,14 @@ const Navigation: React.FC = () => {
       </nav>
 
       {/* Mobile Floating Action Button */}
-      <div className="fixed bottom-6 right-6 z-50 md:hidden flex items-center justify-center mb-[env(safe-area-inset-bottom)]">
+      <motion.div 
+        animate={{
+            y: isButtonVisible ? 0 : 150, // Slide down off-screen
+            opacity: isButtonVisible ? 1 : 0
+        }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="fixed bottom-6 right-6 z-50 md:hidden flex items-center justify-center mb-[env(safe-area-inset-bottom)]"
+      >
         {/* Progress Ring */}
         <div className="absolute w-[72px] h-[72px] pointer-events-none mix-blend-difference z-0">
              <svg className="w-full h-full -rotate-90 origin-center" viewBox="0 0 72 72">
@@ -211,7 +244,7 @@ const Navigation: React.FC = () => {
              {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
           </motion.div>
         </button>
-      </div>
+      </motion.div>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
