@@ -19,23 +19,22 @@ const Technology: React.FC = () => {
 
   return (
     <section ref={ref} id="technology" className="py-32 relative overflow-hidden bg-black min-h-screen flex flex-col justify-center">
-      {/* Background Image Parallax */}
+      {/* Background Image Parallax with Cinematic Darkening */}
       <div className="absolute inset-0 z-0">
         <motion.div style={{ y, scale: 1.2 }} className="w-full h-full">
             <img 
             src="/images/intelligence.png" 
             alt="SKYLVA Artificial Intelligence Core" 
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-40"
             />
         </motion.div>
-        {/* Subtle dark shade to darken image slightly (30%) */}
-        <div className="absolute inset-0 bg-black/30" />
+        {/* Base dark overlay */}
+        <div className="absolute inset-0 bg-black/50" />
+        {/* Cinematic Vignette: Darkens edges to focus on center */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#000000_90%)]" />
       </div>
-
-      {/* Nature/Light Scanner Effect */}
-      <NatureScan />
       
-      {/* Digital Data Stream Background */}
+      {/* Digital Data Stream Background (Subtle Texture) */}
       <DataStream />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
@@ -94,24 +93,9 @@ const Technology: React.FC = () => {
   );
 };
 
-const NatureScan = () => {
-  return (
-    <motion.div 
-      className="absolute -left-[20%] -right-[20%] h-[60vh] -rotate-12 z-0 pointer-events-none mix-blend-screen"
-      initial={{ top: "-100%", opacity: 0 }}
-      animate={{ top: ["-50%", "150%"], opacity: [0, 1, 0] }}
-      transition={{ duration: 8, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.5 }}
-    >
-      {/* Stronger opacity for visibility */}
-      <div className="w-full h-full bg-gradient-to-b from-transparent via-white/30 to-transparent blur-[60px]" />
-      <div className="absolute top-1/2 left-0 right-0 h-32 bg-gradient-to-b from-white/20 to-transparent blur-[30px] translate-y-12" />
-    </motion.div>
-  )
-}
-
 const DataStream = () => {
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-40">
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
       <div className="flex justify-between w-full px-12">
         {[...Array(5)].map((_, i) => (
            <motion.div 
