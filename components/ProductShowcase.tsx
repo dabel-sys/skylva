@@ -27,6 +27,7 @@ const ProductShowcase: React.FC = () => {
   const { t } = useLanguage();
   const isInView = useInView(targetRef, { margin: "-20%" });
   const [isPaused, setIsPaused] = useState(false);
+  const [showSwipeHint, setShowSwipeHint] = useState(false);
   
   // Track scroll progress of this section
   const { scrollYProgress } = useScroll({
@@ -101,6 +102,17 @@ const ProductShowcase: React.FC = () => {
       return () => clearInterval(interval);
     }
   }, [isInView, isPaused, page]);
+
+  // Swipe Hint Timer
+  useEffect(() => {
+    if (isInView) {
+      setShowSwipeHint(true);
+      const timer = setTimeout(() => {
+        setShowSwipeHint(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [isInView]);
 
   return (
     <section id="structures" ref={targetRef} className="min-h-[100dvh] py-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0">
@@ -242,17 +254,26 @@ const ProductShowcase: React.FC = () => {
               </m.div>
             </AnimatePresence>
 
-            {/* Mobile Navigation Overlays */}
-            <div className="absolute inset-y-0 left-0 w-12 z-10 md:hidden flex items-center justify-center" onClick={() => paginate(-1)}>
-               <div className="bg-black/20 backdrop-blur-md p-1.5 rounded-full text-white/80 ml-2">
-                 <ChevronLeft size={20} />
-               </div>
-            </div>
-            <div className="absolute inset-y-0 right-0 w-12 z-10 md:hidden flex items-center justify-center" onClick={() => paginate(1)}>
-               <div className="bg-black/20 backdrop-blur-md p-1.5 rounded-full text-white/80 mr-2">
-                 <ChevronRight size={20} />
-               </div>
-            </div>
+            {/* Mobile Swipe Hint (Minimalistic Pulsing Arrows) */}
+            <AnimatePresence>
+                {showSwipeHint && (
+                    <m.div 
+                        key="swipe-hint"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="absolute inset-y-0 right-4 z-20 md:hidden flex items-center justify-center pointer-events-none"
+                    >
+                         <m.div 
+                             animate={{ x: [0, 8, 0], opacity: [0.4, 1, 0.4] }}
+                             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                         >
+                            <ChevronRight size={32} strokeWidth={1.5} className="text-white drop-shadow-md" />
+                         </m.div>
+                    </m.div>
+                )}
+            </AnimatePresence>
 
             {/* Pagination Indicators */}
             <div className="absolute bottom-4 right-4 md:bottom-6 md:right-12 z-20 flex gap-2">
