@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-skylva-matte text-white/60 py-16 border-t border-white/5 relative z-50">
+    <footer className="bg-skylva-matte text-white/60 py-16 border-t border-white/5 relative z-[100]">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="md:col-span-1">

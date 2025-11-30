@@ -66,10 +66,24 @@ const Navigation: React.FC = () => {
       : 'md:py-8 md:bg-transparent md:backdrop-blur-none md:border-b md:border-transparent'}
   `;
 
-  const navItems = [
+  // Desktop Menu Items (Minimal)
+  const desktopNavItems = [
     { label: t.nav.vision, href: '#vision', type: 'anchor' },
     { label: t.nav.product, href: '#structures', type: 'page', view: ViewState.STRUCTURES },
     { label: t.nav.technology, href: '#technology', type: 'page', view: ViewState.TECHNOLOGY },
+  ];
+
+  // Mobile Menu Items (Comprehensive)
+  const mobileNavItems = [
+    { label: t.nav.vision, href: '#', type: 'page', view: ViewState.LANDING }, // Home
+    { label: t.nav.product, href: '#structures', type: 'page', view: ViewState.STRUCTURES },
+    { label: t.nav.technology, href: '#technology', type: 'page', view: ViewState.TECHNOLOGY },
+    { label: t.experience.light_label, href: '#atmosphere', type: 'page', view: ViewState.ATMOSPHERE },
+    { label: t.footer.link_about, href: '#about', type: 'page', view: ViewState.ABOUT },
+    { label: t.footer.link_sustainability, href: '#sustainability', type: 'page', view: ViewState.SUSTAINABILITY },
+    { label: t.footer.link_careers, href: '#careers', type: 'page', view: ViewState.CAREERS },
+    { label: t.footer.link_press, href: '#press', type: 'page', view: ViewState.PRESS },
+    { label: t.footer.link_contact, href: '#contact', type: 'page', view: ViewState.CONTACT },
   ];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: any) => {
@@ -147,7 +161,7 @@ const Navigation: React.FC = () => {
   const containerVariants = {
     initial: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
     animate: { 
-      transition: { staggerChildren: 0.1, delayChildren: 0.3 }
+      transition: { staggerChildren: 0.05, delayChildren: 0.3 }
     },
     exit: {
       transition: { staggerChildren: 0.05, staggerDirection: -1 }
@@ -155,13 +169,13 @@ const Navigation: React.FC = () => {
   };
 
   const itemVariants = {
-    initial: { y: 100, opacity: 0 },
+    initial: { y: 50, opacity: 0 },
     animate: { 
       y: 0, 
       opacity: 1,
       transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const }
     },
-    exit: { y: 100, opacity: 0 }
+    exit: { y: 50, opacity: 0 }
   };
 
   return (
@@ -190,7 +204,7 @@ const Navigation: React.FC = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center space-x-8 lg:space-x-12">
-            {navItems.map((item, idx) => (
+            {desktopNavItems.map((item, idx) => (
               <a
                 key={item.label}
                 href={item.href}
@@ -282,46 +296,34 @@ const Navigation: React.FC = () => {
             exit="exit"
             className="fixed inset-0 bg-skylva-matte z-40 flex flex-col justify-between pt-[calc(env(safe-area-inset-top)+6rem)] pb-[calc(env(safe-area-inset-bottom)+8rem)] px-6 overflow-hidden"
           >
+             {/* Navigation List Container with Scroll */}
              <m.div 
                variants={containerVariants}
                initial="initial"
                animate="animate"
                exit="exit"
-               className="flex flex-col space-y-2"
+               className="flex flex-col space-y-1 overflow-y-auto flex-1 no-scrollbar pr-4"
              >
-                {navItems.map((item, idx) => (
-                  <div key={item.label} className="overflow-hidden">
+                {mobileNavItems.map((item, idx) => (
+                  <div key={item.label} className="overflow-hidden py-1">
                     <m.a
                       href={item.href}
                       onClick={(e) => handleNavClick(e, item)}
                       variants={itemVariants}
-                      className="block text-5xl font-display font-light tracking-tight text-white hover:text-skylva-green transition-colors uppercase leading-[1.1]"
+                      className="block text-3xl font-display font-light tracking-tight text-white hover:text-skylva-green transition-colors uppercase leading-tight"
                     >
                       {item.label}
                     </m.a>
                   </div>
                 ))}
-                
-                {/* Mobile Contact Link */}
-                <div className="overflow-hidden pt-4">
-                  <m.button
-                    onClick={() => { setIsMobileOpen(false); setView(ViewState.CONTACT); window.scrollTo(0,0); }}
-                    variants={itemVariants}
-                    className="block text-3xl font-display font-light tracking-tight text-white/60 hover:text-white transition-colors uppercase leading-[1.1]"
-                  >
-                    {t.footer.link_contact}
-                  </m.button>
-                </div>
-
              </m.div>
 
              <m.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1, transition: { delay: 0.6, duration: 0.8 } }}
                 exit={{ opacity: 0 }}
-                className="w-full"
+                className="w-full mt-6 pt-6 border-t border-white/10 flex-shrink-0"
              >
-                <div className="w-full h-[1px] bg-white/10 mb-8" />
                 <div className="flex justify-between items-end">
                   <div className="flex space-x-6">
                     {(['en', 'nl', 'de'] as const).map((lang) => (

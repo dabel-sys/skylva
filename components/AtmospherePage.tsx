@@ -20,10 +20,10 @@ const AtmospherePage: React.FC = () => {
   const heroScale = useTransform(smoothProgress, [0, 0.2], [1, 1.1]);
 
   return (
-    <div ref={containerRef} className="bg-skylva-offwhite text-skylva-charcoal min-h-screen relative overflow-hidden font-sans">
+    <div ref={containerRef} className="bg-skylva-offwhite text-skylva-charcoal min-h-screen relative font-sans">
       
       {/* Background Ambience (Subtle Gradient Animation) */}
-      <div className="fixed inset-0 pointer-events-none z-0">
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
          <m.div 
            animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.1, 1] }}
            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
@@ -38,21 +38,23 @@ const AtmospherePage: React.FC = () => {
          <div className="absolute inset-0 z-0">
             <m.div style={{ scale: heroScale }} className="w-full h-full">
                <img 
-                 src="https://images.unsplash.com/photo-1599690748809-9b93557e556e?q=80&w=2070&auto=format&fit=crop" 
+                 src="https://picsum.photos/seed/skylva_atmosphere_sky_v3/1920/1080" 
                  alt="Atmospheric light filtering through structure" 
-                 className="w-full h-full object-cover"
+                 className="w-full h-full object-cover opacity-90"
                />
-               {/* Light Overlay to ensure text readability */}
-               <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/60 to-skylva-offwhite" />
+               {/* Light Overlay to ensure text readability while keeping image visible */}
+               <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-white/20 to-skylva-offwhite" />
             </m.div>
          </div>
 
          <m.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-5xl">
-            <span className="block text-skylva-green text-xs font-bold tracking-[0.3em] uppercase mb-8 animate-pulse">Sensory Design</span>
-            <h1 className="text-6xl md:text-9xl font-display font-light text-skylva-charcoal mb-8 tracking-tight leading-[0.9]">
+            <div className="inline-block mb-8">
+               <span className="block text-skylva-green text-xs font-bold tracking-[0.3em] uppercase animate-pulse bg-white/80 backdrop-blur-md px-4 py-2 rounded-full">Sensory Design</span>
+            </div>
+            <h1 className="text-6xl md:text-9xl font-display font-light text-skylva-charcoal mb-8 tracking-tight leading-[0.9] drop-shadow-sm">
                <TextReveal mode="chars" stagger={0.02}>{t.atmosphere_page.title}</TextReveal>
             </h1>
-            <p className="text-xl md:text-2xl text-skylva-charcoal/80 font-sans font-light max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-skylva-charcoal/90 font-sans font-light max-w-2xl mx-auto leading-relaxed drop-shadow-sm font-medium">
                {t.atmosphere_page.subtitle}
             </p>
          </m.div>
@@ -60,7 +62,7 @@ const AtmospherePage: React.FC = () => {
          {/* Scroll Indicator */}
          <m.div 
            style={{ opacity: heroOpacity }}
-           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-skylva-charcoal/50 z-10"
+           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-skylva-charcoal/60 z-10"
          >
             <span className="text-[10px] font-mono uppercase tracking-widest">Discover</span>
             <ArrowDown size={16} className="animate-bounce" />
@@ -68,7 +70,7 @@ const AtmospherePage: React.FC = () => {
       </section>
 
       {/* Content Sections */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-32 flex flex-col gap-32 md:gap-48">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-32 flex flex-col gap-32 md:gap-48 pt-32">
          
          {/* 1. Light as Material */}
          <FeatureSection 
@@ -84,7 +86,7 @@ const AtmospherePage: React.FC = () => {
          <FeatureSection 
             title={t.atmosphere_page.section_air_title}
             body={t.atmosphere_page.section_air_body}
-            image="/images/process-1.png" // Placeholder, ideally an open-air shot
+            image="/images/process-1.png" // Placeholder
             align="left"
             icon={<Wind size={32} className="text-blue-400/80" />}
             accentColor="bg-blue-50"
@@ -103,7 +105,7 @@ const AtmospherePage: React.FC = () => {
       </div>
 
       {/* Footer / Quote */}
-      <section className="py-32 px-6 text-center relative z-10 bg-white/50 backdrop-blur-xl">
+      <section className="py-32 px-6 text-center relative z-10 bg-white/50 backdrop-blur-xl border-t border-white/50">
          <m.div 
            initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
