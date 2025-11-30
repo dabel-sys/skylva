@@ -24,6 +24,8 @@ import SustainabilityPage from './components/SustainabilityPage';
 import CareersPage from './components/CareersPage';
 import PressPage from './components/PressPage';
 import AboutPage from './components/AboutPage';
+import PrivacyPage from './components/PrivacyPage';
+import CookieConsent from './components/CookieConsent';
 
 const MainContent = () => (
   <main>
@@ -92,9 +94,11 @@ const AppContent = () => {
       {view === ViewState.CAREERS && <CareersPage />}
       {view === ViewState.PRESS && <PressPage />}
       {view === ViewState.ABOUT && <AboutPage />}
+      {view === ViewState.PRIVACY && <PrivacyPage />}
       
       <Footer />
       <ChatWidget />
+      <CookieConsent />
     </div>
   );
 };

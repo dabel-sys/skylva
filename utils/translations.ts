@@ -248,6 +248,25 @@ export const translations = {
       sub_3_desc: 'High-end smart energy modules',
       sub_4: 'SKYLVA Living',
       sub_4_desc: 'Sustainable architecture & lifestyle'
+    },
+    cookie: {
+      title: 'Your Privacy',
+      body: 'We use cookies to enhance your experience and analyze our traffic. By continuing to visit this site you agree to our use of cookies.',
+      accept: 'Accept All',
+      decline: 'Decline',
+      policy: 'Privacy Policy'
+    },
+    privacy_page: {
+      title: 'Privacy Policy',
+      subtitle: 'Commitment to data protection and transparency.',
+      intro: 'SKYLVA BV respects your privacy and is committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website.',
+      section_1_title: 'Data We Collect',
+      section_1_body: 'We may collect Identity Data (name), Contact Data (email, address), and Technical Data (IP address, browser type). This data is collected to provide our services and improve our website.',
+      section_2_title: 'How We Use Data',
+      section_2_body: 'We use your data to process your requests, manage our relationship with you, and improve our website, products, and services.',
+      section_3_title: 'Data Security',
+      section_3_body: 'We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used, or accessed in an unauthorized way.',
+      last_updated: 'Last Updated: January 2025'
     }
   },
   nl: {
@@ -498,6 +517,25 @@ export const translations = {
       sub_3_desc: 'High-end slimme energiemodules',
       sub_4: 'SKYLVA Living',
       sub_4_desc: 'Duurzame architectuur & lifestyle'
+    },
+    cookie: {
+      title: 'Uw Privacy',
+      body: 'Wij gebruiken cookies om uw ervaring te verbeteren en ons verkeer te analyseren. Door op deze site te blijven, stemt u in met ons gebruik van cookies.',
+      accept: 'Accepteer Alles',
+      decline: 'Weigeren',
+      policy: 'Privacybeleid'
+    },
+    privacy_page: {
+      title: 'Privacybeleid',
+      subtitle: 'Toewijding aan gegevensbescherming en transparantie.',
+      intro: 'SKYLVA BV respecteert uw privacy en zet zich in voor de bescherming van uw persoonsgegevens. Dit privacybeleid informeert u over hoe wij uw persoonsgegevens verwerken wanneer u onze website bezoekt.',
+      section_1_title: 'Gegevens die we verzamelen',
+      section_1_body: 'We kunnen identiteitsgegevens (naam), contactgegevens (e-mail, adres) en technische gegevens (IP-adres, browsertype) verzamelen. Deze gegevens worden verzameld om onze diensten te leveren en onze website te verbeteren.',
+      section_2_title: 'Hoe we gegevens gebruiken',
+      section_2_body: 'We gebruiken uw gegevens om uw verzoeken te verwerken, onze relatie met u te beheren en onze website, producten en diensten te verbeteren.',
+      section_3_title: 'Gegevensbeveiliging',
+      section_3_body: 'We hebben passende beveiligingsmaatregelen genomen om te voorkomen dat uw persoonsgegevens per ongeluk verloren gaan, worden gebruikt of op ongeoorloofde wijze worden geopend.',
+      last_updated: 'Laatst bijgewerkt: Januari 2025'
     }
   },
   de: {
@@ -748,6 +786,25 @@ export const translations = {
       sub_3_desc: 'High-End Smart-Energy-Module',
       sub_4: 'SKYLVA Living',
       sub_4_desc: 'Nachhaltige Architektur & Lifestyle'
+    },
+    cookie: {
+      title: 'Ihre Privatsphäre',
+      body: 'Wir verwenden Cookies, um Ihre Erfahrung zu verbessern und unseren Datenverkehr zu analysieren. Wenn Sie diese Website weiterhin besuchen, stimmen Sie der Verwendung von Cookies zu.',
+      accept: 'Alle Akzeptieren',
+      decline: 'Ablehnen',
+      policy: 'Datenschutz'
+    },
+    privacy_page: {
+      title: 'Datenschutzrichtlinie',
+      subtitle: 'Verpflichtung zu Datenschutz und Transparenz.',
+      intro: 'SKYLVA BV respektiert Ihre Privatsphäre und verpflichtet sich zum Schutz Ihrer personenbezogenen Daten. Diese Datenschutzrichtlinie informiert Sie darüber, wie wir Ihre personenbezogenen Daten behandeln, wenn Sie unsere Website besuchen.',
+      section_1_title: 'Daten, die wir sammeln',
+      section_1_body: 'Wir können Identitätsdaten (Name), Kontaktdaten (E-Mail, Adresse) und technische Daten (IP-Adresse, Browsertyp) sammeln. Diese Daten werden gesammelt, um unsere Dienstleistungen bereitzustellen und unsere Website zu verbessern.',
+      section_2_title: 'Wie wir Daten verwenden',
+      section_2_body: 'Wir verwenden Ihre Daten, um Ihre Anfragen zu bearbeiten, unsere Beziehung zu Ihnen zu verwalten und unsere Website, Produkte und Dienstleistungen zu verbessern.',
+      section_3_title: 'Datensicherheit',
+      section_3_body: 'Wir haben angemessene Sicherheitsvorkehrungen getroffen, um zu verhindern, dass Ihre personenbezogenen Daten versehentlich verloren gehen, verwendet oder auf unbefugte Weise abgerufen werden.',
+      last_updated: 'Zuletzt aktualisiert: Januar 2025'
     }
   }
 };

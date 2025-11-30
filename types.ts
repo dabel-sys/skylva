@@ -25,5 +25,6 @@ export enum ViewState {
   SUSTAINABILITY = 'SUSTAINABILITY',
   CAREERS = 'CAREERS',
   PRESS = 'PRESS',
-  ABOUT = 'ABOUT'
+  ABOUT = 'ABOUT',
+  PRIVACY = 'PRIVACY'
 }

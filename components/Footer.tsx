@@ -70,7 +70,7 @@ const Footer: React.FC = () => {
             &copy; 2025 {t.footer.rights}
           </div>
           <div className="flex space-x-6">
-            <a href="#" className="hover:text-white">{t.footer.privacy}</a>
+            <a href="#privacy" onClick={(e) => handleLinkClick(e, ViewState.PRIVACY)} className="hover:text-white">{t.footer.privacy}</a>
             <a href="#" className="hover:text-white">{t.footer.terms}</a>
           </div>
         </div>
