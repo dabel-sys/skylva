@@ -2,6 +2,7 @@
 export const translations = {
   en: {
     nav: {
+      home: 'Home',
       vision: 'Vision',
       product: 'Structures',
       technology: 'Technology',
@@ -251,6 +252,7 @@ export const translations = {
   },
   nl: {
     nav: {
+      home: 'Home',
       vision: 'Visie',
       product: 'Structuren',
       technology: 'Technologie',
@@ -500,6 +502,7 @@ export const translations = {
   },
   de: {
     nav: {
+      home: 'Home',
       vision: 'Vision',
       product: 'Strukturen',
       technology: 'Technologie',
@@ -571,7 +574,7 @@ export const translations = {
       title: 'Skandinavische Palette.',
       body: 'Nordische Kiefer. Recyceltes Aluminium. Solarglas. Materialen ausgewählt wegen ihrer Langlebigkeit, Nachhaltigkeit und einer natürlichen Patina die mit der Architektur harmonisch altert.',
       m1_name: 'Nordische Kiefer',
-      m1_desc: 'Thermisch behandeltes Holz, das mit der Zeit eine elegante silbergraue Patina entwickelt.',
+      m1_desc: 'Thermisch behandeld Holz, das mit der Zeit eine elegante silbergraue Patina entwickelt.',
       m2_name: 'Aluminium',
       m2_desc: 'Recyceltes Hydro-Circal-Aluminium mit weicher, architektonischer Mattstruktur.',
       m3_name: 'Solarglas',

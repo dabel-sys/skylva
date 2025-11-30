@@ -17,6 +17,22 @@ const Navigation: React.FC = () => {
   // State for hiding button on scroll
   const [isButtonVisible, setIsButtonVisible] = useState(true);
 
+  // Define pages that have a white/light hero section
+  const lightHeroViews = [ViewState.CAREERS, ViewState.PRESS, ViewState.ATMOSPHERE];
+  const isLightHero = lightHeroViews.includes(view);
+
+  // If on a light page AND not scrolled (transparent bg), use dark text
+  const useDarkText = isLightHero && !isScrolled;
+
+  // Dynamic Style Classes
+  const textColorClass = useDarkText ? 'text-skylva-charcoal' : 'text-white';
+  const navItemClass = useDarkText ? 'text-skylva-charcoal/70 hover:text-skylva-charcoal' : 'text-white/70 hover:text-white';
+  const underlineClass = useDarkText ? 'bg-skylva-charcoal' : 'bg-white';
+  const buttonClass = useDarkText ? 'bg-skylva-charcoal text-white hover:bg-black' : 'bg-white text-black hover:bg-skylva-sand';
+  const dividerClass = useDarkText ? 'border-skylva-charcoal/20' : 'border-white/20';
+  const langActive = useDarkText ? 'text-skylva-charcoal' : 'text-white';
+  const langInactive = useDarkText ? 'text-skylva-charcoal/40' : 'text-white/40';
+
   useEffect(() => {
     let scrollTimeout: ReturnType<typeof setTimeout>;
 
@@ -75,7 +91,7 @@ const Navigation: React.FC = () => {
 
   // Mobile Menu Items (Comprehensive)
   const mobileNavItems = [
-    { label: t.nav.vision, href: '#', type: 'page', view: ViewState.LANDING }, // Home
+    { label: t.nav.home, href: '#', type: 'page', view: ViewState.LANDING }, // Home
     { label: t.nav.product, href: '#structures', type: 'page', view: ViewState.STRUCTURES },
     { label: t.nav.technology, href: '#technology', type: 'page', view: ViewState.TECHNOLOGY },
     { label: t.experience.light_label, href: '#atmosphere', type: 'page', view: ViewState.ATMOSPHERE },
@@ -184,7 +200,7 @@ const Navigation: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
           {/* Animated Logo */}
           <div 
-            className="text-2xl font-qurova font-light tracking-[0.2em] text-white uppercase z-50 cursor-pointer flex items-center select-none"
+            className={`text-2xl font-qurova font-light tracking-[0.2em] uppercase z-50 cursor-pointer flex items-center select-none ${textColorClass}`}
             onClick={scrollToTop}
           >
             <span>S</span>
@@ -211,13 +227,13 @@ const Navigation: React.FC = () => {
                 onClick={(e) => handleNavClick(e, item)}
                 onMouseEnter={() => setHoveredIndex(idx)}
                 onMouseLeave={() => setHoveredIndex(null)}
-                className="relative text-sm font-sans tracking-widest text-white/70 hover:text-white transition-colors uppercase py-2"
+                className={`relative text-sm font-sans tracking-widest transition-colors uppercase py-2 ${navItemClass}`}
               >
                 {item.label}
                 {hoveredIndex === idx && (
                   <m.div
                     layoutId="desktop-nav-underline"
-                    className="absolute bottom-0 left-0 right-0 h-[1px] bg-white"
+                    className={`absolute bottom-0 left-0 right-0 h-[1px] ${underlineClass}`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -226,16 +242,16 @@ const Navigation: React.FC = () => {
                 )}
               </a>
             ))}
-            <button className="rounded-full bg-white text-black px-6 py-2 text-xs tracking-widest uppercase hover:bg-skylva-sand transition-colors">
+            <button className={`rounded-full px-6 py-2 text-xs tracking-widest uppercase transition-colors ${buttonClass}`}>
               {t.nav.configure}
             </button>
             
-            <div className="flex space-x-3 text-[10px] font-bold uppercase tracking-widest border-l border-white/20 pl-6 ml-2">
+            <div className={`flex space-x-3 text-[10px] font-bold uppercase tracking-widest border-l pl-6 ml-2 ${dividerClass}`}>
               {(['en', 'nl', 'de'] as const).map((lang) => (
                  <button 
                     key={lang}
                     onClick={() => setLanguage(lang)} 
-                    className={`transition-colors hover:text-white ${language === lang ? 'text-white' : 'text-white/40'}`}
+                    className={`transition-colors hover:opacity-100 ${language === lang ? langActive : langInactive}`}
                   >
                    {lang}
                  </button>
