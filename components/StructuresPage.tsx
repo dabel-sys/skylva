@@ -1,5 +1,5 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { m, useScroll, useTransform, useInView, useSpring } from 'framer-motion';
 import { ArrowRight, Plus, ChevronDown, Check } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -98,6 +98,8 @@ const StructuresPage: React.FC = () => {
 
 const HeroSection = ({ title, subtitle }: { title: string, subtitle: string }) => {
   const ref = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"]
@@ -107,18 +109,29 @@ const HeroSection = ({ title, subtitle }: { title: string, subtitle: string }) =
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
 
+  useEffect(() => {
+    // Explicitly play video to ensure desktop autoplay works
+    if (videoRef.current) {
+        videoRef.current.defaultMuted = true;
+        videoRef.current.muted = true;
+        videoRef.current.play().catch(error => {
+            console.log("Video play failed", error);
+        });
+    }
+  }, []);
+
   return (
     <section ref={ref} className="relative h-screen w-full overflow-hidden bg-black flex items-center justify-center">
        {/* Background Video */}
        <m.div style={{ y, scale, opacity }} className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-black/40 z-10" />
           <video 
+            ref={videoRef}
             autoPlay 
             muted 
             loop 
             playsInline 
             className="w-full h-full object-cover opacity-80"
-            poster="/images/hero.jpg"
           >
              {/* Moody abstract nature shadow video to fit the theme */}
              <source src="/images/structures.mp4" type="video/mp4" />
