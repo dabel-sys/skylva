@@ -1,3 +1,4 @@
+
 import { GoogleGenAI } from "@google/genai";
 
 const SYSTEM_INSTRUCTION = `
@@ -23,22 +24,25 @@ export const sendMessageToGemini = async (history: {role: 'user' | 'model', text
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     
+    // Construct the full history for context
+    const chatContents = [
+      ...history.map(h => ({
+        role: h.role,
+        parts: [{ text: h.text }]
+      })),
+      {
+        role: 'user',
+        parts: [{ text: newMessage }]
+      }
+    ];
+
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
-        temperature: 0.7, // Low temperature for calm, precise responses
+        temperature: 0.7,
       },
-      contents: [
-        ...history.map(h => ({
-          role: h.role,
-          parts: [{ text: h.text }]
-        })),
-        {
-          role: 'user',
-          parts: [{ text: newMessage }]
-        }
-      ]
+      contents: chatContents
     });
 
     return response.text || "I am currently aligning my systems. Please try again.";
