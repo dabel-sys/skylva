@@ -80,7 +80,7 @@ const TechnologyPage: React.FC = () => {
          id="glass"
          title={t.technology_page.section_glass_title}
          description={t.technology_page.section_glass_body}
-         image="/images/tech-glass.png"
+         image="/images/product-1.png"
          specs={[
             { label: t.technology_page.spec_transparency, value: "18-40%", unit: "Transmission" },
             { label: t.technology_page.spec_yield, value: "+30%", unit: "Bifacial Gain" },
@@ -97,7 +97,7 @@ const TechnologyPage: React.FC = () => {
          id="ai"
          title={t.technology_page.section_ai_title}
          description={t.technology_page.section_ai_body}
-         image="/images/tech-ai.png"
+         image="/images/product-3.png"
          specs={[
             { label: "Update Rate", value: "10", unit: "ms Latency" },
             { label: "Data Points", value: "1M+", unit: "Daily Processing" },
@@ -114,7 +114,7 @@ const TechnologyPage: React.FC = () => {
          id="material"
          title={t.technology_page.section_mat_title}
          description={t.technology_page.section_mat_body}
-         image="/images/tech-alloy.png"
+         image="/images/product-2.png"
          specs={[
             { label: "Alloy Grade", value: "6060", unit: "T6 Temper" },
             { label: "Recycled Content", value: "75%", unit: "Post-Consumer" },
@@ -129,7 +129,7 @@ const TechnologyPage: React.FC = () => {
       */}
       <section className="py-32 px-6 md:px-12 bg-[#050505] border-t border-white/10">
          <div className="max-w-7xl mx-auto">
-            <div className="mb-16">
+             <div className="mb-16">
                <h3 className="text-4xl font-display font-light mb-2">Technical Specifications</h3>
                <p className="text-white/40 font-mono text-sm">MODEL: S1-PERGOLA-GEN2</p>
             </div>
