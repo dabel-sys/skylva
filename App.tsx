@@ -55,18 +55,15 @@ const AppContent = () => {
         smoothWheel: true,
       });
 
-      let rafId: number;
-
       function raf(time: number) {
         lenis.raf(time);
-        rafId = requestAnimationFrame(raf);
+        requestAnimationFrame(raf);
       }
       
-      rafId = requestAnimationFrame(raf);
+      requestAnimationFrame(raf);
       (window as any).lenis = lenis; // Expose for Navigation.tsx
 
       return () => {
-        cancelAnimationFrame(rafId);
         lenis.destroy();
         delete (window as any).lenis;
       };

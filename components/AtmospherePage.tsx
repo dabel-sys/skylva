@@ -21,24 +21,16 @@ const AtmospherePage: React.FC = () => {
   const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
 
   return (
-    <div ref={containerRef} className="bg-skylva-offwhite text-skylva-charcoal min-h-screen relative font-sans w-full overflow-x-hidden">
+    // ROOT: bg-black ensures top overscroll/safe-area is black (seamless with hero)
+    <div ref={containerRef} className="bg-black text-skylva-charcoal min-h-screen relative font-sans w-full overflow-x-hidden">
       
-      {/* Background Ambience (Subtle Gradient Animation) */}
+      {/* Background Ambience (Fixed behind everything) */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-         <m.div 
-           animate={{ opacity: [0.3, 0.5, 0.3], scale: [1, 1.1, 1] }}
-           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-           className="absolute top-[-20%] right-[-10%] w-[80vw] h-[80vw] bg-yellow-100/30 rounded-full blur-[150px]" 
-         />
-         <div className="absolute inset-0 bg-white/20 backdrop-blur-3xl" />
+         <div className="absolute inset-0 bg-black" />
       </div>
 
-      {/* Hero Section - Cinematic Video Style */}
-      {/* 
-          100dvh ensures it fills the full screen including area behind dynamic island.
-          m-0 p-0 ensures no accidental spacing.
-      */}
-      <section ref={heroRef} className="relative min-h-[100dvh] w-full overflow-hidden bg-black flex items-center justify-center m-0 p-0">
+      {/* Hero Section - Full Viewport Height */}
+      <section ref={heroRef} className="relative h-[100dvh] w-full overflow-hidden flex items-center justify-center m-0 p-0 z-10">
          {/* Video Layer - Absolute Full Bleed */}
          <m.div style={{ y: heroY, scale: heroScale, opacity: heroOpacity }} className="absolute inset-0 z-0 w-full h-full">
             <div className="absolute inset-0 bg-black/30 z-10" />
@@ -50,13 +42,11 @@ const AtmospherePage: React.FC = () => {
               className="w-full h-full object-cover opacity-90"
               poster="/images/atmos-1.png"
             >
-               {/* Sunlight through trees (Komorebi effect) */}
                <source src="/images/atmoshpere.mp4" type="video/mp4" />
             </video>
          </m.div>
 
-         {/* Content */}
-         {/* Center alignment naturally keeps it away from Dynamic Island, but added pt safety just in case */}
+         {/* Content - Padded for Safe Area (Dynamic Island) */}
          <div className="relative z-20 text-center px-6 max-w-5xl pt-[env(safe-area-inset-top)]">
             <m.div
                initial={{ opacity: 0, y: 50 }}
@@ -87,55 +77,59 @@ const AtmospherePage: React.FC = () => {
          </m.div>
       </section>
 
-      {/* Content Sections */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-32 flex flex-col gap-32 md:gap-48 pt-32">
-         
-         {/* 1. Light as Material */}
-         <FeatureSection 
-            title={t.atmosphere_page.intro_title}
-            body={t.atmosphere_page.intro_body}
-            image="/images/atmos-1.png"
-            align="right"
-            icon={<Sun size={32} className="text-yellow-600/80" />}
-            accentColor="bg-yellow-50"
-         />
+      {/* CONTENT WRAPPER: White background starts here */}
+      <div className="relative z-10 bg-skylva-offwhite w-full rounded-t-[3rem] -mt-12 pt-24 pb-32">
+        
+        {/* Subtle ambience inside the white section */}
+        <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-yellow-100/40 rounded-full blur-[120px] pointer-events-none mix-blend-multiply" />
+        
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col gap-32 md:gap-48 relative z-10">
+            {/* 1. Light as Material */}
+            <FeatureSection 
+                title={t.atmosphere_page.intro_title}
+                body={t.atmosphere_page.intro_body}
+                image="/images/atmos-1.png"
+                align="right"
+                icon={<Sun size={32} className="text-yellow-600/80" />}
+                accentColor="bg-yellow-50"
+            />
 
-         {/* 2. Air / Ventilation */}
-         <FeatureSection 
-            title={t.atmosphere_page.section_air_title}
-            body={t.atmosphere_page.section_air_body}
-            image="/images/process-1.png" // Placeholder
-            align="left"
-            icon={<Wind size={32} className="text-blue-400/80" />}
-            accentColor="bg-blue-50"
-         />
+            {/* 2. Air / Ventilation */}
+            <FeatureSection 
+                title={t.atmosphere_page.section_air_title}
+                body={t.atmosphere_page.section_air_body}
+                image="/images/process-1.png"
+                align="left"
+                icon={<Wind size={32} className="text-blue-400/80" />}
+                accentColor="bg-blue-50"
+            />
 
-         {/* 3. Biophilia */}
-         <FeatureSection 
-            title={t.atmosphere_page.section_bio_title}
-            body={t.atmosphere_page.section_bio_body}
-            image="/images/atmos-2.png"
-            align="right"
-            icon={<Leaf size={32} className="text-green-600/80" />}
-            accentColor="bg-green-50"
-         />
-      
+            {/* 3. Biophilia */}
+            <FeatureSection 
+                title={t.atmosphere_page.section_bio_title}
+                body={t.atmosphere_page.section_bio_body}
+                image="/images/atmos-2.png"
+                align="right"
+                icon={<Leaf size={32} className="text-green-600/80" />}
+                accentColor="bg-green-50"
+            />
+        </div>
+
+        {/* Footer / Quote */}
+        <section className="mt-32 px-6 text-center relative z-10">
+            <m.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto"
+            >
+                <p className="text-3xl md:text-5xl font-display font-light text-skylva-charcoal leading-tight mb-8">
+                "We do not build to protect you from nature. We build to connect you to it."
+                </p>
+                <div className="w-12 h-[1px] bg-skylva-charcoal/20 mx-auto" />
+            </m.div>
+        </section>
       </div>
-
-      {/* Footer / Quote */}
-      <section className="py-32 px-6 text-center relative z-10 bg-white/50 backdrop-blur-xl border-t border-white/50">
-         <m.div 
-           initial={{ opacity: 0, y: 30 }}
-           whileInView={{ opacity: 1, y: 0 }}
-           viewport={{ once: true }}
-           className="max-w-3xl mx-auto"
-         >
-            <p className="text-3xl md:text-5xl font-display font-light text-skylva-charcoal leading-tight mb-8">
-               "We do not build to protect you from nature. We build to connect you to it."
-            </p>
-            <div className="w-12 h-[1px] bg-skylva-charcoal/20 mx-auto" />
-         </m.div>
-      </section>
 
     </div>
   );
