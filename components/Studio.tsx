@@ -2,9 +2,19 @@
 import React from 'react';
 import { m } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useView } from '../contexts/ViewContext';
+import { ViewState } from '../types';
 
 const Studio: React.FC = () => {
   const { t } = useLanguage();
+  const { setView } = useView();
+
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setView(ViewState.CONTACT);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <section id="studio" className="py-32 bg-skylva-stone border-t border-white/50">
        <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -43,7 +53,7 @@ const Studio: React.FC = () => {
                 </div>
                  <div className="flex flex-col">
                   <span className="text-sm font-bold uppercase tracking-widest text-skylva-matte mb-2">{t.studio.inq_label}</span>
-                  <a href="mailto:studio@skylva.com" className="text-sm font-light text-skylva-green hover:text-skylva-matte transition-colors underline decoration-1 underline-offset-4">
+                  <a href="#" onClick={handleContactClick} className="text-sm font-light text-skylva-green hover:text-skylva-matte transition-colors underline decoration-1 underline-offset-4 w-fit">
                     {t.studio.inq_link}
                   </a>
                 </div>

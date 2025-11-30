@@ -4,9 +4,12 @@ import { m, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
+import { useView } from '../contexts/ViewContext';
+import { ViewState } from '../types';
 
 const Experience: React.FC = () => {
   const { t } = useLanguage();
+  const { setView } = useView();
   const containerRef = useRef<HTMLElement>(null);
   
   // Parallax logic for a subtle premium feel
@@ -17,6 +20,11 @@ const Experience: React.FC = () => {
   
   const y1 = useTransform(scrollYProgress, [0, 1], [50, -50]);
   const y2 = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
+  const handleAtmosphereClick = () => {
+    setView(ViewState.ATMOSPHERE);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <section ref={containerRef} className="bg-skylva-offwhite min-h-[100dvh] py-20 md:py-32 flex flex-col justify-center overflow-hidden gpu-accelerated">
@@ -48,7 +56,10 @@ const Experience: React.FC = () => {
             style={{ y: y1 }}
             className="w-full lg:w-3/5 will-change-transform"
           >
-            <div className="relative aspect-[4/3] lg:aspect-[16/10] overflow-hidden rounded-3xl cursor-pointer group shadow-xl shadow-black/5 transform-gpu">
+            <div 
+              onClick={handleAtmosphereClick}
+              className="relative aspect-[4/3] lg:aspect-[16/10] overflow-hidden rounded-3xl cursor-pointer group shadow-xl shadow-black/5 transform-gpu"
+            >
                 <img
                   src="/images/atmos-1.png"
                   alt="Dappled light under pergola"
@@ -79,7 +90,10 @@ const Experience: React.FC = () => {
                   {t.experience.light_body}
                 </p>
                 
-                <button className="group flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-skylva-charcoal hover:text-skylva-green transition-colors">
+                <button 
+                  onClick={handleAtmosphereClick}
+                  className="group flex items-center gap-2 text-sm font-bold uppercase tracking-widest text-skylva-charcoal hover:text-skylva-green transition-colors"
+                >
                    <span>Discover Atmosphere</span>
                    <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
                 </button>

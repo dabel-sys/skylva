@@ -3,6 +3,8 @@ import React, { useRef } from 'react';
 import { m, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useView } from '../contexts/ViewContext';
+import { ViewState } from '../types';
 import TextReveal from './TextReveal';
 
 const stepsData = [
@@ -23,6 +25,7 @@ const stepsData = [
 const ProcessFlow: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { t } = useLanguage();
+  const { setView } = useView();
   
   // Horizontal Scroll Logic for Desktop
   const { scrollYProgress } = useScroll({
@@ -37,6 +40,13 @@ const ProcessFlow: React.FC = () => {
       { ...stepsData[1], ...t.process.steps[1], image: '/images/process-2.png' },
       { ...stepsData[2], ...t.process.steps[2], image: '/images/process-3.png' }
   ];
+
+  const handleStepClick = (index: number) => {
+    if (index === 2) { // Step 3: Install -> Contact Us
+      setView(ViewState.CONTACT);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <section ref={containerRef} className="bg-white text-skylva-charcoal min-h-[100dvh] py-20 md:py-32 flex flex-col justify-center relative overflow-hidden gpu-accelerated">
@@ -77,6 +87,7 @@ const ProcessFlow: React.FC = () => {
             {steps.map((step, index) => (
                 <m.div
                     key={step.id}
+                    onClick={() => handleStepClick(index)}
                     initial={{ opacity: 0, y: 50 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-10%" }}

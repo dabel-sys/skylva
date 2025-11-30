@@ -1,3 +1,4 @@
+
 export const translations = {
   en: {
     nav: {
@@ -122,7 +123,7 @@ export const translations = {
       link_press: 'Press',
       link_contact: 'Contact',
       btn_join: 'Join',
-      rights: 'SKYLVA Systems AS. All rights reserved.',
+      rights: 'SKYLVA BV. All rights reserved.',
       privacy: 'Privacy Policy',
       terms: 'Terms of Service'
     },
@@ -130,6 +131,54 @@ export const translations = {
       welcome: 'Welcome to SKYLVA. How can I assist in designing your energy independence?',
       placeholder: 'Ask about structures, energy, or design...',
       thinking: 'Processing...'
+    },
+    contact_page: {
+      title: 'Start the conversation',
+      subtitle: 'We are ready to design your energy independence.',
+      form_name: 'Name',
+      form_email: 'Email',
+      form_message: 'Message',
+      form_submit: 'Send Request',
+      info_address: 'Address',
+      info_email: 'Email',
+      sent_success: 'Thank you. We will be in touch shortly.'
+    },
+    structures_page: {
+      title: 'The Collection',
+      subtitle: 'Engineered for shade. Designed for power.',
+      s1_title: 'S1 Pergola',
+      s1_desc: 'The signature standalone structure. Freestanding elegance that defines an outdoor room without enclosing it. The bifacial glass canopy captures light from both sides, maximizing efficiency while providing partial transparency.',
+      s1_specs: ['Up to 6m Free Span', 'Bifacial Solar Glass', 'Integrated Water Drainage', 'Automated Louver Option'],
+      p1_title: 'Patio Cover',
+      p1_desc: 'Seamlessly attached to the façade. Extends the living space while managing solar gain for the interior. Designed to align perfectly with existing architectural lines.',
+      p1_specs: ['Wall-mounted Integration', 'Dimmable LED Lighting', 'Thermal Comfort Control', 'Frameless Glass Edge'],
+      c1_title: 'C1 Carport',
+      c1_desc: 'Energy generation meets vehicle protection. High-output architectural shelter for the modern electric fleet. Includes integrated EV charging capabilities.',
+      c1_specs: ['Dual EV Charger Ready', 'High-Yield Modules', 'Robust Aluminum Frame', 'Motion Sensor Lighting'],
+      cta_button: 'Configure This Model'
+    },
+    technology_page: {
+      title: 'The Science of Silence',
+      subtitle: 'Advanced engineering, invisible to the eye.',
+      section_glass_title: 'Solar Glass Architecture',
+      section_glass_body: 'Our proprietary glass-glass modules are engineered for structural strength and extreme weather resistance. By utilizing bifacial cells, we capture reflected light from the environment, increasing yield by up to 30% compared to standard panels.',
+      spec_transparency: 'Transparency',
+      spec_yield: 'Yield Increase',
+      spec_load: 'Snow Load',
+      section_ai_title: 'SkylvaOS Core',
+      section_ai_body: 'The neural network at the heart of every Skylva structure. It analyzes local weather data, sun position, and your energy consumption patterns to optimize power distribution in real-time.',
+      section_mat_title: 'Material Integrity',
+      section_mat_body: 'We use Hydro CIRCAL aluminum, composed of at least 75% recycled post-consumer scrap. It provides aerospace-grade strength with a fraction of the carbon footprint.',
+    },
+    atmosphere_page: {
+      title: 'Sculpting Light',
+      subtitle: 'The intangible architecture of feeling.',
+      intro_title: 'Light as a Material',
+      intro_body: 'In Scandinavian architecture, light is not merely illumination—it is a physical presence. We design our solar glass to filter sunlight rather than block it, creating a dappled effect known as "Komorebi"—the interplay of light and leaves.',
+      section_air_title: 'Breathing Spaces',
+      section_air_body: 'Natural ventilation is central to the SKYLVA experience. Our structures are designed to guide airflow, creating a microclimate that remains cool in summer without the need for artificial conditioning.',
+      section_bio_title: 'Biophilic Connection',
+      section_bio_body: 'We blur the line between the built environment and the natural world. By using natural materials and transparent energy surfaces, we ensure that your connection to the sky, the trees, and the seasons remains unbroken.',
     }
   },
 
@@ -184,7 +233,7 @@ export const translations = {
       light_body: 'Ons zonneglas laat natuurlijk licht door en creëert zachte patronen die doen denken aan een bladerdak. Beschut, maar altijd verbonden met de lucht.',
       cust_label: 'Maatwerk',
       cust_title: 'Uw Toevluchtsoord',
-      cust_body: 'Kies een open structuur voor een naadloze tuinbeleving, of voeg glazen wanden toe voor comfort in alle seizoenen. Elke SKYLVA-structuur past zich aan uw levensstijl aan.'
+      cust_body: 'Kies een open structuur voor een naadloze tuinbeleving, of voeg glazen wanden toe voor comfort in alle seizoenen. Elke SKYLVA-structuur past zich Ihrem Lebensstil an.'
     },
     product: {
       title: 'De Collectie',
@@ -217,7 +266,7 @@ export const translations = {
       title: 'AI-First Design.',
       body: 'Adaptieve systemen. Geoptimaliseerde opwekking. Intelligente besturing. Onze technologie voorspelt weerspatronen en beheert uw energiestroom met precisie.',
       t1_title: 'Zelflerend',
-      t1_desc: 'Leert uw gewoontes en past zich automatisch aan.',
+      t1_desc: 'Leert uw gewoontes en past zich automatisch an.',
       t2_title: 'Geoptimaliseerd',
       t2_desc: 'Maximaliseert lichtopbrengst, zelfs onder Noordse lichtcondities.',
       t3_title: 'Slimme Integratie',
@@ -234,7 +283,7 @@ export const translations = {
     },
     cta: {
       title: 'Ontwerp uw SKYLVA',
-      body: 'Configureer uw structuur in 3D. Pas materialen, schaal en zonnecapaciteit aan.',
+      body: 'Configureer uw structuur in 3D. Pas materialen, schaal en zonnecapaciteit an.',
       button: 'Start Configurator'
     },
     values: {
@@ -256,7 +305,7 @@ export const translations = {
       link_press: 'Pers',
       link_contact: 'Contact',
       btn_join: 'Lid worden',
-      rights: 'SKYLVA Systems AS. Alle rechten voorbehouden.',
+      rights: 'SKYLVA BV. Alle rechten voorbehouden.',
       privacy: 'Privacybeleid',
       terms: 'Algemene Voorwaarden'
     },
@@ -264,6 +313,54 @@ export const translations = {
       welcome: 'Welkom bij SKYLVA. Waarmee kan ik helpen bij het ontwerpen van uw energie-onafhankelijkheid?',
       placeholder: 'Vraag over structuren, energie of ontwerp...',
       thinking: 'Verwerken...'
+    },
+    contact_page: {
+      title: 'Start het gesprek',
+      subtitle: 'Wij zijn klaar om uw energie-onafhankelijkheid te ontwerpen.',
+      form_name: 'Naam',
+      form_email: 'E-mail',
+      form_message: 'Bericht',
+      form_submit: 'Verstuur Aanvraag',
+      info_address: 'Adres',
+      info_email: 'E-mail',
+      sent_success: 'Dank u. Wij nemen spoedig contact met u op.'
+    },
+    structures_page: {
+      title: 'De Collectie',
+      subtitle: 'Ontworpen voor schaduw. Gebouwd voor kracht.',
+      s1_title: 'S1 Pergola',
+      s1_desc: 'De kenmerkende vrijstaande structuur. Vrijstaande elegantie die een buitenkamer definieert zonder deze af te sluiten. De bifaciale glazen overkapping vangt licht van beide zijden en maximaliseert efficiëntie met behoud van transparantie.',
+      s1_specs: ['Tot 6m Vrije Overspanning', 'Bifaciaal Zonneglas', 'Geïntegreerde Waterafvoer', 'Optie voor Automatische Lamellen'],
+      p1_title: 'Terrasoverkapping',
+      p1_desc: 'Naadloos bevestigd aan de gevel. Verlengt de leefruimte en beheert zonnewarmte voor het interieur. Ontworpen om perfect aan te sluiten bij bestaande architecturale lijnen.',
+      p1_specs: ['Wandmontage Integratie', 'Dimbare LED Verlichting', 'Thermisch Comfort Controle', 'Frameloze Glasrand'],
+      c1_title: 'C1 Carport',
+      c1_desc: 'Energieopwekking ontmoet voertuigbescherming. Hoogwaardige architecturale beschutting voor de moderne elektrische vloot. Inclusief geïntegreerde EV-laadmogelijkheden.',
+      c1_specs: ['Gereed voor Dual EV Lader', 'Hoogrendement Modules', 'Robuust Aluminium Frame', 'Bewegingssensor Verlichting'],
+      cta_button: 'Configureer Dit Model'
+    },
+    technology_page: {
+      title: 'De Wetenschap van Stilte',
+      subtitle: 'Geavanceerde engineering, onzichtbaar voor het oog.',
+      section_glass_title: 'Zonneglas Architectuur',
+      section_glass_body: 'Onze eigen glas-glas modules zijn ontworpen voor structurele sterkte en extreme weersbestendigheid. Door bifaciale cellen te gebruiken, vangen we gereflecteerd licht uit de omgeving op, wat de opbrengst tot 30% verhoogt in vergelijking met standaardpanelen.',
+      spec_transparency: 'Transparantie',
+      spec_yield: 'Opbrengstverhoging',
+      spec_load: 'Sneeuwbelasting',
+      section_ai_title: 'SkylvaOS Kern',
+      section_ai_body: 'Het neurale netwerk in het hart van elke Skylva-structuur. Het analyseert lokale weergegevens, zonnestand en uw energieverbruikspatronen om de stroomverdeling in realtime te optimaliseren.',
+      section_mat_title: 'Materiële Integriteit',
+      section_mat_body: 'Wij gebruiken Hydro CIRCAL aluminium, samengesteld uit ten minste 75% gerecycled post-consumer schroot. Het biedt sterkte van luchtvaartkwaliteit met een fractie van de ecologische voetafdruk.',
+    },
+    atmosphere_page: {
+      title: 'Licht Vormgeven',
+      subtitle: 'De ongrijpbare architectuur van gevoel.',
+      intro_title: 'Licht als Materiaal',
+      intro_body: 'In Scandinavische architectuur is licht niet slechts verlichting—het is een fysieke aanwezigheid. We ontwerpen ons zonneglas om zonlicht te filteren in plaats van te blokkeren, wat een gevlekt effect creëert dat bekend staat als "Komorebi"—het samenspel van licht en bladeren.',
+      section_air_title: 'Ademende Ruimtes',
+      section_air_body: 'Natuurlijke ventilatie staat centraal in de SKYLVA-ervaring. Onze structuren zijn ontworpen om luchtstromen te geleiden, waardoor een microklimaat ontstaat dat in de zomer koel blijft zonder kunstmatige airconditioning.',
+      section_bio_title: 'Biofiele Verbinding',
+      section_bio_body: 'We vervagen de grens tussen de gebouwde omgeving en de natuurlijke wereld. Door natuurlijke materialen en transparante energieoppervlakken te gebruiken, zorgen we ervoor dat uw verbinding met de lucht, de bomen en de seizoenen ononderbroken blijft.',
     }
   },
 
@@ -338,7 +435,7 @@ export const translations = {
     materials: {
       label: 'Materialien',
       title: 'Skandinavische Palette.',
-      body: 'Nordische Kiefer. Recyceltes Aluminium. Solarglas. Materialien ausgewählt wegen ihrer Langlebigkeit, Nachhaltigkeit und einer natürlichen Patina, die mit der Architektur harmonisch altert.',
+      body: 'Nordische Kiefer. Recyceltes Aluminium. Solarglas. Materialen ausgewählt wegen ihrer Langlebigkeit, Nachhaltigkeit und einer natürlichen Patina die mit der Architektur harmonisch altert.',
       m1_name: 'Nordische Kiefer',
       m1_desc: 'Thermisch behandeltes Holz, das mit der Zeit eine elegante silbergraue Patina entwickelt.',
       m2_name: 'Aluminium',
@@ -390,7 +487,7 @@ export const translations = {
       link_press: 'Presse',
       link_contact: 'Kontakt',
       btn_join: 'Beitreten',
-      rights: 'SKYLVA Systems AS. Alle Rechte vorbehalten.',
+      rights: 'SKYLVA BV. Alle Rechte vorbehalten.',
       privacy: 'Datenschutz',
       terms: 'AGB'
     },
@@ -398,6 +495,54 @@ export const translations = {
       welcome: 'Willkommen bei SKYLVA. Wie kann ich Ihnen bei Ihrer Energieunabhängigkeit helfen?',
       placeholder: 'Fragen zu Strukturen, Energie oder Design...',
       thinking: 'Verarbeiten...'
+    },
+    contact_page: {
+      title: 'Das Gespräch beginnen',
+      subtitle: 'Wir sind bereit, Ihre Energieunabhängigkeit zu gestalten.',
+      form_name: 'Name',
+      form_email: 'E-Mail',
+      form_message: 'Nachricht',
+      form_submit: 'Anfrage Senden',
+      info_address: 'Adresse',
+      info_email: 'E-Mail',
+      sent_success: 'Vielen Dank. Wir melden uns in Kürze bei Ihnen.'
+    },
+    structures_page: {
+      title: 'Die Kollektion',
+      subtitle: 'Entwickelt für Schatten. Designt für Kraft.',
+      s1_title: 'S1 Pergola',
+      s1_desc: 'Die charakteristische freistehende Struktur. Freistehende Eleganz, die einen Außenraum definiert, ohne ihn einzuschließen. Das bifaziale Glasdach fängt Licht von beiden Seiten ein und maximiert die Effizienz bei gleichzeitiger Transparenz.',
+      s1_specs: ['Bis zu 6m freie Spannweite', 'Bifaziales Solarglas', 'Integrierte Entwässerung', 'Option für automatische Lamellen'],
+      p1_title: 'Terrassenüberdachung',
+      p1_desc: 'Nahtlos an der Fassade befestigt. Erweitert den Wohnraum und steuert den Wärmeeintrag für den Innenraum. Entworfen, um sich perfekt in bestehende architektonische Linien einzufügen.',
+      p1_specs: ['Wandmontage-Integration', 'Dimmbare LED-Beleuchtung', 'Thermische Komfortsteuerung', 'Rahmenlose Glaskante'],
+      c1_title: 'C1 Carport',
+      c1_desc: 'Energieerzeugung trifft auf Fahrzeugschutz. Hochleistungs-Architekturunterstand für die moderne Elektroflotte. Inklusive integrierter EV-Lademöglichkeiten.',
+      c1_specs: ['Bereit für Dual-EV-Ladegerät', 'Hochleistungsmodule', 'Robuster Aluminiumrahmen', 'Bewegungssensor-Beleuchtung'],
+      cta_button: 'Dieses Modell konfigurieren'
+    },
+    technology_page: {
+      title: 'Die Wissenschaft der Stille',
+      subtitle: 'Fortschrittliche Technik, unsichtbar für das Auge.',
+      section_glass_title: 'Solarglas-Architektur',
+      section_glass_body: 'Unsere proprietären Glas-Glas-Module sind auf strukturelle Festigkeit und extreme Wetterbeständigkeit ausgelegt. Durch die Verwendung von bifazialen Zellen fangen wir reflektiertes Licht aus der Umgebung ein und steigern den Ertrag um bis zu 30% im Vergleich zu Standardpaneelen.',
+      spec_transparency: 'Transparenz',
+      spec_yield: 'Ertragssteigerung',
+      spec_load: 'Schneelast',
+      section_ai_title: 'SkylvaOS Kern',
+      section_ai_body: 'Das neuronale Netzwerk im Herzen jeder Skylva-Struktur. Es analysiert lokale Wetterdaten, den Sonnenstand und Ihre Energieverbrauchsmuster, um die Energieverteilung in Echtzeit zu optimieren.',
+      section_mat_title: 'Materielle Integrität',
+      section_mat_body: 'Wir verwenden Hydro CIRCAL-Aluminium, das zu mindestens 75% aus recyceltem Post-Consumer-Schrott besteht. Es bietet Stärke in Luftfahrtqualität bei einem Bruchteil des CO2-Fußabdrucks.',
+    },
+    atmosphere_page: {
+      title: 'Licht Formen',
+      subtitle: 'Die immaterielle Architektur des Gefühls.',
+      intro_title: 'Licht als Material',
+      intro_body: 'In der skandinavischen Architektur ist Licht nicht nur Beleuchtung – es ist eine physische Präsenz. Wir entwerfen unser Solarglas so, dass es Sonnenlicht filtert, anstatt es zu blockieren, und so einen gesprenkelten Effekt erzeugt, der als "Komorebi" bekannt ist – das Zusammenspiel von Licht und Blättern.',
+      section_air_title: 'Atmende Räume',
+      section_air_body: 'Natürliche Belüftung steht im Mittelpunkt des SKYLVA-Erlebnisses. Unsere Strukturen sind so konzipiert, dass sie Luftströme leiten und ein Mikroklima schaffen, das im Sommer auch ohne künstliche Klimatisierung kühl bleibt.',
+      section_bio_title: 'Biophile Verbindung',
+      section_bio_body: 'Wir verwischen die Grenze zwischen gebauter Umwelt und natürlicher Welt. Durch die Verwendung natürlicher Materialien und transparenter Energieflächen stellen wir sicher, dass Ihre Verbindung zum Himmel, zu den Bäumen und zu den Jahreszeiten ununterbrochen bleibt.',
     }
   }
 };

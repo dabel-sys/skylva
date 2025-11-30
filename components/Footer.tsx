@@ -1,25 +1,50 @@
+
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useView } from '../contexts/ViewContext';
+import { ViewState } from '../types';
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();
+  const { setView } = useView();
+
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setView(ViewState.CONTACT);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleStructuresClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setView(ViewState.STRUCTURES);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleTechnologyClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setView(ViewState.TECHNOLOGY);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer className="bg-skylva-matte text-white/60 py-16 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="md:col-span-1">
             <h4 className="text-white font-display text-xl tracking-widest uppercase mb-6">Skylva</h4>
-            <p className="text-sm font-sans font-light">
-              {t.footer.location}<br />
-              {t.footer.tagline}
+            <p className="text-sm font-sans font-light leading-relaxed">
+              SKYLVA BV<br />
+              Schuttersweg 8<br />
+              1217 PZ HILVERSUM<br />
+              info@skylva.com
             </p>
           </div>
           
           <div>
             <h5 className="text-white text-xs font-bold uppercase tracking-widest mb-6">{t.footer.col_explore}</h5>
             <ul className="space-y-4 text-sm font-light">
-              <li><a href="#product" className="hover:text-white transition-colors">{t.nav.product}</a></li>
-              <li><a href="#technology" className="hover:text-white transition-colors">{t.nav.technology}</a></li>
+              <li><a href="#structures" onClick={handleStructuresClick} className="hover:text-white transition-colors">{t.nav.product}</a></li>
+              <li><a href="#technology" onClick={handleTechnologyClick} className="hover:text-white transition-colors">{t.nav.technology}</a></li>
             </ul>
           </div>
 
@@ -29,7 +54,7 @@ const Footer: React.FC = () => {
               <li><a href="#" className="hover:text-white transition-colors">{t.footer.link_sustainability}</a></li>
               <li><a href="#" className="hover:text-white transition-colors">{t.footer.link_careers}</a></li>
               <li><a href="#" className="hover:text-white transition-colors">{t.footer.link_press}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t.footer.link_contact}</a></li>
+              <li><a href="#" onClick={handleContactClick} className="hover:text-white transition-colors">{t.footer.link_contact}</a></li>
             </ul>
           </div>
 

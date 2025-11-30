@@ -1,3 +1,4 @@
+
 export interface NavItem {
   label: string;
   href: string;
@@ -16,5 +17,9 @@ export interface ChatMessage {
 
 export enum ViewState {
   LANDING = 'LANDING',
-  CONFIGURATOR = 'CONFIGURATOR'
+  CONFIGURATOR = 'CONFIGURATOR',
+  CONTACT = 'CONTACT',
+  STRUCTURES = 'STRUCTURES',
+  TECHNOLOGY = 'TECHNOLOGY',
+  ATMOSPHERE = 'ATMOSPHERE'
 }
