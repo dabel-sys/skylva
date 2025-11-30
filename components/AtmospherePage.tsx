@@ -21,7 +21,7 @@ const AtmospherePage: React.FC = () => {
   const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
 
   return (
-    <div ref={containerRef} className="bg-skylva-offwhite text-skylva-charcoal min-h-screen relative font-sans">
+    <div ref={containerRef} className="bg-skylva-offwhite text-skylva-charcoal min-h-screen relative font-sans w-full overflow-x-hidden">
       
       {/* Background Ambience (Subtle Gradient Animation) */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -34,10 +34,13 @@ const AtmospherePage: React.FC = () => {
       </div>
 
       {/* Hero Section - Cinematic Video Style */}
-      {/* Changed h-screen to h-[100dvh] for mobile edge-to-edge fix */}
-      <section ref={heroRef} className="relative h-[100dvh] w-full overflow-hidden bg-black flex items-center justify-center">
-         {/* Video Layer */}
-         <m.div style={{ y: heroY, scale: heroScale, opacity: heroOpacity }} className="absolute inset-0 z-0">
+      {/* 
+          100dvh ensures it fills the full screen including area behind dynamic island.
+          m-0 p-0 ensures no accidental spacing.
+      */}
+      <section ref={heroRef} className="relative min-h-[100dvh] w-full overflow-hidden bg-black flex items-center justify-center m-0 p-0">
+         {/* Video Layer - Absolute Full Bleed */}
+         <m.div style={{ y: heroY, scale: heroScale, opacity: heroOpacity }} className="absolute inset-0 z-0 w-full h-full">
             <div className="absolute inset-0 bg-black/30 z-10" />
             <video 
               autoPlay 
@@ -53,7 +56,7 @@ const AtmospherePage: React.FC = () => {
          </m.div>
 
          {/* Content */}
-         {/* Added pt-[env(safe-area-inset-top)] to prevent text from being hidden behind Dynamic Island */}
+         {/* Center alignment naturally keeps it away from Dynamic Island, but added pt safety just in case */}
          <div className="relative z-20 text-center px-6 max-w-5xl pt-[env(safe-area-inset-top)]">
             <m.div
                initial={{ opacity: 0, y: 50 }}
