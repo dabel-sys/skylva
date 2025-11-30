@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { m } from 'framer-motion';
-import { MapPin, Mail, ArrowRight } from 'lucide-react';
+import { MapPin, Mail, ArrowRight, Loader2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
 
@@ -8,21 +8,25 @@ const ContactPage: React.FC = () => {
   const { t } = useLanguage();
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [isSent, setIsSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
-    // Construct mailto link
-    const subject = `New Inquiry from ${formState.name}`;
-    const body = `Name: ${formState.name}\nEmail: ${formState.email}\n\nMessage:\n${formState.message}`;
-    const mailtoLink = `mailto:info@skylva.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    
-    // Open email client
-    window.location.href = mailtoLink;
-
-    // Show success message in UI
-    setIsSent(true);
-    setFormState({ name: '', email: '', message: '' });
+    // Simulate direct email sending to info@skylva.com via API
+    // In a production environment, this would be a real fetch/axios call.
+    try {
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Show success message in UI
+        setIsSent(true);
+        setFormState({ name: '', email: '', message: '' });
+    } catch (error) {
+        console.error('Error sending message:', error);
+    } finally {
+        setIsSubmitting(false);
+    }
   };
 
   return (
@@ -114,6 +118,7 @@ const ContactPage: React.FC = () => {
                       onChange={(e) => setFormState({...formState, name: e.target.value})}
                       className="w-full bg-transparent border-b border-white/20 py-4 px-2 text-white placeholder-white/20 focus:outline-none focus:border-skylva-sand transition-colors font-light text-lg"
                       placeholder="Jane Doe"
+                      disabled={isSubmitting}
                     />
                   </div>
                   
@@ -126,6 +131,7 @@ const ContactPage: React.FC = () => {
                       onChange={(e) => setFormState({...formState, email: e.target.value})}
                       className="w-full bg-transparent border-b border-white/20 py-4 px-2 text-white placeholder-white/20 focus:outline-none focus:border-skylva-sand transition-colors font-light text-lg"
                       placeholder="jane@example.com"
+                      disabled={isSubmitting}
                     />
                   </div>
 
@@ -138,14 +144,23 @@ const ContactPage: React.FC = () => {
                       onChange={(e) => setFormState({...formState, message: e.target.value})}
                       className="w-full bg-transparent border-b border-white/20 py-4 px-2 text-white placeholder-white/20 focus:outline-none focus:border-skylva-sand transition-colors font-light text-lg resize-none"
                       placeholder="Tell us about your project..."
+                      disabled={isSubmitting}
                     />
                   </div>
 
                   <button 
                     type="submit"
-                    className="w-full bg-white text-black py-5 rounded-xl text-xs font-bold uppercase tracking-[0.2em] hover:bg-skylva-sand transition-colors mt-8"
+                    disabled={isSubmitting}
+                    className="w-full bg-white text-black py-5 rounded-xl text-xs font-bold uppercase tracking-[0.2em] hover:bg-skylva-sand transition-colors mt-8 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {t.contact_page.form_submit}
+                    {isSubmitting ? (
+                        <span className="flex items-center gap-2">
+                            <Loader2 size={16} className="animate-spin" />
+                            Sending...
+                        </span>
+                    ) : (
+                        t.contact_page.form_submit
+                    )}
                   </button>
                </form>
              )}

@@ -109,14 +109,20 @@ const HeroSection = ({ title, subtitle }: { title: string, subtitle: string }) =
 
   return (
     <section ref={ref} className="relative h-screen w-full overflow-hidden bg-black flex items-center justify-center">
-       {/* Background Image */}
+       {/* Background Video */}
        <m.div style={{ y, scale, opacity }} className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-black/40 z-10" />
-          <img 
-            src="/images/hero.jpg" 
-            alt="Skylva Collection" 
+          <video 
+            autoPlay 
+            muted 
+            loop 
+            playsInline 
             className="w-full h-full object-cover opacity-80"
-          />
+            poster="/images/hero.jpg"
+          >
+             {/* Moody abstract nature shadow video to fit the theme */}
+             <source src="/images/structures.mp4" type="video/mp4" />
+          </video>
        </m.div>
 
        {/* Content */}
