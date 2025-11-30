@@ -34,7 +34,8 @@ const AtmospherePage: React.FC = () => {
       </div>
 
       {/* Hero Section - Cinematic Video Style */}
-      <section ref={heroRef} className="relative h-screen w-full overflow-hidden bg-black flex items-center justify-center">
+      {/* Changed h-screen to h-[100dvh] for mobile edge-to-edge fix */}
+      <section ref={heroRef} className="relative h-[100dvh] w-full overflow-hidden bg-black flex items-center justify-center">
          {/* Video Layer */}
          <m.div style={{ y: heroY, scale: heroScale, opacity: heroOpacity }} className="absolute inset-0 z-0">
             <div className="absolute inset-0 bg-black/30 z-10" />
@@ -52,7 +53,8 @@ const AtmospherePage: React.FC = () => {
          </m.div>
 
          {/* Content */}
-         <div className="relative z-20 text-center px-6 max-w-5xl">
+         {/* Added pt-[env(safe-area-inset-top)] to prevent text from being hidden behind Dynamic Island */}
+         <div className="relative z-20 text-center px-6 max-w-5xl pt-[env(safe-area-inset-top)]">
             <m.div
                initial={{ opacity: 0, y: 50 }}
                animate={{ opacity: 1, y: 0 }}
