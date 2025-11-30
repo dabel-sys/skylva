@@ -18,7 +18,8 @@ const Navigation: React.FC = () => {
   const [isButtonVisible, setIsButtonVisible] = useState(true);
 
   // Define pages that have a white/light hero section
-  const lightHeroViews = [ViewState.CAREERS, ViewState.PRESS, ViewState.ATMOSPHERE];
+  // Removed ATMOSPHERE as it now has a dark video hero
+  const lightHeroViews = [ViewState.CAREERS, ViewState.PRESS];
   const isLightHero = lightHeroViews.includes(view);
 
   // If on a light page AND not scrolled (transparent bg), use dark text

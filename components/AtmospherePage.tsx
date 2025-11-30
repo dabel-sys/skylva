@@ -1,23 +1,24 @@
 
 import React, { useRef } from 'react';
 import { m, useScroll, useTransform, useSpring } from 'framer-motion';
-import { Wind, Sun, Leaf, ArrowDown } from 'lucide-react';
+import { Wind, Sun, Leaf, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
 
 const AtmospherePage: React.FC = () => {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
   
-  // Overall Page Scroll
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
+  // Hero Scroll Logic (Parallax)
+  const { scrollYProgress: heroScrollProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
   });
 
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 20 });
-  const heroOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
-  const heroScale = useTransform(smoothProgress, [0, 0.2], [1, 1.1]);
+  const heroY = useTransform(heroScrollProgress, [0, 1], [0, 150]);
+  const heroOpacity = useTransform(heroScrollProgress, [0, 0.5], [1, 0]);
+  const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
 
   return (
     <div ref={containerRef} className="bg-skylva-offwhite text-skylva-charcoal min-h-screen relative font-sans">
@@ -32,40 +33,52 @@ const AtmospherePage: React.FC = () => {
          <div className="absolute inset-0 bg-white/20 backdrop-blur-3xl" />
       </div>
 
-      {/* Hero Section */}
-      <section className="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-         {/* Hero Image Layer */}
-         <div className="absolute inset-0 z-0">
-            <m.div style={{ scale: heroScale }} className="w-full h-full">
-               <img 
-                 src="https://picsum.photos/seed/skylva_atmosphere_sky_v3/1920/1080" 
-                 alt="Atmospheric light filtering through structure" 
-                 className="w-full h-full object-cover opacity-90"
-               />
-               {/* Light Overlay to ensure text readability while keeping image visible */}
-               <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-white/20 to-skylva-offwhite" />
+      {/* Hero Section - Cinematic Video Style */}
+      <section ref={heroRef} className="relative h-screen w-full overflow-hidden bg-black flex items-center justify-center">
+         {/* Video Layer */}
+         <m.div style={{ y: heroY, scale: heroScale, opacity: heroOpacity }} className="absolute inset-0 z-0">
+            <div className="absolute inset-0 bg-black/30 z-10" />
+            <video 
+              autoPlay 
+              muted 
+              loop 
+              playsInline 
+              className="w-full h-full object-cover opacity-90"
+              poster="/images/atmos-1.png"
+            >
+               {/* Sunlight through trees (Komorebi effect) */}
+               <source src="/images/atmoshpere.mp4" type="video/mp4" />
+            </video>
+         </m.div>
+
+         {/* Content */}
+         <div className="relative z-20 text-center px-6 max-w-5xl">
+            <m.div
+               initial={{ opacity: 0, y: 50 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            >
+               <span className="inline-block text-white text-xs font-bold tracking-[0.3em] uppercase mb-6 border border-white/30 px-4 py-2 rounded-full backdrop-blur-md">
+                 Sensory Design
+               </span>
+               <h1 className="text-7xl md:text-[10rem] font-display font-light text-white mb-6 leading-[0.8] tracking-tighter mix-blend-overlay">
+                 <TextReveal mode="chars" stagger={0.02}>{t.atmosphere_page.title}</TextReveal>
+               </h1>
+               <p className="text-xl md:text-2xl font-light text-white/90 tracking-wide max-w-2xl mx-auto drop-shadow-md">
+                 {t.atmosphere_page.subtitle}
+               </p>
             </m.div>
          </div>
 
-         <m.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-5xl">
-            <div className="inline-block mb-8">
-               <span className="block text-skylva-green text-xs font-bold tracking-[0.3em] uppercase animate-pulse bg-white/80 backdrop-blur-md px-4 py-2 rounded-full">Sensory Design</span>
-            </div>
-            <h1 className="text-6xl md:text-9xl font-display font-light text-skylva-charcoal mb-8 tracking-tight leading-[0.9] drop-shadow-sm">
-               <TextReveal mode="chars" stagger={0.02}>{t.atmosphere_page.title}</TextReveal>
-            </h1>
-            <p className="text-xl md:text-2xl text-skylva-charcoal/90 font-sans font-light max-w-2xl mx-auto leading-relaxed drop-shadow-sm font-medium">
-               {t.atmosphere_page.subtitle}
-            </p>
-         </m.div>
-
-         {/* Scroll Indicator */}
+         {/* Scroll Hint */}
          <m.div 
-           style={{ opacity: heroOpacity }}
-           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-skylva-charcoal/60 z-10"
+           initial={{ opacity: 0 }} 
+           animate={{ opacity: 1 }} 
+           transition={{ delay: 1, duration: 1 }}
+           className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/60 flex flex-col items-center gap-2 z-20"
          >
-            <span className="text-[10px] font-mono uppercase tracking-widest">Discover</span>
-            <ArrowDown size={16} className="animate-bounce" />
+            <span className="text-[10px] font-mono uppercase tracking-widest">Scroll to Discover</span>
+            <ChevronDown className="animate-bounce" size={16} />
          </m.div>
       </section>
 
