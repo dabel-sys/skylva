@@ -3,11 +3,14 @@ import React, { useRef, useState } from 'react';
 import { m, useSpring, useTransform, useMotionValue, useMotionTemplate } from 'framer-motion';
 import { ArrowRight, Move, Layers, Maximize, Settings } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useView } from '../contexts/ViewContext';
+import { ViewState } from '../types';
 import TextReveal from './TextReveal';
 
 const ConfiguratorCTA: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
   const { t } = useLanguage();
+  const { setView } = useView();
   
   // Mouse Interaction
   const mouseX = useMotionValue(0.5);
@@ -27,8 +30,15 @@ const ConfiguratorCTA: React.FC = () => {
   const rotateX = useTransform(springY, [0, 1], [5, -5]);
   const rotateY = useTransform(springX, [0, 1], [-5, 5]);
 
+  const handleStartConfig = () => {
+      // For now, redirect to Contact as a lead gen funnel
+      setView(ViewState.CONTACT);
+      window.scrollTo(0,0);
+  };
+
   return (
     <section 
+      id="configure"
       ref={ref} 
       onMouseMove={handleMouseMove}
       className="min-h-[100dvh] bg-white relative overflow-hidden flex flex-col items-center justify-center perspective-1000"
@@ -73,7 +83,9 @@ const ConfiguratorCTA: React.FC = () => {
         </m.p>
 
         {/* Magnetic Button */}
-        <MagneticButton text={t.cta.button} />
+        <div onClick={handleStartConfig}>
+             <MagneticButton text={t.cta.button} />
+        </div>
         
       </m.div>
     </section>
@@ -99,7 +111,7 @@ const FloatingUI = ({ springX, springY }: { springX: any, springY: any }) => {
       >
         <div className="flex items-center gap-3 mb-2">
           <Maximize size={14} className="text-skylva-green" />
-          <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Dimensions</span>
+          <span className="text-xs font-mono text-gray-500 uppercase tracking-widest">Dimensions</span>
         </div>
         <div className="h-1 w-24 bg-gray-200 rounded-full overflow-hidden">
            <m.div 
@@ -118,7 +130,7 @@ const FloatingUI = ({ springX, springY }: { springX: any, springY: any }) => {
       >
         <div className="flex items-center gap-3 mb-2">
           <Layers size={14} className="text-skylva-green" />
-          <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">Material</span>
+          <span className="text-xs font-mono text-gray-500 uppercase tracking-widest">Material</span>
         </div>
         <div className="flex gap-2">
            <div className="w-6 h-6 rounded-full bg-[#D8D4CD] border border-white shadow-sm" />

@@ -141,6 +141,12 @@ const ProductShowcase: React.FC = () => {
     window.scrollTo(0, 0);
   };
 
+  const handleBuildClick = () => {
+     const el = document.getElementById('configure');
+     if (el && (window as any).lenis) (window as any).lenis.scrollTo(el, { offset: -50, duration: 1.5 });
+     else if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section id="structures" ref={targetRef} className="min-h-[100dvh] pt-12 pb-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0 transform-gpu">
       
@@ -279,7 +285,10 @@ const ProductShowcase: React.FC = () => {
                                             >
                                                 Explore {currentProduct.title}
                                             </button>
-                                            <button className="bg-transparent border border-white text-white w-full md:w-auto px-8 py-3.5 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">
+                                            <button 
+                                                onClick={handleBuildClick}
+                                                className="bg-transparent border border-white text-white w-full md:w-auto px-8 py-3.5 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors"
+                                            >
                                                 Build your own
                                             </button>
                                         </div>

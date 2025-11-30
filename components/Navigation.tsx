@@ -72,8 +72,9 @@ const Navigation: React.FC = () => {
     }
   }, [isMobileOpen]);
 
+  // Increased Z-Index to 60 to sit above ChatWidget (z-50)
   const navClasses = `
-    absolute top-0 left-0 right-0 z-40 
+    absolute top-0 left-0 right-0 z-[60] 
     pt-[calc(env(safe-area-inset-top)+2rem)] pb-8 
     md:fixed 
     transition-all duration-500 ease-in-out
@@ -82,11 +83,12 @@ const Navigation: React.FC = () => {
       : 'md:py-8 md:bg-transparent md:backdrop-blur-none md:border-b md:border-transparent'}
   `;
 
-  // Desktop Menu Items (Minimal)
+  // Desktop Menu Items
   const desktopNavItems = [
     { label: t.nav.vision, href: '#vision', type: 'anchor' },
     { label: t.nav.product, href: '#structures', type: 'page', view: ViewState.STRUCTURES },
     { label: t.nav.technology, href: '#technology', type: 'page', view: ViewState.TECHNOLOGY },
+    { label: t.footer.link_about, href: '#about', type: 'page', view: ViewState.ABOUT },
   ];
 
   // Mobile Menu Items (Comprehensive)
@@ -143,6 +145,21 @@ const Navigation: React.FC = () => {
     } else {
       navigateAndScroll();
     }
+  };
+
+  const handleConfigureClick = () => {
+      if (view !== ViewState.LANDING) {
+          setView(ViewState.LANDING);
+          setTimeout(() => {
+              const el = document.getElementById('configure');
+              if (el && (window as any).lenis) (window as any).lenis.scrollTo(el, { offset: -50, duration: 1.5 });
+              else if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+      } else {
+          const el = document.getElementById('configure');
+          if (el && (window as any).lenis) (window as any).lenis.scrollTo(el, { offset: -50, duration: 1.5 });
+          else if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }
   };
 
   const scrollToTop = () => {
@@ -242,7 +259,10 @@ const Navigation: React.FC = () => {
                 )}
               </a>
             ))}
-            <button className={`rounded-full px-6 py-2 text-xs tracking-widest uppercase transition-colors ${buttonClass}`}>
+            <button 
+                onClick={handleConfigureClick}
+                className={`rounded-full px-6 py-2 text-xs tracking-widest uppercase transition-colors ${buttonClass}`}
+            >
               {t.nav.configure}
             </button>
             
@@ -261,14 +281,14 @@ const Navigation: React.FC = () => {
         </div>
       </nav>
 
-      {/* Mobile Floating Action Button */}
+      {/* Mobile Floating Action Button - Z-Index 60 to stay above Chat */}
       <m.div 
         animate={{
             y: isButtonVisible ? 0 : 150, 
             opacity: isButtonVisible ? 1 : 0
         }}
         transition={{ duration: 0.4, ease: "easeOut" }}
-        className="fixed bottom-6 right-6 z-50 md:hidden flex items-center justify-center mb-[env(safe-area-inset-bottom)]"
+        className="fixed bottom-6 right-6 z-[60] md:hidden flex items-center justify-center mb-[env(safe-area-inset-bottom)]"
       >
         <div className="absolute w-[72px] h-[72px] pointer-events-none mix-blend-difference z-0">
              <svg className="w-full h-full -rotate-90 origin-center" viewBox="0 0 72 72">
@@ -302,7 +322,7 @@ const Navigation: React.FC = () => {
         </button>
       </m.div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay - Z-Index 55 to be above chat but under nav bar if needed */}
       <AnimatePresence>
         {isMobileOpen && (
           <m.div
@@ -310,7 +330,7 @@ const Navigation: React.FC = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="fixed inset-0 bg-skylva-matte z-40 flex flex-col justify-between pt-[calc(env(safe-area-inset-top)+6rem)] pb-[calc(env(safe-area-inset-bottom)+8rem)] px-6 overflow-hidden"
+            className="fixed inset-0 bg-skylva-matte z-[55] flex flex-col justify-between pt-[calc(env(safe-area-inset-top)+6rem)] pb-[calc(env(safe-area-inset-bottom)+8rem)] px-6 overflow-hidden"
           >
              {/* Navigation List Container with Scroll */}
              <m.div 
@@ -336,7 +356,8 @@ const Navigation: React.FC = () => {
 
              <m.div 
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 1, transition: { delay: 0.6, duration: 0.8 } }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
                 exit={{ opacity: 0 }}
                 className="w-full mt-6 pt-6 border-t border-white/10 flex-shrink-0"
              >

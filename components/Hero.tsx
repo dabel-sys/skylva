@@ -67,6 +67,12 @@ const Hero: React.FC = () => {
     window.scrollTo(0, 0);
   };
 
+  const handleConfigureClick = () => {
+     const el = document.getElementById('configure');
+     if (el && (window as any).lenis) (window as any).lenis.scrollTo(el, { offset: -50, duration: 1.5 });
+     else if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section 
       ref={ref} 
@@ -177,7 +183,10 @@ const Hero: React.FC = () => {
                 <div className="absolute inset-0 bg-skylva-matte transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-[0.22,1,0.36,1]" />
             </button>
             
-            <button className="group relative border border-white/40 text-white px-10 py-5 text-xs font-bold tracking-[0.25em] uppercase overflow-hidden transition-all duration-500 w-72 md:w-auto hover:border-white/80 rounded-full backdrop-blur-md hover:scale-105 z-20">
+            <button 
+                onClick={handleConfigureClick}
+                className="group relative border border-white/40 text-white px-10 py-5 text-xs font-bold tracking-[0.25em] uppercase overflow-hidden transition-all duration-500 w-72 md:w-auto hover:border-white/80 rounded-full backdrop-blur-md hover:scale-105 z-20"
+            >
                 <span className="relative z-10 group-hover:text-skylva-matte transition-colors duration-500">{t.hero.button_configure}</span>
                 <div className="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-[0.22,1,0.36,1]" />
             </button>
