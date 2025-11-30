@@ -6,12 +6,22 @@ import { ViewState } from '../types';
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();
-  const { setView } = useView();
+  const { view, setView } = useView();
 
-  const handleLinkClick = (e: React.MouseEvent, view: ViewState) => {
+  const handleLinkClick = (e: React.MouseEvent, targetView: ViewState) => {
     e.preventDefault();
-    setView(view);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    if (view === targetView) {
+        // If already on the page, force scroll to top
+        if ((window as any).lenis) {
+            (window as any).lenis.scrollTo(0, { immediate: true });
+        } else {
+            window.scrollTo(0, 0);
+        }
+    } else {
+        // Change view, App.tsx will handle the scroll
+        setView(targetView);
+    }
   };
 
   return (
@@ -38,11 +48,11 @@ const Footer: React.FC = () => {
           <div>
              <h5 className="text-white text-xs font-bold uppercase tracking-widest mb-6">{t.footer.col_company}</h5>
             <ul className="space-y-4 text-sm font-light">
-              <li><a href="#" onClick={(e) => handleLinkClick(e, ViewState.ABOUT)} className="hover:text-white transition-colors">{t.footer.link_about}</a></li>
-              <li><a href="#" onClick={(e) => handleLinkClick(e, ViewState.SUSTAINABILITY)} className="hover:text-white transition-colors">{t.footer.link_sustainability}</a></li>
-              <li><a href="#" onClick={(e) => handleLinkClick(e, ViewState.CAREERS)} className="hover:text-white transition-colors">{t.footer.link_careers}</a></li>
-              <li><a href="#" onClick={(e) => handleLinkClick(e, ViewState.PRESS)} className="hover:text-white transition-colors">{t.footer.link_press}</a></li>
-              <li><a href="#" onClick={(e) => handleLinkClick(e, ViewState.CONTACT)} className="hover:text-white transition-colors">{t.footer.link_contact}</a></li>
+              <li><a href="#about" onClick={(e) => handleLinkClick(e, ViewState.ABOUT)} className="hover:text-white transition-colors">{t.footer.link_about}</a></li>
+              <li><a href="#sustainability" onClick={(e) => handleLinkClick(e, ViewState.SUSTAINABILITY)} className="hover:text-white transition-colors">{t.footer.link_sustainability}</a></li>
+              <li><a href="#careers" onClick={(e) => handleLinkClick(e, ViewState.CAREERS)} className="hover:text-white transition-colors">{t.footer.link_careers}</a></li>
+              <li><a href="#press" onClick={(e) => handleLinkClick(e, ViewState.PRESS)} className="hover:text-white transition-colors">{t.footer.link_press}</a></li>
+              <li><a href="#contact" onClick={(e) => handleLinkClick(e, ViewState.CONTACT)} className="hover:text-white transition-colors">{t.footer.link_contact}</a></li>
             </ul>
           </div>
 

@@ -68,6 +68,16 @@ const AppContent = () => {
     }
   }, []);
 
+  // Global Scroll Reset on View Change
+  useEffect(() => {
+    if ((window as any).lenis) {
+      // Immediate scroll to top without animation for page transitions
+      (window as any).lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [view]);
+
   return (
     <div className="bg-skylva-offwhite text-skylva-charcoal font-sans selection:bg-skylva-green selection:text-white relative">
       <ScrollGauge />

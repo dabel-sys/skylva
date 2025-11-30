@@ -110,8 +110,18 @@ const Navigation: React.FC = () => {
     
     if (item.type === 'page') {
       setIsMobileOpen(false);
-      setView(item.view);
-      window.scrollTo(0, 0);
+      
+      if (view === item.view) {
+          // If already on the page, force scroll to top
+          if ((window as any).lenis) {
+              (window as any).lenis.scrollTo(0, { immediate: true });
+          } else {
+              window.scrollTo(0, 0);
+          }
+      } else {
+          // Change view, App.tsx will handle scrolling
+          setView(item.view);
+      }
       return;
     }
 
@@ -166,7 +176,6 @@ const Navigation: React.FC = () => {
   const scrollToTop = () => {
     if (view !== ViewState.LANDING) {
       setView(ViewState.LANDING);
-      setTimeout(() => window.scrollTo({ top: 0 }), 100);
     } else {
       if ((window as any).lenis) {
          (window as any).lenis.scrollTo(0, { duration: 1.5 });
