@@ -19,39 +19,15 @@ If asked about products: We offer the Solar Pergola, the Patio Cover, and Archit
 Keep responses under 50 words unless detailed technical information is requested.
 `;
 
-export const sendMessageToGemini = async (history: {role: string, text: string}[], newMessage: string): Promise<string> => {
+export const sendMessageToGemini = async (history: {role: 'user' | 'model', text: string}[], newMessage: string): Promise<string> => {
   try {
     const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
     
-    // Convert history to the format Gemini expects if needed, or just use sendMessage
-    // For simplicity in this stateless service demo, we'll just use generateContent with system instruction
-    // Ideally, we would use ai.chats.create for a persistent session, but this works for single turn or simple context.
-    
-    const chat = ai.chats.create({
-      model: 'gemini-2.5-flash',
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-pro-preview',
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
         temperature: 0.7, // Low temperature for calm, precise responses
-      }
-    });
-
-    // Reconstruct history for the chat session (simplified)
-    // In a real app, you'd maintain the chat object instance.
-    for (const msg of history) {
-       // We can't easily inject history into a fresh chat object without sending it, 
-       // so for this stateless function, we might just send the new message 
-       // or manage the chat instance in the component.
-       // Let's Switch strategy: Return the chat instance from a hook or just simple generation for now.
-    }
-
-    // BETTER STRATEGY for this snippet: Use single generation with history context in prompt 
-    // OR assumes the component manages the 'chat' object. 
-    // Let's stick to a simple request-response for the demo to avoid complex state management in a single file.
-    
-    const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
-      config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
       },
       contents: [
         ...history.map(h => ({
