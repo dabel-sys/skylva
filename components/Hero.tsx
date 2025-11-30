@@ -112,7 +112,7 @@ const Hero: React.FC = () => {
       >
         <div className="pointer-events-auto">
             {/* Headlines - Staggered Char Reveal */}
-            <h1 className="text-5xl md:text-7xl lg:text-9xl font-display font-light tracking-tight text-white mb-8 leading-none md:leading-[0.9]">
+            <h1 className="text-5xl md:text-7xl lg:text-7xl font-display font-light tracking-tight text-white mb-8 leading-none md:leading-[0.9]">
             <div className="block overflow-hidden pb-2" key={`h1-${t.hero.headline_1}`}>
                 <TextReveal 
                     mode="chars" 
