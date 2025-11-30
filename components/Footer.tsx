@@ -8,26 +8,14 @@ const Footer: React.FC = () => {
   const { t } = useLanguage();
   const { setView } = useView();
 
-  const handleContactClick = (e: React.MouseEvent) => {
+  const handleLinkClick = (e: React.MouseEvent, view: ViewState) => {
     e.preventDefault();
-    setView(ViewState.CONTACT);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleStructuresClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setView(ViewState.STRUCTURES);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleTechnologyClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setView(ViewState.TECHNOLOGY);
+    setView(view);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="bg-skylva-matte text-white/60 py-16 border-t border-white/5">
+    <footer className="bg-skylva-matte text-white/60 py-16 border-t border-white/5 relative z-50">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="md:col-span-1">
@@ -35,26 +23,26 @@ const Footer: React.FC = () => {
             <p className="text-sm font-sans font-light leading-relaxed">
               SKYLVA BV<br />
               Schuttersweg 8<br />
-              1217 PZ HILVERSUM<br />
-              info@skylva.com
+              1217 PZ HILVERSUM
             </p>
           </div>
           
           <div>
             <h5 className="text-white text-xs font-bold uppercase tracking-widest mb-6">{t.footer.col_explore}</h5>
             <ul className="space-y-4 text-sm font-light">
-              <li><a href="#structures" onClick={handleStructuresClick} className="hover:text-white transition-colors">{t.nav.product}</a></li>
-              <li><a href="#technology" onClick={handleTechnologyClick} className="hover:text-white transition-colors">{t.nav.technology}</a></li>
+              <li><a href="#structures" onClick={(e) => handleLinkClick(e, ViewState.STRUCTURES)} className="hover:text-white transition-colors">{t.nav.product}</a></li>
+              <li><a href="#technology" onClick={(e) => handleLinkClick(e, ViewState.TECHNOLOGY)} className="hover:text-white transition-colors">{t.nav.technology}</a></li>
             </ul>
           </div>
 
           <div>
              <h5 className="text-white text-xs font-bold uppercase tracking-widest mb-6">{t.footer.col_company}</h5>
             <ul className="space-y-4 text-sm font-light">
-              <li><a href="#" className="hover:text-white transition-colors">{t.footer.link_sustainability}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t.footer.link_careers}</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">{t.footer.link_press}</a></li>
-              <li><a href="#" onClick={handleContactClick} className="hover:text-white transition-colors">{t.footer.link_contact}</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e, ViewState.ABOUT)} className="hover:text-white transition-colors">{t.footer.link_about}</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e, ViewState.SUSTAINABILITY)} className="hover:text-white transition-colors">{t.footer.link_sustainability}</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e, ViewState.CAREERS)} className="hover:text-white transition-colors">{t.footer.link_careers}</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e, ViewState.PRESS)} className="hover:text-white transition-colors">{t.footer.link_press}</a></li>
+              <li><a href="#" onClick={(e) => handleLinkClick(e, ViewState.CONTACT)} className="hover:text-white transition-colors">{t.footer.link_contact}</a></li>
             </ul>
           </div>
 
@@ -69,7 +57,7 @@ const Footer: React.FC = () => {
 
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 text-xs font-light text-white/30">
           <div className="mb-4 md:mb-0">
-            &copy; {new Date().getFullYear()} {t.footer.rights}
+            &copy; 2025 {t.footer.rights}
           </div>
           <div className="flex space-x-6">
             <a href="#" className="hover:text-white">{t.footer.privacy}</a>

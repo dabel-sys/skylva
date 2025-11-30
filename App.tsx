@@ -20,6 +20,10 @@ import ContactPage from './components/ContactPage';
 import StructuresPage from './components/StructuresPage';
 import TechnologyPage from './components/TechnologyPage';
 import AtmospherePage from './components/AtmospherePage';
+import SustainabilityPage from './components/SustainabilityPage';
+import CareersPage from './components/CareersPage';
+import PressPage from './components/PressPage';
+import AboutPage from './components/AboutPage';
 
 const MainContent = () => (
   <main>
@@ -47,6 +51,10 @@ const AppContent = () => {
       {view === ViewState.STRUCTURES && <StructuresPage />}
       {view === ViewState.TECHNOLOGY && <TechnologyPage />}
       {view === ViewState.ATMOSPHERE && <AtmospherePage />}
+      {view === ViewState.SUSTAINABILITY && <SustainabilityPage />}
+      {view === ViewState.CAREERS && <CareersPage />}
+      {view === ViewState.PRESS && <PressPage />}
+      {view === ViewState.ABOUT && <AboutPage />}
       
       <Footer />
       <ChatWidget />

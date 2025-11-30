@@ -3,11 +3,14 @@ import React, { useRef } from 'react';
 import { m, useScroll, useTransform, useMotionTemplate, useMotionValue, useSpring } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { useView } from '../contexts/ViewContext';
+import { ViewState } from '../types';
 import TextReveal from './TextReveal';
 
 const Hero: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
   const { t } = useLanguage();
+  const { setView } = useView();
 
   // Scroll Progress
   const { scrollYProgress } = useScroll({
@@ -58,6 +61,11 @@ const Hero: React.FC = () => {
   // Combine transforms
   const finalImageY = useMotionTemplate`calc(${yScroll} + ${imageY}px)`;
   const finalContentY = useMotionTemplate`calc(${contentY} + ${contentMoveY}px)`;
+
+  const handleExploreClick = () => {
+    setView(ViewState.ABOUT);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <section 
@@ -161,7 +169,10 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-col md:flex-row gap-6 justify-center items-center"
             >
-            <button className="group relative bg-white text-black px-10 py-5 text-xs font-bold tracking-[0.25em] uppercase overflow-hidden transition-all duration-500 w-72 md:w-auto shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_-10px_rgba(255,255,255,0.5)] rounded-full hover:scale-105 z-20">
+            <button 
+                onClick={handleExploreClick}
+                className="group relative bg-white text-black px-10 py-5 text-xs font-bold tracking-[0.25em] uppercase overflow-hidden transition-all duration-500 w-72 md:w-auto shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] hover:shadow-[0_0_60px_-10px_rgba(255,255,255,0.5)] rounded-full hover:scale-105 z-20"
+            >
                 <span className="relative z-10 group-hover:text-white transition-colors duration-500">{t.hero.button_discover}</span>
                 <div className="absolute inset-0 bg-skylva-matte transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-[0.22,1,0.36,1]" />
             </button>

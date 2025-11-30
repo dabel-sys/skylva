@@ -4,6 +4,8 @@ import { m, useScroll, useTransform, AnimatePresence, useMotionTemplate, useInVi
 import { ChevronLeft, ChevronRight, Pause, Play, Plus, Minus, ChevronRight as ChevronRightIcon } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
+import { useView } from '../contexts/ViewContext';
+import { ViewState } from '../types';
 
 const variants = {
   enter: (direction: number) => ({
@@ -28,6 +30,7 @@ const variants = {
 const ProductShowcase: React.FC = () => {
   const targetRef = useRef<HTMLElement>(null);
   const { t } = useLanguage();
+  const { setView } = useView();
   const isInView = useInView(targetRef, { margin: "-20%" });
   const [isPaused, setIsPaused] = useState(false);
   const [showSwipeHint, setShowSwipeHint] = useState(false);
@@ -132,6 +135,11 @@ const ProductShowcase: React.FC = () => {
       return () => clearTimeout(timer);
     }
   }, [isInView]);
+
+  const handleExploreClick = () => {
+    setView(ViewState.STRUCTURES);
+    window.scrollTo(0, 0);
+  };
 
   return (
     <section id="structures" ref={targetRef} className="min-h-[100dvh] pt-12 pb-24 md:py-32 flex flex-col justify-center bg-skylva-offwhite text-skylva-charcoal overflow-hidden relative transition-colors duration-0 transform-gpu">
@@ -265,7 +273,10 @@ const ProductShowcase: React.FC = () => {
                                         </m.p>
 
                                         <div className="flex flex-col gap-3 w-full md:w-auto">
-                                            <button className="bg-white text-black w-full md:w-auto px-8 py-3.5 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors">
+                                            <button 
+                                                onClick={handleExploreClick}
+                                                className="bg-white text-black w-full md:w-auto px-8 py-3.5 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-gray-200 transition-colors"
+                                            >
                                                 Explore {currentProduct.title}
                                             </button>
                                             <button className="bg-transparent border border-white text-white w-full md:w-auto px-8 py-3.5 rounded-md text-xs font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">

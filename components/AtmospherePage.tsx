@@ -17,7 +17,7 @@ const AtmospherePage: React.FC = () => {
 
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 60, damping: 20 });
   const heroOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
-  const heroScale = useTransform(smoothProgress, [0, 0.2], [1, 1.05]);
+  const heroScale = useTransform(smoothProgress, [0, 0.2], [1, 1.1]);
 
   return (
     <div ref={containerRef} className="bg-skylva-offwhite text-skylva-charcoal min-h-screen relative overflow-hidden font-sans">
@@ -34,12 +34,25 @@ const AtmospherePage: React.FC = () => {
 
       {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
-         <m.div style={{ opacity: heroOpacity, scale: heroScale }} className="relative z-10 max-w-5xl">
+         {/* Hero Image Layer */}
+         <div className="absolute inset-0 z-0">
+            <m.div style={{ scale: heroScale }} className="w-full h-full">
+               <img 
+                 src="https://images.unsplash.com/photo-1599690748809-9b93557e556e?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Atmospheric light filtering through structure" 
+                 className="w-full h-full object-cover"
+               />
+               {/* Light Overlay to ensure text readability */}
+               <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/60 to-skylva-offwhite" />
+            </m.div>
+         </div>
+
+         <m.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-5xl">
             <span className="block text-skylva-green text-xs font-bold tracking-[0.3em] uppercase mb-8 animate-pulse">Sensory Design</span>
             <h1 className="text-6xl md:text-9xl font-display font-light text-skylva-charcoal mb-8 tracking-tight leading-[0.9]">
                <TextReveal mode="chars" stagger={0.02}>{t.atmosphere_page.title}</TextReveal>
             </h1>
-            <p className="text-xl md:text-2xl text-skylva-charcoal/60 font-sans font-light max-w-2xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-skylva-charcoal/80 font-sans font-light max-w-2xl mx-auto leading-relaxed">
                {t.atmosphere_page.subtitle}
             </p>
          </m.div>
@@ -47,7 +60,7 @@ const AtmospherePage: React.FC = () => {
          {/* Scroll Indicator */}
          <m.div 
            style={{ opacity: heroOpacity }}
-           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-skylva-charcoal/30"
+           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-skylva-charcoal/50 z-10"
          >
             <span className="text-[10px] font-mono uppercase tracking-widest">Discover</span>
             <ArrowDown size={16} className="animate-bounce" />
