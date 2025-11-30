@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { translations } from '../utils/translations';
 
 type Language = 'en' | 'nl' | 'de';
@@ -13,7 +13,22 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [language, setLanguage] = useState<Language>('en');
+  // Initialize state from localStorage if available
+  const [language, setLanguage] = useState<Language>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('skylva_language');
+      if (saved === 'en' || saved === 'nl' || saved === 'de') {
+        return saved;
+      }
+    }
+    return 'en';
+  });
+
+  // Save to localStorage whenever language changes
+  useEffect(() => {
+    localStorage.setItem('skylva_language', language);
+  }, [language]);
+
   const t = translations[language];
 
   return (
