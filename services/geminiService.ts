@@ -1,3 +1,4 @@
+
 import { GoogleGenAI } from "@google/genai";
 
 const SYSTEM_INSTRUCTION = `
@@ -21,7 +22,15 @@ Keep responses under 50 words unless detailed technical information is requested
 
 export const sendMessageToGemini = async (history: {role: 'user' | 'model', text: string}[], newMessage: string): Promise<string> => {
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+    // Safety check for browser environment to prevent "process is not defined" crash
+    const apiKey = (typeof process !== 'undefined' && process.env) ? process.env.API_KEY : '';
+    
+    if (!apiKey) {
+        console.warn("API Key missing. Chat functionality limited.");
+        return "I am currently initializing my systems. Please check the configuration.";
+    }
+
+    const ai = new GoogleGenAI({ apiKey });
     
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
