@@ -87,16 +87,16 @@ const Navigation: React.FC = () => {
   // Desktop Menu Items
   const desktopNavItems = [
     { label: t.nav.vision, href: '#vision', type: 'anchor' },
-    { label: t.nav.product, href: '#structures', type: 'page', view: ViewState.STRUCTURES },
-    { label: t.nav.technology, href: '#technology', type: 'page', view: ViewState.TECHNOLOGY },
+    { label: t.nav.product, href: '#structures', type: 'anchor' },
+    { label: t.nav.technology, href: '#technology', type: 'anchor' },
     { label: t.footer.link_about, href: '#about', type: 'page', view: ViewState.ABOUT },
   ];
 
   // Mobile Menu Items (Comprehensive)
   const mobileNavItems = [
     { label: t.nav.home, href: '#', type: 'page', view: ViewState.LANDING }, // Home
-    { label: t.nav.product, href: '#structures', type: 'page', view: ViewState.STRUCTURES },
-    { label: t.nav.technology, href: '#technology', type: 'page', view: ViewState.TECHNOLOGY },
+    { label: t.nav.product, href: '#structures', type: 'anchor' },
+    { label: t.nav.technology, href: '#technology', type: 'anchor' },
     { label: t.experience.light_label, href: '#atmosphere', type: 'page', view: ViewState.ATMOSPHERE },
     { label: t.footer.link_about, href: '#about', type: 'page', view: ViewState.ABOUT },
     { label: t.footer.link_sustainability, href: '#sustainability', type: 'page', view: ViewState.SUSTAINABILITY },
