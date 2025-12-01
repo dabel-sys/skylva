@@ -1,5 +1,5 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { m, useScroll, useTransform } from 'framer-motion';
 import { Wind, Sun, Leaf, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -8,74 +8,24 @@ import TextReveal from './TextReveal';
 const AtmospherePage: React.FC = () => {
   const { t } = useLanguage();
   const containerRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLElement>(null);
-  
-  // Hero Scroll Logic (Parallax)
-  const { scrollYProgress: heroScrollProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
-  });
-
-  const heroY = useTransform(heroScrollProgress, [0, 1], [0, 150]);
-  const heroOpacity = useTransform(heroScrollProgress, [0, 0.5], [1, 0]);
-  const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
 
   return (
     <div ref={containerRef} className="bg-black min-h-screen w-full font-sans selection:bg-skylva-green selection:text-white">
       
-      {/* Hero Section - Matches StructuresPage height strategy (h-screen) */}
-      <section ref={heroRef} className="relative h-screen w-full overflow-hidden bg-black flex items-center justify-center">
-         {/* Video Layer - Absolute Full Bleed */}
-         <m.div style={{ y: heroY, scale: heroScale, opacity: heroOpacity }} className="absolute inset-0 z-0 w-full h-full">
-            <div className="absolute inset-0 bg-black/30 z-10" />
-            <video 
-              autoPlay 
-              muted 
-              loop 
-              playsInline 
-              className="w-full h-full object-cover opacity-90"
-              poster="/images/atmos-1.png"
-            >
-               <source src="/images/atmoshpere.mp4" type="video/mp4" />
-            </video>
-         </m.div>
-
-         {/* Content - Centered via Flexbox, matching StructuresPage behavior */}
-         <div className="relative z-20 text-center px-6 max-w-5xl">
-            <m.div
-               initial={{ opacity: 0, y: 50 }}
-               animate={{ opacity: 1, y: 0 }}
-               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            >
-               <span className="inline-block text-white text-xs font-bold tracking-[0.3em] uppercase mb-6 border border-white/30 px-4 py-2 rounded-full backdrop-blur-md">
-                 Sensory Design
-               </span>
-               <h1 className="text-7xl md:text-[10rem] font-display font-light text-white mb-6 leading-[0.8] tracking-tighter mix-blend-overlay">
-                 <TextReveal mode="chars" stagger={0.02}>{t.atmosphere_page.title}</TextReveal>
-               </h1>
-               <p className="text-xl md:text-2xl font-light text-white/90 tracking-wide max-w-2xl mx-auto drop-shadow-md">
-                 {t.atmosphere_page.subtitle}
-               </p>
-            </m.div>
-         </div>
-
-         {/* Scroll Hint */}
-         <m.div 
-           initial={{ opacity: 0 }} 
-           animate={{ opacity: 1 }} 
-           transition={{ delay: 1, duration: 1 }}
-           className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/60 flex flex-col items-center gap-2 z-20"
-         >
-            <span className="text-[10px] font-mono uppercase tracking-widest">Scroll to Discover</span>
-            <ChevronDown className="animate-bounce" size={16} />
-         </m.div>
-      </section>
+      {/* 
+        HERO SECTION 
+        Uses 100dvh for proper edge-to-edge sizing on iOS 
+      */}
+      <HeroSection 
+         title={t.atmosphere_page.title}
+         subtitle={t.atmosphere_page.subtitle}
+      />
 
       {/* CONTENT WRAPPER: White background starts here */}
-      <div className="relative z-10 bg-skylva-offwhite w-full rounded-t-[3rem] -mt-12 pt-24 pb-32">
+      <div className="relative z-10 bg-skylva-offwhite w-full rounded-t-[3rem] -mt-12 pt-24 pb-32 transform-gpu">
         
-        {/* Subtle ambience inside the white section */}
-        <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-yellow-100/40 rounded-full blur-[120px] pointer-events-none mix-blend-multiply" />
+        {/* Optimization: Use Radial Gradient instead of large Blur+MixBlend for better performance */}
+        <div className="absolute top-0 right-0 w-full h-[800px] bg-[radial-gradient(circle_at_80%_0%,rgba(254,249,195,0.4),transparent_60%)] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col gap-32 md:gap-48 relative z-10">
             {/* 1. Light as Material */}
@@ -129,6 +79,87 @@ const AtmospherePage: React.FC = () => {
   );
 };
 
+// --- Subcomponents ---
+
+const HeroSection = ({ title, subtitle }: { title: string, subtitle: string }) => {
+  const ref = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  
+  // Hero Scroll Logic (Parallax)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
+
+  useEffect(() => {
+    // Explicitly play video to ensure desktop/iOS autoplay works reliably
+    if (videoRef.current) {
+        videoRef.current.defaultMuted = true;
+        videoRef.current.muted = true;
+        videoRef.current.play().catch(error => {
+            console.log("Video play failed", error);
+        });
+    }
+  }, []);
+
+  return (
+      <section ref={ref} className="relative h-[100dvh] w-full overflow-hidden bg-black flex items-center justify-center">
+         {/* Video Layer - Absolute Full Bleed */}
+         <m.div 
+           style={{ y, scale, opacity }} 
+           className="absolute inset-0 z-0 w-full h-full will-change-transform"
+         >
+            <div className="absolute inset-0 bg-black/30 z-10" />
+            <video 
+              ref={videoRef}
+              autoPlay 
+              muted 
+              loop 
+              playsInline 
+              className="w-full h-full object-cover opacity-90"
+              // Removed poster to prevent static image flash
+            >
+               <source src="/images/atmosphere.mp4" type="video/mp4" />
+            </video>
+         </m.div>
+
+         {/* Content - Centered via Flexbox */}
+         <div className="relative z-20 text-center px-6 max-w-5xl pointer-events-none">
+            <m.div
+               initial={{ opacity: 0, y: 50 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            >
+               <span className="inline-block text-white text-xs font-bold tracking-[0.3em] uppercase mb-6 border border-white/30 px-4 py-2 rounded-full backdrop-blur-md">
+                 Sensory Design
+               </span>
+               <h1 className="text-7xl md:text-[10rem] font-display font-light text-white mb-6 leading-[0.8] tracking-tighter mix-blend-overlay">
+                 <TextReveal mode="chars" stagger={0.02}>{title}</TextReveal>
+               </h1>
+               <p className="text-xl md:text-2xl font-light text-white/90 tracking-wide max-w-2xl mx-auto drop-shadow-md">
+                 {subtitle}
+               </p>
+            </m.div>
+         </div>
+
+         {/* Scroll Hint */}
+         <m.div 
+           initial={{ opacity: 0 }} 
+           animate={{ opacity: 1 }} 
+           transition={{ delay: 1, duration: 1 }}
+           className="absolute bottom-12 left-1/2 -translate-x-1/2 text-white/60 flex flex-col items-center gap-2 z-20"
+         >
+            <span className="text-[10px] font-mono uppercase tracking-widest">Scroll to Discover</span>
+            <ChevronDown className="animate-bounce" size={16} />
+         </m.div>
+      </section>
+  )
+}
+
 const FeatureSection = ({ title, body, image, align, icon, accentColor }: any) => {
    const ref = useRef(null);
    const { scrollYProgress } = useScroll({
@@ -164,11 +195,11 @@ const FeatureSection = ({ title, body, image, align, icon, accentColor }: any) =
 
          {/* Image Side */}
          <m.div style={{ y, opacity }} className="w-full lg:w-3/5">
-            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl shadow-black/5">
+            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl shadow-black/5 transform-gpu">
                <img 
                   src={image} 
                   alt={title} 
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2s] ease-out"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-[2s] ease-out will-change-transform"
                />
                {/* Soft overlay */}
                <div className="absolute inset-0 bg-white/10 mix-blend-soft-light" />
