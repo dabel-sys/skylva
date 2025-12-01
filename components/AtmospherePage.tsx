@@ -1,6 +1,6 @@
 
 import React, { useRef } from 'react';
-import { m, useScroll, useTransform, useSpring } from 'framer-motion';
+import { m, useScroll, useTransform } from 'framer-motion';
 import { Wind, Sun, Leaf, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
@@ -21,16 +21,10 @@ const AtmospherePage: React.FC = () => {
   const heroScale = useTransform(heroScrollProgress, [0, 1], [1, 1.1]);
 
   return (
-    // ROOT: bg-black ensures top overscroll/safe-area is black (seamless with hero)
-    <div ref={containerRef} className="bg-black text-skylva-charcoal min-h-screen relative font-sans w-full overflow-x-hidden">
+    <div ref={containerRef} className="bg-black min-h-screen w-full font-sans selection:bg-skylva-green selection:text-white">
       
-      {/* Background Ambience (Fixed behind everything) */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-         <div className="absolute inset-0 bg-black" />
-      </div>
-
-      {/* Hero Section - Full Viewport Height */}
-      <section ref={heroRef} className="relative h-[100dvh] w-full overflow-hidden flex items-center justify-center m-0 p-0 z-10">
+      {/* Hero Section - Matches StructuresPage height strategy (h-screen) */}
+      <section ref={heroRef} className="relative h-screen w-full overflow-hidden bg-black flex items-center justify-center">
          {/* Video Layer - Absolute Full Bleed */}
          <m.div style={{ y: heroY, scale: heroScale, opacity: heroOpacity }} className="absolute inset-0 z-0 w-full h-full">
             <div className="absolute inset-0 bg-black/30 z-10" />
@@ -46,8 +40,8 @@ const AtmospherePage: React.FC = () => {
             </video>
          </m.div>
 
-         {/* Content - Padded for Safe Area (Dynamic Island) */}
-         <div className="relative z-20 text-center px-6 max-w-5xl pt-[env(safe-area-inset-top)]">
+         {/* Content - Centered via Flexbox, matching StructuresPage behavior */}
+         <div className="relative z-20 text-center px-6 max-w-5xl">
             <m.div
                initial={{ opacity: 0, y: 50 }}
                animate={{ opacity: 1, y: 0 }}

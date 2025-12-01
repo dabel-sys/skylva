@@ -193,7 +193,20 @@ export const translations = {
       stat_3: 'Net+',
       stat_3_desc: 'Energy Generation',
       section_lifecycle_title: 'The Infinite Loop',
-      section_lifecycle_body: 'SKYLVA structures are designed for disassembly. We do not use permanent adhesives or composite materials that cannot be separated. When a structure reaches the end of its 50-year lifespan, its components can be easily dismantled and recycled into new high-value products.'
+      section_lifecycle_body: 'SKYLVA structures are designed for disassembly. We do not use permanent adhesives or composite materials that cannot be separated. When a structure reaches the end of its 50-year lifespan, its components can be easily dismantled and recycled into new high-value products.',
+      loop_title: 'Closed Loop Manufacturing',
+      loop_aluminum_title: 'Hydro CIRCAL',
+      loop_aluminum_body: 'Our structural chassis uses aluminum made with a minimum of 75% recycled post-consumer scrap, drastically reducing energy use in the extraction phase.',
+      loop_timber_title: 'Regenerative Timber',
+      loop_timber_body: 'We source exclusively from certified Nordic forests where the growth rate exceeds harvest rate. For every tree used, three are planted.',
+      loop_eol_title: 'End of Life',
+      loop_eol_body: 'Designed for disassembly. Glass, metal, and wood can be separated in under 4 hours, ensuring 98% of the structure re-enters the supply chain.',
+      eco_title: 'Energy Architecture',
+      eco_body: 'A SKYLVA structure is not an isolated object. It is a critical node in your home\'s energy ecosystem, communicating intelligently with grid, battery, and vehicle.',
+      roi_title: 'Carbon ROI',
+      roi_subtitle: 'The environmental return of a single S1 Pergola over 25 years.',
+      roi_trees: 'Trees Planted Equivalent',
+      roi_miles: 'EV Kilometers Powered'
     },
     careers_page: {
       title: 'Join the Quiet Revolution',
@@ -462,7 +475,20 @@ export const translations = {
       stat_3: 'Net+',
       stat_3_desc: 'Energieopwekking',
       section_lifecycle_title: 'De Oneindige Cyclus',
-      section_lifecycle_body: 'SKYLVA-structuren zijn ontworpen voor demontage. We gebruiken geen permanente lijmen of composietmaterialen die niet kunnen worden gescheiden. Wanneer een structuur het einde van zijn 50-jarige levensduur bereikt, kunnen de componenten eenvoudig worden gedemonteerd en gerecycled tot nieuwe hoogwaardige producten.'
+      section_lifecycle_body: 'SKYLVA-structuren zijn ontworpen voor demontage. We gebruiken geen permanente lijmen of composietmaterialen die niet kunnen worden gescheiden. Wanneer een structuur het einde van zijn 50-jarige levensduur bereikt, kunnen de componenten eenvoudig worden gedemonteerd en gerecycled tot nieuwe hoogwaardige producten.',
+      loop_title: 'Gesloten Kringloop Productie',
+      loop_aluminum_title: 'Hydro CIRCAL',
+      loop_aluminum_body: 'Ons structurele chassis gebruikt aluminium gemaakt met minimaal 75% gerecycled post-consumer schroot, wat het energieverbruik in de extractiefase drastisch vermindert.',
+      loop_timber_title: 'Regeneratief Hout',
+      loop_timber_body: 'Wij sourcen uitsluitend uit gecertificeerde Noordse bossen waar de groeisnelheid de oogst overtreft. Voor elke gebruikte boom worden er drie geplant.',
+      loop_eol_title: 'Einde Levensduur',
+      loop_eol_body: 'Ontworpen voor demontage. Glas, metaal en hout kunnen in minder dan 4 uur worden gescheiden, waardoor 98% van de structuur weer in de toeleveringsketen komt.',
+      eco_title: 'Energie Architectuur',
+      eco_body: 'Een SKYLVA-structuur is geen geïsoleerd object. Het is een cruciaal knooppunt in het ecosysteem van uw huis, dat intelligent communiceert met netwerk, batterij en voertuig.',
+      roi_title: 'Koolstof ROI',
+      roi_subtitle: 'Het ecologische rendement van één S1 Pergola over 25 jaar.',
+      roi_trees: 'Bomen Geplant Equivalent',
+      roi_miles: 'EV Kilometers Aangedreven'
     },
     careers_page: {
       title: 'Doe mee met de stille revolutie',
@@ -608,7 +634,7 @@ export const translations = {
       p2_spec3: 'Schnellladen'
     },
     materials: {
-      label: 'Materialien',
+      label: 'Materialen',
       title: 'Skandinavische Palette.',
       body: 'Nordische Kiefer. Recyceltes Aluminium. Solarglas. Materialen ausgewählt wegen ihrer Langlebigkeit, Nachhaltigkeit und einer natürlichen Patina die mit der Architektur harmonisch altert.',
       m1_name: 'Nordische Kiefer',
@@ -731,7 +757,20 @@ export const translations = {
       stat_3: 'Net+',
       stat_3_desc: 'Energieerzeugung',
       section_lifecycle_title: 'Der unendliche Kreislauf',
-      section_lifecycle_body: 'SKYLVA-Strukturen sind für die Demontage konzipiert. Wir verwenden keine dauerhaften Klebstoffe oder Verbundmaterialien, die nicht getrennt werden können. Wenn eine Struktur das Ende ihrer 50-jährigen Lebensdauer erreicht, können ihre Komponenten einfach demontiert und zu neuen hochwertigen Produkten recycelt werden.'
+      section_lifecycle_body: 'SKYLVA-Strukturen sind für die Demontage konzipiert. Wir verwenden keine dauerhaften Klebstoffe oder Verbundmaterialien, die nicht getrennt werden können. Wenn eine Struktur das Ende ihrer 50-jährigen Lebensdauer erreicht, können ihre Komponenten einfach demontiert und zu neuen hochwertigen Produkten recycelt werden.',
+      loop_title: 'Geschlossener Kreislauf',
+      loop_aluminum_title: 'Hydro CIRCAL',
+      loop_aluminum_body: 'Unser Chassis verwendet Aluminium aus mindestens 75% recyceltem Post-Consumer-Schrott, was den Energieverbrauch bei der Gewinnung drastisch senkt.',
+      loop_timber_title: 'Regeneratives Holz',
+      loop_timber_body: 'Wir beziehen ausschließlich aus zertifizierten nordischen Wäldern, in denen die Wachstumsrate die Ernterate übersteigt. Für jeden Baum werden drei gepflanzt.',
+      loop_eol_title: 'Lebensende',
+      loop_eol_body: 'Design für Demontage. Glas, Metall und Holz können in unter 4 Stunden getrennt werden, sodass 98% der Struktur in die Lieferkette zurückkehrt.',
+      eco_title: 'Energiearchitektur',
+      eco_body: 'Eine SKYLVA-Struktur ist kein isoliertes Objekt. Sie ist ein kritischer Knotenpunkt im Energieökosystem Ihres Hauses, der intelligent mit Netz, Batterie und Fahrzeug kommuniziert.',
+      roi_title: 'Kohlenstoff ROI',
+      roi_subtitle: 'Die ökologische Rendite einer einzelnen S1 Pergola über 25 Jahre.',
+      roi_trees: 'Baumpflanzäquivalent',
+      roi_miles: 'EV-Kilometer betrieben'
     },
     careers_page: {
       title: 'Schließen Sie sich der stillen Revolution an',
