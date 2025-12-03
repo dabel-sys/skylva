@@ -4,6 +4,7 @@ import { m, useScroll, useTransform, useSpring, useInView } from 'framer-motion'
 import { Cpu, Layers, Shield, Zap, Wind, Thermometer, ArrowDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import TextReveal from './TextReveal';
+import Values from './Values';
 
 const TechnologyPage: React.FC = () => {
   const { t } = useLanguage();
@@ -59,6 +60,12 @@ const TechnologyPage: React.FC = () => {
            </m.div>
         </div>
       </section>
+
+      {/* 
+        VALUES SECTION
+        Placed immediately beneath the hero as requested.
+      */}
+      <Values />
 
       {/* 
         INTRO: Minimalist Typography 

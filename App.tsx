@@ -12,7 +12,6 @@ import ProcessFlow from './components/ProcessFlow';
 import Experience from './components/Experience';
 import Technology from './components/Technology';
 import ConfiguratorCTA from './components/ConfiguratorCTA';
-import Values from './components/Values';
 import Footer from './components/Footer';
 import ChatWidget from './components/ChatWidget';
 import ScrollGauge from './components/ScrollGauge';
@@ -36,7 +35,6 @@ const MainContent = () => (
     <Experience />
     <Technology />
     <ConfiguratorCTA />
-    <Values />
   </main>
 );
 
