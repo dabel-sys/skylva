@@ -1,285 +1,205 @@
 
-import React, { useRef, useState, useEffect } from 'react';
-import { m, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { Cpu, Zap, Wind, ArrowRight, Activity, Layers, Scan } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { m, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Wind, Zap, Cpu, Leaf, Droplets, Sun } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useView } from '../contexts/ViewContext';
 import { ViewState } from '../types';
-import TextReveal from './TextReveal';
 
 const Technology: React.FC = () => {
-  const containerRef = useRef<HTMLElement>(null);
   const { t } = useLanguage();
   const { setView } = useView();
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Scroll Progress for the sticky container
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, { stiffness: 50, damping: 20 });
-
-  // Transforms for the scanner
-  const scanLineY = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
-  
-  // The Schematic Layer (Top) is clipped by the scan line
-  const schematicClipPath = useTransform(scanLineY, (v) => `inset(${v} 0% 0% 0%)`);
-  
-  // The Real Layer (Bottom) is revealed
-  const realClipPath = useTransform(scanLineY, (v) => `inset(0% 0% ${100 - parseFloat(v)}% 0%)`);
+  const [activeTab, setActiveTab] = useState<'glass' | 'wood' | 'core'>('glass');
 
   const handleExplore = () => {
     setView(ViewState.TECHNOLOGY);
     window.scrollTo(0, 0);
   };
 
+  const features = {
+    glass: {
+      title: "Invisible Energy",
+      subtitle: "Bifacial Solar Glass",
+      description: "We don't put panels on roofs. We make the roof the panel. Our frameless glass captures light from above and reflected light from below, merging total transparency with high-efficiency generation.",
+      stat: "+30%",
+      statLabel: "Yield Efficiency",
+      icon: <Sun className="w-5 h-5" />,
+      image: "https://picsum.photos/seed/skylva_glass_forest/1600/900"
+    },
+    wood: {
+      title: "Living Structure",
+      subtitle: "Nordic Timber & Aluminum",
+      description: "The warmth of nature meets the resilience of aerospace engineering. Our FSC-certified Nordic pine is thermally treated for longevity, housed within a recycled aluminum chassis that withstands 120km/h winds.",
+      stat: "100%",
+      statLabel: "Sustainable Core",
+      icon: <Leaf className="w-5 h-5" />,
+      image: "https://picsum.photos/seed/skylva_wood_texture/1600/900"
+    },
+    core: {
+      title: "Silent Intelligence",
+      subtitle: "SkylvaOS Neural Net",
+      description: "Technology that disappears. The onboard AI analyzes weather patterns in real-time, adjusting shading and energy storage automatically. It feels less like a machine and more like a living organism.",
+      stat: "10ms",
+      statLabel: "Response Latency",
+      icon: <Cpu className="w-5 h-5" />,
+      image: "https://picsum.photos/seed/skylva_neural_network/1600/900"
+    }
+  };
+
+  const activeFeature = features[activeTab];
+
   return (
-    <section 
-      id="technology" 
-      ref={containerRef} 
-      className="relative bg-black text-white selection:bg-skylva-green selection:text-white"
-    >
+    <section id="technology" className="relative min-h-[110vh] md:h-screen bg-skylva-offwhite text-skylva-charcoal overflow-hidden flex items-center justify-center py-20 md:py-0">
+      
       {/* 
-        DESKTOP LAYOUT: CAD DIAGNOSTIC INTERFACE 
+        BACKGROUND LAYER 
+        Smooth cross-dissolve between images based on active tab
       */}
-      {!isMobile ? (
-        <div className="h-[300vh] relative">
-          
-          <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
-             
-             {/* HEADER HUD */}
-             <div className="absolute top-0 left-0 w-full z-30 p-8 flex justify-between items-start pointer-events-none mix-blend-difference">
-                <div className="flex flex-col">
-                   <div className="flex items-center gap-3 mb-2">
-                      <div className="w-2 h-2 bg-skylva-green rounded-full animate-pulse" />
-                      <span className="text-xs font-mono font-bold tracking-widest uppercase">System Diagnostic</span>
-                   </div>
-                   <h2 className="text-4xl font-display font-light">Skylva S1</h2>
-                </div>
-                <div className="text-right font-mono text-xs opacity-60">
-                   <div>STATUS: ONLINE</div>
-                   <div>GRID: SYNCHRONIZED</div>
-                   <div>TEMP: 21°C</div>
-                </div>
-             </div>
+      <div className="absolute inset-0 z-0">
+         <AnimatePresence mode="popLayout">
+            <m.div 
+               key={activeTab}
+               initial={{ opacity: 0, scale: 1.1 }}
+               animate={{ opacity: 1, scale: 1 }}
+               exit={{ opacity: 0 }}
+               transition={{ duration: 1.2, ease: "easeInOut" }}
+               className="absolute inset-0 w-full h-full"
+            >
+               <img 
+                 src={activeFeature.image} 
+                 alt={activeFeature.title} 
+                 className="w-full h-full object-cover"
+               />
+               {/* Soft, premium overlay to ensure text readability without killing the vibe */}
+               <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
+               <div className="absolute inset-0 bg-black/20" /> 
+            </m.div>
+         </AnimatePresence>
+      </div>
 
-             {/* MAIN VISUAL STAGE */}
-             <div className="relative flex-1 w-full overflow-hidden bg-[#0A0A0A]">
-                
-                {/* 1. REAL LAYER (Bottom - Revealed by scan) */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                   <img 
-                      src="/images/product-1.png" 
-                      alt="Real View" 
-                      className="w-full h-full object-cover opacity-60 grayscale-[0.2]"
-                   />
-                </div>
-
-                {/* 2. SCHEMATIC LAYER (Top - Hidden by scan) */}
-                <m.div 
-                   style={{ clipPath: schematicClipPath }}
-                   className="absolute inset-0 flex items-center justify-center bg-[#050505] z-10"
-                >
-                   {/* Wireframe effect using CSS filters on the same image */}
-                   <img 
-                      src="/images/product-1.png" 
-                      alt="Schematic View" 
-                      className="w-full h-full object-cover opacity-30 invert grayscale contrast-150 brightness-150"
-                   />
-                   <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:60px_60px] opacity-[0.08]" />
-                </m.div>
-
-                {/* 3. SCANNER LINE */}
-                <m.div 
-                   style={{ top: scanLineY }}
-                   className="absolute left-0 w-full h-[2px] bg-skylva-green shadow-[0_0_20px_rgba(74,222,128,0.8)] z-20"
-                >
-                   <div className="absolute right-12 -top-3 text-[10px] font-mono font-bold text-skylva-green bg-black/80 px-2 py-0.5 rounded uppercase">
-                      Scanning...
-                   </div>
-                </m.div>
-
-                {/* 4. DATA NODES (Reveal based on scroll progress) */}
-                <DataNode 
-                   x="20%" y="30%" 
-                   progress={smoothProgress} 
-                   triggerAt={0.15} 
-                   title="Solar Glass"
-                   value="+30%"
-                   unit="Efficiency"
-                   icon={<Zap size={14} />}
-                />
-                <DataNode 
-                   x="70%" y="45%" 
-                   progress={smoothProgress} 
-                   triggerAt={0.4} 
-                   title="Wind Load"
-                   value="120"
-                   unit="km/h"
-                   icon={<Wind size={14} />}
-                   align="right"
-                />
-                <DataNode 
-                   x="30%" y="70%" 
-                   progress={smoothProgress} 
-                   triggerAt={0.7} 
-                   title="Neural Core"
-                   value="10ms"
-                   unit="Latency"
-                   icon={<Cpu size={14} />}
-                />
-
-             </div>
-
-             {/* FOOTER TELEMETRY TICKER */}
-             <div className="h-16 bg-black border-t border-white/10 flex items-center overflow-hidden z-30 relative">
-                <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10" />
-                <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10" />
-                
-                <m.div 
-                   animate={{ x: ["0%", "-50%"] }}
-                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                   className="flex items-center gap-16 whitespace-nowrap pl-12 text-xs font-mono text-white/40"
-                >
-                   {[...Array(2)].map((_, i) => (
-                      <React.Fragment key={i}>
-                         <span className="flex items-center gap-2"><Activity size={12} className="text-skylva-green" /> LIVE_YIELD: 4.2kW</span>
-                         <span>///</span>
-                         <span>BATTERY: 98%</span>
-                         <span>///</span>
-                         <span>NETWORK: SECURE</span>
-                         <span>///</span>
-                         <span>LOAD: OPTIMAL</span>
-                         <span>///</span>
-                         <span>FIRMWARE: v4.2.1</span>
-                         <span>///</span>
-                      </React.Fragment>
-                   ))}
-                </m.div>
-
-                <div className="absolute right-8 top-1/2 -translate-y-1/2 z-20">
-                   <button 
-                      onClick={handleExplore}
-                      className="bg-white text-black px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-skylva-green transition-colors flex items-center gap-2"
-                   >
-                      Deep Dive <ArrowRight size={12} />
-                   </button>
-                </div>
-             </div>
-
-          </div>
-        </div>
-      ) : (
-        /* MOBILE LAYOUT */
-        <div className="py-24 px-6 bg-black">
-           <div className="flex items-center gap-2 mb-8 text-skylva-green">
-              <Scan size={20} />
-              <span className="text-xs font-bold uppercase tracking-widest">Technology</span>
-           </div>
+      <div className="max-w-[1920px] mx-auto px-6 md:px-12 w-full relative z-10 h-full flex flex-col justify-center">
+        
+        <div className="grid grid-cols-1 lg:grid-cols-12 h-full items-center">
            
-           <h2 className="text-4xl font-display font-light mb-12 text-white">Engineering Invisible Power.</h2>
-           
-           <div className="space-y-16">
-              <MobileTechCard 
-                 title="Solar Matrix"
-                 desc="Bifacial glass captures light from both sides, increasing yield by up to 30%."
-                 stat="+30%"
-                 label="Efficiency"
-                 image="/images/product-1.png"
-              />
-              <MobileTechCard 
-                 title="Structural"
-                 desc="Aerospace-grade aluminum chassis tested for 120km/h wind loads."
-                 stat="120"
-                 label="km/h Wind"
-                 image="/images/product-2.png"
-              />
-              <MobileTechCard 
-                 title="Intelligence"
-                 desc="Onboard AI optimizes energy distribution in real-time."
-                 stat="10ms"
-                 label="Latency"
-                 image="/images/product-3.png"
-              />
+           {/* LEFT CONTENT: The "Controller" */}
+           <div className="lg:col-span-5 flex flex-col justify-center h-full">
+              
+              <m.div
+                 initial={{ opacity: 0, y: 30 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ once: true }}
+                 className="bg-white/10 backdrop-blur-xl border border-white/20 p-8 md:p-12 rounded-3xl shadow-2xl text-white relative overflow-hidden group"
+              >
+                 {/* Decorative Glow */}
+                 <div className="absolute -top-20 -right-20 w-64 h-64 bg-skylva-green/20 rounded-full blur-[80px] pointer-events-none" />
+
+                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-skylva-green mb-6 block">The Fusion</span>
+                 
+                 {/* Animated Content Switcher */}
+                 <div className="relative min-h-[280px] md:min-h-[240px]">
+                    <AnimatePresence mode="wait">
+                       <m.div
+                          key={activeTab}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          transition={{ duration: 0.4 }}
+                       >
+                          <h2 className="text-4xl md:text-5xl font-display font-light mb-2">{activeFeature.title}</h2>
+                          <h3 className="text-lg font-sans font-medium text-white/50 mb-6">{activeFeature.subtitle}</h3>
+                          <p className="text-lg text-white/80 font-light leading-relaxed mb-8">
+                             {activeFeature.description}
+                          </p>
+                          
+                          <div className="flex items-center gap-4 border-t border-white/10 pt-6">
+                             <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white">
+                                {activeFeature.icon}
+                             </div>
+                             <div>
+                                <div className="text-2xl font-display font-light">{activeFeature.stat}</div>
+                                <div className="text-xs font-mono uppercase text-white/50 tracking-widest">{activeFeature.statLabel}</div>
+                             </div>
+                          </div>
+                       </m.div>
+                    </AnimatePresence>
+                 </div>
+
+                 {/* Explore Button */}
+                 <div className="mt-12">
+                    <button 
+                       onClick={handleExplore}
+                       className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-white hover:text-skylva-green transition-colors group/btn"
+                    >
+                       Deep Dive <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                    </button>
+                 </div>
+              </m.div>
+
            </div>
 
-           <button 
-              onClick={handleExplore}
-              className="w-full mt-16 bg-white text-black py-4 rounded-full text-xs font-bold uppercase tracking-widest"
-           >
-              Full Specifications
-           </button>
+           {/* RIGHT CONTENT: The "Tabs" / Visual Anchors */}
+           <div className="lg:col-span-7 flex flex-col lg:items-end justify-center lg:pl-24 mt-12 lg:mt-0">
+              <div className="flex flex-col gap-4 w-full max-w-md">
+                 <TabButton 
+                    id="glass" 
+                    label="Glass" 
+                    sub="Transparency" 
+                    isActive={activeTab === 'glass'} 
+                    onClick={() => setActiveTab('glass')} 
+                 />
+                 <TabButton 
+                    id="wood" 
+                    label="Material" 
+                    sub="Nature & Metal" 
+                    isActive={activeTab === 'wood'} 
+                    onClick={() => setActiveTab('wood')} 
+                 />
+                 <TabButton 
+                    id="core" 
+                    label="Core" 
+                    sub="Intelligence" 
+                    isActive={activeTab === 'core'} 
+                    onClick={() => setActiveTab('core')} 
+                 />
+              </div>
+           </div>
+
         </div>
-      )}
+      </div>
     </section>
   );
 };
 
-// --- Subcomponents ---
-
-const DataNode = ({ x, y, progress, triggerAt, title, value, unit, icon, align = 'left' }: any) => {
-   // Determine visibility based on progress passing the trigger point
-   const opacity = useTransform(progress, [triggerAt - 0.05, triggerAt, triggerAt + 0.3], [0, 1, 1]);
-   const scale = useTransform(progress, [triggerAt - 0.05, triggerAt], [0.5, 1]);
-   
+// --- Subcomponent: Tab Button ---
+const TabButton = ({ id, label, sub, isActive, onClick }: any) => {
    return (
-      <m.div 
-         style={{ left: x, top: y, opacity, scale }}
-         className={`absolute z-40 flex items-center gap-4 ${align === 'right' ? 'flex-row-reverse' : ''}`}
+      <button 
+         onClick={onClick}
+         className={`
+            group relative w-full text-left p-6 rounded-2xl transition-all duration-500 overflow-hidden
+            ${isActive ? 'bg-white text-skylva-charcoal shadow-xl scale-105' : 'bg-black/40 text-white hover:bg-black/60 backdrop-blur-sm border border-white/10'}
+         `}
       >
-         {/* The Dot */}
-         <div className="relative">
-            <div className="w-3 h-3 bg-skylva-green rounded-full shadow-[0_0_10px_#4ade80] relative z-10" />
-            <div className="absolute inset-0 w-3 h-3 bg-skylva-green rounded-full animate-ping opacity-75" />
+         <div className="flex items-center justify-between relative z-10">
+            <div>
+               <span className={`text-2xl font-display font-light block mb-1 ${isActive ? 'text-black' : 'text-white'}`}>
+                  {label}
+               </span>
+               <span className={`text-xs font-mono uppercase tracking-widest block ${isActive ? 'text-gray-500' : 'text-white/40'}`}>
+                  {sub}
+               </span>
+            </div>
             
-            {/* Connecting Line */}
-            <div className={`absolute top-1/2 w-12 h-[1px] bg-white/30 ${align === 'right' ? 'right-full mr-2' : 'left-full ml-2'}`} />
-         </div>
-
-         {/* The Card */}
-         <div className={`bg-black/80 backdrop-blur-md border border-white/20 p-4 rounded-lg shadow-2xl ${align === 'right' ? 'mr-12' : 'ml-12'}`}>
-            <div className="flex items-center gap-2 text-skylva-green mb-2">
-               {icon}
-               <span className="text-[10px] font-bold uppercase tracking-widest">{title}</span>
-            </div>
-            <div className="text-3xl font-display font-light leading-none mb-1">
-               {value}
-            </div>
-            <div className="text-[10px] font-mono text-white/50 uppercase">
-               {unit}
+            {/* Active Indicator Arrow */}
+            <div className={`
+               w-8 h-8 rounded-full flex items-center justify-center transition-all duration-500
+               ${isActive ? 'bg-skylva-green text-white rotate-0' : 'bg-white/10 text-white/50 -rotate-45'}
+            `}>
+               <ArrowRight size={14} />
             </div>
          </div>
-      </m.div>
+      </button>
    )
 }
-
-const MobileTechCard = ({ title, desc, stat, label, image }: any) => (
-   <div className="bg-[#121212] border border-white/10 rounded-2xl overflow-hidden">
-      <div className="h-48 relative">
-         <img src={image} className="w-full h-full object-cover opacity-60" alt={title} />
-         <div className="absolute top-4 left-4 bg-black/50 backdrop-blur-md px-3 py-1 rounded border border-white/10 text-[10px] font-mono uppercase text-white/70">
-            {label}
-         </div>
-      </div>
-      <div className="p-6">
-         <h3 className="text-2xl font-display font-light mb-2 text-white">{title}</h3>
-         <p className="text-white/60 font-light text-sm leading-relaxed mb-6">
-            {desc}
-         </p>
-         <div className="flex items-baseline gap-2 pt-4 border-t border-white/10">
-            <span className="text-3xl font-display text-skylva-green">{stat}</span>
-         </div>
-      </div>
-   </div>
-)
 
 export default Technology;
