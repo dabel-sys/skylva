@@ -17,7 +17,9 @@ const Navigation: React.FC<NavigationProps> = ({ onToggleChat }) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isButtonVisible, setIsButtonVisible] = useState(true);
+  
+  // Default to false so it's hidden on initial load (assuming top of page)
+  const [isButtonVisible, setIsButtonVisible] = useState(false);
 
   const { t } = useLanguage();
   const { view, setView } = useView();
@@ -63,12 +65,21 @@ const Navigation: React.FC<NavigationProps> = ({ onToggleChat }) => {
       const progress = totalScrollable > 0 ? currentScrollY / totalScrollable : 0;
       setScrollProgress(Math.min(Math.max(progress, 0), 1));
 
+      // Show mobile menu only when past the hero section (approx 1 viewport height)
+      const heroThreshold = windowHeight - 100; 
+      const isPastHero = currentScrollY > heroThreshold;
+
       if (!isMobileOpen) {
+        // Always hide while scrolling for a smoother feel
         setIsButtonVisible(false);
         clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-          setIsButtonVisible(true);
-        }, 250);
+        
+        // Only schedule the button to show if we are past the hero section
+        if (isPastHero) {
+            scrollTimeout = setTimeout(() => {
+              setIsButtonVisible(true);
+            }, 250);
+        }
       }
     };
 
@@ -86,6 +97,7 @@ const Navigation: React.FC<NavigationProps> = ({ onToggleChat }) => {
   }, [isMobileOpen]);
 
   useEffect(() => {
+    // Force visible when menu is opened, regardless of scroll position
     if (isMobileOpen) setIsButtonVisible(true);
   }, [isMobileOpen]);
 

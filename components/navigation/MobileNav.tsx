@@ -23,7 +23,7 @@ const MobileNav: React.FC<MobileNavProps> = ({
   // Helper to get current page label
   const getViewLabel = (currentView: ViewState) => {
     switch (currentView) {
-        case ViewState.LANDING: return t.nav.home; // Changed from 'Architectural Energy' to 'Home'
+        case ViewState.LANDING: return t.nav.home;
         case ViewState.STRUCTURES: return t.nav.product;
         case ViewState.TECHNOLOGY: return t.nav.technology;
         case ViewState.ATMOSPHERE: return t.experience.light_label;
@@ -86,37 +86,37 @@ const MobileNav: React.FC<MobileNavProps> = ({
           opacity: isButtonVisible || isOpen ? 1 : 0
         }}
         transition={{ duration: 0.4 }}
-        className="fixed bottom-6 left-4 right-4 z-[70] md:hidden flex justify-center items-end pointer-events-none mb-[env(safe-area-inset-bottom)]"
+        className="fixed bottom-6 left-6 right-6 z-[70] md:hidden flex justify-center items-end pointer-events-none mb-[env(safe-area-inset-bottom)]"
       >
-        <div className="pointer-events-auto shadow-2xl shadow-black/40 rounded-full overflow-hidden relative group">
+        <div className="pointer-events-auto shadow-2xl shadow-black/40 rounded-full overflow-hidden relative group max-w-sm w-full mx-auto">
            
            {/* The Scroll Progress Fill */}
-           <div className="absolute inset-0 bg-skylva-matte" />
+           <div className="absolute inset-0 bg-skylva-matte/80" />
            <m.div 
               className="absolute left-0 top-0 bottom-0 bg-white/10"
               style={{ width: `${scrollProgress * 100}%` }}
            />
 
            {/* The Bar Content */}
-           <div className="relative flex items-center bg-transparent backdrop-blur-xl border border-white/10 rounded-full h-16 pl-6 pr-2 min-w-[300px] justify-between">
+           <div className="relative flex items-center bg-black/20 backdrop-blur-2xl border border-white/10 rounded-full h-14 pl-6 pr-2 justify-between">
               
               {/* Left: Current Page Label ONLY */}
               <div className="flex flex-col justify-center max-w-[180px]">
-                  <span className="text-sm font-display text-white tracking-widest truncate uppercase">
-                    {isOpen ? 'MENU' : currentLabel}
+                  <span className="text-xs font-display text-white tracking-widest truncate uppercase font-bold">
+                    {isOpen ? 'DISCOVER' : currentLabel}
                   </span>
               </div>
 
               {/* Right: Toggle Button */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center active:scale-90 transition-transform duration-200 shadow-lg flex-shrink-0 ml-4"
+                className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center active:scale-90 transition-transform duration-200 shadow-lg flex-shrink-0 ml-4"
               >
                 <m.div
                    animate={{ rotate: isOpen ? 90 : 0 }}
                    transition={{ duration: 0.4 }}
                 >
-                   {isOpen ? <X size={20} /> : <Menu size={20} />}
+                   {isOpen ? <X size={18} /> : <Menu size={18} />}
                 </m.div>
               </button>
 
