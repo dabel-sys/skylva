@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LazyMotion, domAnimation } from 'framer-motion';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ViewProvider, useView } from './contexts/ViewContext';
@@ -40,6 +40,8 @@ const MainContent = () => (
 
 const AppContent = () => {
   const { view } = useView();
+  // Lifted Chat State to allow control from MobileNav
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   // Initialize Lenis Smooth Scroll
   useEffect(() => {
@@ -81,7 +83,7 @@ const AppContent = () => {
   return (
     <div className="bg-skylva-offwhite text-skylva-charcoal font-sans selection:bg-skylva-green selection:text-white relative">
       <ScrollGauge />
-      <Navigation />
+      <Navigation onToggleChat={() => setIsChatOpen(prev => !prev)} />
       
       {view === ViewState.LANDING && <MainContent />}
       {view === ViewState.CONTACT && <ContactPage />}
@@ -95,7 +97,7 @@ const AppContent = () => {
       {view === ViewState.PRIVACY && <PrivacyPage />}
       
       <Footer />
-      <ChatWidget />
+      <ChatWidget isOpen={isChatOpen} onToggle={setIsChatOpen} />
       <CookieConsent />
     </div>
   );

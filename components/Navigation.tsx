@@ -1,39 +1,54 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-import { m, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useView } from '../contexts/ViewContext';
 import { ViewState } from '../types';
+import { NavItem, NavigationColors } from './navigation/types';
 
-const Navigation: React.FC = () => {
+import Logo from './navigation/Logo';
+import DesktopNav from './navigation/DesktopNav';
+import MobileNav from './navigation/MobileNav';
+
+interface NavigationProps {
+  onToggleChat: () => void;
+}
+
+const Navigation: React.FC<NavigationProps> = ({ onToggleChat }) => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const { language, setLanguage, t } = useLanguage();
-  const { view, setView } = useView();
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  
-  // State for hiding button on scroll
   const [isButtonVisible, setIsButtonVisible] = useState(true);
 
+  const { t } = useLanguage();
+  const { view, setView } = useView();
+
   // Define pages that have a white/light hero section
-  // Removed ATMOSPHERE as it now has a dark video hero
   const lightHeroViews = [ViewState.CAREERS, ViewState.PRESS];
   const isLightHero = lightHeroViews.includes(view);
-
-  // If on a light page AND not scrolled (transparent bg), use dark text
   const useDarkText = isLightHero && !isScrolled;
 
-  // Dynamic Style Classes
-  const textColorClass = useDarkText ? 'text-skylva-charcoal' : 'text-white';
-  const navItemClass = useDarkText ? 'text-skylva-charcoal/70 hover:text-skylva-charcoal' : 'text-white/70 hover:text-white';
-  const underlineClass = useDarkText ? 'bg-skylva-charcoal' : 'bg-white';
-  const buttonClass = useDarkText ? 'bg-skylva-charcoal text-white hover:bg-black' : 'bg-white text-black hover:bg-skylva-sand';
-  const dividerClass = useDarkText ? 'border-skylva-charcoal/20' : 'border-white/20';
-  const langActive = useDarkText ? 'text-skylva-charcoal' : 'text-white';
-  const langInactive = useDarkText ? 'text-skylva-charcoal/40' : 'text-white/40';
+  // --- Styles Configuration ---
+  const colors: NavigationColors = {
+    textColorClass: useDarkText ? 'text-skylva-charcoal' : 'text-white',
+    navItemClass: useDarkText ? 'text-skylva-charcoal/70 hover:text-skylva-charcoal' : 'text-white/70 hover:text-white',
+    underlineClass: useDarkText ? 'bg-skylva-charcoal' : 'bg-white',
+    buttonClass: useDarkText ? 'bg-skylva-charcoal text-white hover:bg-black' : 'bg-white text-black hover:bg-skylva-sand',
+    dividerClass: useDarkText ? 'border-skylva-charcoal/20' : 'border-white/20',
+    langActive: useDarkText ? 'text-skylva-charcoal' : 'text-white',
+    langInactive: useDarkText ? 'text-skylva-charcoal/40' : 'text-white/40'
+  };
 
+  const navClasses = `
+    absolute top-0 left-0 right-0 z-[60] 
+    pt-[calc(env(safe-area-inset-top)+2rem)] pb-8 
+    md:fixed 
+    transition-all duration-500 ease-in-out
+    ${isScrolled 
+      ? 'md:py-4 md:bg-black/40 md:backdrop-blur-xl md:border-b md:border-white/10 md:shadow-lg' 
+      : 'md:py-8 md:bg-transparent md:backdrop-blur-none md:border-b md:border-transparent'}
+  `;
+
+  // --- Scroll Logic ---
   useEffect(() => {
     let scrollTimeout: ReturnType<typeof setTimeout>;
 
@@ -46,7 +61,6 @@ const Navigation: React.FC = () => {
 
       const totalScrollable = docHeight - windowHeight;
       const progress = totalScrollable > 0 ? currentScrollY / totalScrollable : 0;
-      
       setScrollProgress(Math.min(Math.max(progress, 0), 1));
 
       if (!isMobileOpen) {
@@ -58,43 +72,33 @@ const Navigation: React.FC = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
+    if (typeof window !== 'undefined') {
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+    }
     
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      if (typeof window !== 'undefined') {
+         window.removeEventListener('scroll', handleScroll);
+      }
       clearTimeout(scrollTimeout);
     };
   }, [isMobileOpen]);
 
   useEffect(() => {
-    if (isMobileOpen) {
-        setIsButtonVisible(true);
-    }
+    if (isMobileOpen) setIsButtonVisible(true);
   }, [isMobileOpen]);
 
-  // Increased Z-Index to 60 to sit above ChatWidget (z-50)
-  const navClasses = `
-    absolute top-0 left-0 right-0 z-[60] 
-    pt-[calc(env(safe-area-inset-top)+2rem)] pb-8 
-    md:fixed 
-    transition-all duration-500 ease-in-out
-    ${isScrolled 
-      ? 'md:py-4 md:bg-black/40 md:backdrop-blur-xl md:border-b md:border-white/10 md:shadow-lg' 
-      : 'md:py-8 md:bg-transparent md:backdrop-blur-none md:border-b md:border-transparent'}
-  `;
-
-  // Desktop Menu Items
-  const desktopNavItems = [
+  // --- Data ---
+  const desktopNavItems: NavItem[] = [
     { label: t.nav.vision, href: '#vision', type: 'anchor' },
     { label: t.nav.product, href: '#structures', type: 'anchor' },
     { label: t.nav.technology, href: '#technology', type: 'anchor' },
     { label: t.footer.link_about, href: '#about', type: 'page', view: ViewState.ABOUT },
   ];
 
-  // Mobile Menu Items (Comprehensive)
-  const mobileNavItems = [
-    { label: t.nav.home, href: '#', type: 'page', view: ViewState.LANDING }, // Home
+  const mobileNavItems: NavItem[] = [
+    { label: t.nav.home, href: '#', type: 'page', view: ViewState.LANDING },
     { label: t.nav.product, href: '#structures', type: 'anchor' },
     { label: t.nav.technology, href: '#technology', type: 'anchor' },
     { label: t.experience.light_label, href: '#atmosphere', type: 'page', view: ViewState.ATMOSPHERE },
@@ -105,22 +109,21 @@ const Navigation: React.FC = () => {
     { label: t.footer.link_contact, href: '#contact', type: 'page', view: ViewState.CONTACT },
   ];
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: any) => {
+  // --- Handlers ---
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: NavItem) => {
     e.preventDefault();
     
     if (item.type === 'page') {
       setIsMobileOpen(false);
       
       if (view === item.view) {
-          // If already on the page, force scroll to top
           if ((window as any).lenis) {
               (window as any).lenis.scrollTo(0, { immediate: true });
           } else {
               window.scrollTo(0, 0);
           }
       } else {
-          // Change view, App.tsx will handle scrolling
-          setView(item.view);
+          setView(item.view!);
       }
       return;
     }
@@ -151,26 +154,10 @@ const Navigation: React.FC = () => {
 
     if (view !== ViewState.LANDING) {
       setView(ViewState.LANDING);
-      // Short timeout to allow React to render the Landing page before scrolling
       setTimeout(navigateAndScroll, 100);
     } else {
       navigateAndScroll();
     }
-  };
-
-  const handleConfigureClick = () => {
-      if (view !== ViewState.LANDING) {
-          setView(ViewState.LANDING);
-          setTimeout(() => {
-              const el = document.getElementById('configure');
-              if (el && (window as any).lenis) (window as any).lenis.scrollTo(el, { offset: -50, duration: 1.5 });
-              else if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
-      } else {
-          const el = document.getElementById('configure');
-          if (el && (window as any).lenis) (window as any).lenis.scrollTo(el, { offset: -50, duration: 1.5 });
-          else if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }
   };
 
   const scrollToTop = () => {
@@ -185,213 +172,48 @@ const Navigation: React.FC = () => {
     }
   };
 
-  const radius = 32;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - scrollProgress * circumference;
-
-  const menuVariants = {
-    initial: { y: "100%" },
-    animate: { 
-      y: 0,
-      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const }
-    },
-    exit: { 
-      y: "100%",
-      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const }
+  const handleConfigureClick = () => {
+    const scrollToConfig = () => {
+        const el = document.getElementById('configure');
+        if (el && (window as any).lenis) (window as any).lenis.scrollTo(el, { offset: -50, duration: 1.5 });
+        else if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
-  };
 
-  const containerVariants = {
-    initial: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
-    animate: { 
-      transition: { staggerChildren: 0.05, delayChildren: 0.3 }
-    },
-    exit: {
-      transition: { staggerChildren: 0.05, staggerDirection: -1 }
+    if (view !== ViewState.LANDING) {
+        setView(ViewState.LANDING);
+        setTimeout(scrollToConfig, 100);
+    } else {
+        scrollToConfig();
     }
-  };
-
-  const itemVariants = {
-    initial: { y: 50, opacity: 0 },
-    animate: { 
-      y: 0, 
-      opacity: 1,
-      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] as const }
-    },
-    exit: { y: 50, opacity: 0 }
   };
 
   return (
     <>
       <nav className={navClasses}>
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-          {/* Animated Logo */}
-          <div 
-            className={`text-2xl font-qurova font-light tracking-[0.2em] uppercase z-50 cursor-pointer flex items-center select-none ${textColorClass}`}
-            onClick={scrollToTop}
-          >
-            <span>S</span>
-            <m.div
-              initial={{ width: "auto", opacity: 1, x: 0 }}
-              animate={{ 
-                width: isScrolled ? 0 : "auto", 
-                opacity: isScrolled ? 0 : 1,
-                x: isScrolled ? -5 : 0
-              }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="overflow-hidden flex whitespace-nowrap"
-            >
-              KYLVA
-            </m.div>
-          </div>
-
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8 lg:space-x-12">
-            {desktopNavItems.map((item, idx) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item)}
-                onMouseEnter={() => setHoveredIndex(idx)}
-                onMouseLeave={() => setHoveredIndex(null)}
-                className={`relative text-sm font-sans tracking-widest transition-colors uppercase py-2 ${navItemClass}`}
-              >
-                {item.label}
-                {hoveredIndex === idx && (
-                  <m.div
-                    layoutId="desktop-nav-underline"
-                    className={`absolute bottom-0 left-0 right-0 h-[1px] ${underlineClass}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-              </a>
-            ))}
-            <button 
-                onClick={handleConfigureClick}
-                className={`rounded-full px-6 py-2 text-xs tracking-widest uppercase transition-colors ${buttonClass}`}
-            >
-              {t.nav.configure}
-            </button>
-            
-            <div className={`flex space-x-3 text-[10px] font-bold uppercase tracking-widest border-l pl-6 ml-2 ${dividerClass}`}>
-              {(['en', 'nl', 'de'] as const).map((lang) => (
-                 <button 
-                    key={lang}
-                    onClick={() => setLanguage(lang)} 
-                    className={`transition-colors hover:opacity-100 ${language === lang ? langActive : langInactive}`}
-                  >
-                   {lang}
-                 </button>
-              ))}
-            </div>
-          </div>
+          <Logo 
+            isScrolled={isScrolled} 
+            textColorClass={colors.textColorClass} 
+            onClick={scrollToTop} 
+          />
+          <DesktopNav 
+            navItems={desktopNavItems} 
+            handleNavClick={handleNavClick} 
+            handleConfigureClick={handleConfigureClick}
+            colors={colors}
+          />
         </div>
       </nav>
 
-      {/* Mobile Floating Action Button - Z-Index 60 to stay above Chat */}
-      <m.div 
-        animate={{
-            y: isButtonVisible ? 0 : 150, 
-            opacity: isButtonVisible ? 1 : 0
-        }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        className="fixed bottom-6 right-6 z-[60] md:hidden flex items-center justify-center mb-[env(safe-area-inset-bottom)]"
-      >
-        <div className="absolute w-[72px] h-[72px] pointer-events-none mix-blend-difference z-0">
-             <svg className="w-full h-full -rotate-90 origin-center" viewBox="0 0 72 72">
-                 <circle cx="36" cy="36" r={radius} stroke="white" strokeOpacity="0.3" strokeWidth="3" fill="transparent" />
-                 <circle
-                   cx="36"
-                   cy="36"
-                   r={radius}
-                   stroke="white"
-                   strokeWidth="3"
-                   fill="transparent"
-                   strokeDasharray={circumference}
-                   strokeDashoffset={strokeDashoffset}
-                   strokeLinecap="round"
-                   className="transition-all duration-100 ease-out"
-                 />
-             </svg>
-        </div>
-
-        <button 
-          className="bg-skylva-matte text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl relative z-10 border border-white/10 overflow-hidden"
-          onClick={() => setIsMobileOpen(!isMobileOpen)}
-        >
-          <m.div
-            initial={false}
-            animate={{ rotate: isMobileOpen ? 180 : 0 }}
-            transition={{ duration: 0.5, ease: [0.76, 0, 0.24, 1] as const }}
-          >
-             {isMobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </m.div>
-        </button>
-      </m.div>
-
-      {/* Mobile Menu Overlay - Z-Index 55 to be above chat but under nav bar if needed */}
-      <AnimatePresence>
-        {isMobileOpen && (
-          <m.div
-            variants={menuVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            className="fixed inset-0 bg-skylva-matte z-[55] flex flex-col justify-between pt-[calc(env(safe-area-inset-top)+6rem)] pb-[calc(env(safe-area-inset-bottom)+8rem)] px-6 overflow-hidden"
-          >
-             {/* Navigation List Container with Scroll */}
-             <m.div 
-               variants={containerVariants}
-               initial="initial"
-               animate="animate"
-               exit="exit"
-               className="flex flex-col space-y-1 overflow-y-auto flex-1 no-scrollbar pr-4"
-             >
-                {mobileNavItems.map((item, idx) => (
-                  <div key={item.label} className="overflow-hidden py-1">
-                    <m.a
-                      href={item.href}
-                      onClick={(e) => handleNavClick(e, item)}
-                      variants={itemVariants}
-                      className="block text-3xl font-display font-light tracking-tight text-white hover:text-skylva-green transition-colors uppercase leading-tight"
-                    >
-                      {item.label}
-                    </m.a>
-                  </div>
-                ))}
-             </m.div>
-
-             <m.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
-                exit={{ opacity: 0 }}
-                className="w-full mt-6 pt-6 border-t border-white/10 flex-shrink-0"
-             >
-                <div className="flex justify-between items-end">
-                  <div className="flex space-x-6">
-                    {(['en', 'nl', 'de'] as const).map((lang) => (
-                      <button 
-                          key={lang}
-                          onClick={() => { setLanguage(lang); }} 
-                          className={`text-sm font-bold uppercase tracking-widest ${language === lang ? 'text-white' : 'text-white/40'}`}
-                        >
-                        {lang}
-                      </button>
-                    ))}
-                  </div>
-                  <div className="text-right text-white/40 text-xs font-sans font-light">
-                     <p>Oslo, Norway</p>
-                     <p>Est. 2024</p>
-                  </div>
-                </div>
-             </m.div>
-          </m.div>
-        )}
-      </AnimatePresence>
+      <MobileNav 
+        isOpen={isMobileOpen}
+        setIsOpen={setIsMobileOpen}
+        navItems={mobileNavItems}
+        handleNavClick={handleNavClick}
+        scrollProgress={scrollProgress}
+        isButtonVisible={isButtonVisible}
+        onToggleChat={onToggleChat}
+      />
     </>
   );
 };

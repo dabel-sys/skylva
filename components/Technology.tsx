@@ -13,7 +13,12 @@ const Technology: React.FC = () => {
 
   const handleExplore = () => {
     setView(ViewState.TECHNOLOGY);
-    window.scrollTo(0, 0);
+    // Explicitly reset scroll via Lenis if available to prevent starting mid-page
+    if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(0, { immediate: true });
+    } else {
+        window.scrollTo(0, 0);
+    }
   };
 
   const features = {
