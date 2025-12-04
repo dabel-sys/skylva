@@ -29,7 +29,7 @@ const Technology: React.FC = () => {
       stat: "+30%",
       statLabel: "Yield Efficiency",
       icon: <Sun className="w-5 h-5" />,
-      image: "product-1.png"
+      image: "/images/product-1.png"
     },
     wood: {
       title: "Living Structure",
@@ -38,7 +38,7 @@ const Technology: React.FC = () => {
       stat: "100%",
       statLabel: "Sustainable Core",
       icon: <Leaf className="w-5 h-5" />,
-      image: "product-2.png"
+      image: "/images/product-2.png"
     },
     core: {
       title: "Silent Intelligence",
@@ -47,7 +47,7 @@ const Technology: React.FC = () => {
       stat: "10ms",
       statLabel: "Response Latency",
       icon: <Cpu className="w-5 h-5" />,
-      image: "product-3.png"
+      image: "/images/product-3.png"
     }
   };
 
