@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { Menu, X, ArrowRight, Sparkles, Phone, MessageCircle } from 'lucide-react';
+import { Menu, X, ArrowRight, Sparkles, MessageCircle } from 'lucide-react';
 import { m, AnimatePresence, Variants } from 'framer-motion';
-import { NavItem } from './types';
 import LanguageSwitcher from './LanguageSwitcher';
 import { useView } from '../../contexts/ViewContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 import { ViewState } from '../../types';
 import { MobileNavProps } from './types';
 
@@ -17,7 +17,27 @@ const MobileNav: React.FC<MobileNavProps> = ({
   isButtonVisible,
   onToggleChat
 }) => {
-  const { setView } = useView();
+  const { view, setView } = useView();
+  const { t } = useLanguage();
+
+  // Helper to get current page label
+  const getViewLabel = (currentView: ViewState) => {
+    switch (currentView) {
+        case ViewState.LANDING: return t.nav.home; // Changed from 'Architectural Energy' to 'Home'
+        case ViewState.STRUCTURES: return t.nav.product;
+        case ViewState.TECHNOLOGY: return t.nav.technology;
+        case ViewState.ATMOSPHERE: return t.experience.light_label;
+        case ViewState.SUSTAINABILITY: return t.footer.link_sustainability;
+        case ViewState.CAREERS: return t.footer.link_careers;
+        case ViewState.PRESS: return t.footer.link_press;
+        case ViewState.ABOUT: return t.footer.link_about;
+        case ViewState.CONTACT: return t.footer.link_contact;
+        case ViewState.PRIVACY: return t.footer.privacy;
+        default: return 'SKYLVA';
+    }
+  };
+
+  const currentLabel = getViewLabel(view);
 
   // Animation Variants for the Sheet
   const sheetVariants: Variants = {
@@ -80,20 +100,17 @@ const MobileNav: React.FC<MobileNavProps> = ({
            {/* The Bar Content */}
            <div className="relative flex items-center bg-transparent backdrop-blur-xl border border-white/10 rounded-full h-16 pl-6 pr-2 min-w-[300px] justify-between">
               
-              {/* Left: Brand / Status */}
-              <div className="flex flex-col justify-center">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50 mb-0.5">
-                    {isOpen ? 'Navigation' : 'Skylva'}
-                  </span>
-                  <span className="text-sm font-display text-white tracking-widest">
-                    {isOpen ? 'SELECT DESTINATION' : 'ARCHITECTURAL ENERGY'}
+              {/* Left: Current Page Label ONLY */}
+              <div className="flex flex-col justify-center max-w-[180px]">
+                  <span className="text-sm font-display text-white tracking-widest truncate uppercase">
+                    {isOpen ? 'MENU' : currentLabel}
                   </span>
               </div>
 
               {/* Right: Toggle Button */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center active:scale-90 transition-transform duration-200 shadow-lg"
+                className="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center active:scale-90 transition-transform duration-200 shadow-lg flex-shrink-0 ml-4"
               >
                 <m.div
                    animate={{ rotate: isOpen ? 90 : 0 }}
